@@ -43,14 +43,19 @@ class Society
                 case 'users':
                     if ($action == 'new') {
                         (new UsersController())->create();
-                    } elseif ($action == 'list') {
+                    }
+                    if ($action == 'list') {
                         (new UsersController())->isLogged();
                         (new UsersController())->list();
-                    } elseif ($action == 'edit') {
+                    }
+                    if ($action == 'edit') {
                         (new UsersController())->isLogged();
                         (new ProductController())->edit();
-                        break;
-                    }
+                        break;}
+                    if ($action == 'logout') {
+                        (new UsersController())->logout();
+                        (new UsersController())->login();
+                }
 
             }
         } elseif
@@ -84,7 +89,7 @@ class Society
                     if ($action == 'create') {
                         (new UsersController())->store();
                     }
-                    elseif ($action == 'auth')   {
+                    if ($action == 'auth')   {
                         (new UsersController())->auth();
                         break;
                     }

@@ -103,5 +103,7 @@ class CoreModel
         return $this->query($query);
 
     }
+
+
 }
 

@@ -13,7 +13,6 @@ class MatchController
 {
     public function create()
     {
-
         $template = new TemplateEngineController('match-history');
 
         $menu = $this->getUsersOptions();
@@ -30,9 +29,9 @@ class MatchController
         $menu = '';
 
         foreach ($result as $key => $item) {
-            $menu .= '<option value="' . $item['id'] . '">' . $item['name'] . '</option>';
-
+            $menu .= '<option value="' . $item['id'] . '">' . $item['nickname'] . '</option>';
         }
+        $menu .= '<option selected value="">Pasirinkite žaidėją</option>';
         return $menu;
     }
 

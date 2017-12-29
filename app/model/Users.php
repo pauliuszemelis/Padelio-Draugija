@@ -43,4 +43,9 @@ class Users extends CoreModel implements Manageable, Destroyable
         $query = "UPDATE `" . $this->table . "` SET `ranking`=" . $rank . " WHERE `id`='$id'";
         return $this->query($query);
     }
+
+    public function sessionUser ($id) {
+        $query = "SELECT `nickname` FROM `association_users` WHERE `deleted_at` IS NULL AND `id`= '$id'";
+        return $this->query($query);
+    }
 }
