@@ -1,3 +1,4 @@
+<div class="font-weight-bold" style="text-align: center">Registracija</div><br>
 <div style="text-align: center">
     <form method="POST" action="?view=users&action=create">
         <div>Vardas:</div><input type="text" name="name"><br>

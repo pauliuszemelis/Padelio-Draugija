@@ -5,8 +5,7 @@ namespace app;
 
 use app\controller\TemplateEngineController;
 use app\model\MatchHistory;
-use app\model\Product;
-use app\model\productHistory;
+//use app\model\Product;
 use app\model\Users;
 
 class MatchController

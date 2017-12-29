@@ -1,3 +1,5 @@
+<div class="font-weight-bold" style="text-align: center">Prisijungimas</div><br>
+
 <div style="text-align: center">
     <form method="POST" action="?view=users&action=auth">
         <div>Elektroninis paštas:</div><input type="text" name="email"><br>

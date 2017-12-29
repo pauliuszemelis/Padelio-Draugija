@@ -124,6 +124,7 @@ function isLogged()
 public
 function logout()
 {
+    if (isset($_COOKIE['user']))
     setcookie('user', $_COOKIE['user'], time() - 3600);
 }
 
@@ -198,11 +199,11 @@ function calcNewRanks()
     $average2 = ($ranks[2] + $ranks[3]) / 2;
     $rankDiff = $average1 > $average2 ? $average1 - $average2 : $average2 - $average1;
     if ($winners[0] > $winners[1]) {
-        $newRank1 = 0 + round($average1 * 0.01) - round($rankDiff * 0.02);
-        $newRank2 = 0 - round($average1 * 0.01) + round($rankDiff * 0.02);
+        $newRank1 = 0 + round($average2 * 0.02) - round($rankDiff * 0.04);
+        $newRank2 = 0 - round($average1 * 0.02) + round($rankDiff * 0.04);
     } else {
-        $newRank1 = 0 - round($average1 * 0.01) - round($rankDiff * 0.02);
-        $newRank2 = 0 + round($average1 * 0.01) + round($rankDiff * 0.02);
+        $newRank1 = 0 - round($average2 * 0.02) - round($rankDiff * 0.04);
+        $newRank2 = 0 + round($average1 * 0.02) + round($rankDiff * 0.04);
     }
     $ranks[0] += $newRank1;
     $ranks[1] += $newRank1;
