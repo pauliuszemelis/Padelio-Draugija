@@ -6,7 +6,7 @@
         <div>Email:</div><input type="email" name="email"><br>
         <div>Slaptažodis:</div><input type="password" name="password"><br>
         <br><br>
-        <input type="submit" class="btn btn-secondary" value="Išsaugoti duomenis"><br>
+        <input type="submit" class="btn btn-secondary" value="Registruotis"><br>
     </form><br>
     <!--<form method="POST" action="?view=users&action=delete&id=[@id]">
         <input type="submit" class="btn btn-danger" value="Ištrinti"><br>

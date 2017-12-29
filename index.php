@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!--<title>Lithuania padel association / Lietuvos padelio Asociacija</title>-->
+    <!--<title>Lithuania padel tennis society / Lietuvos padelio teniso draugija</title>-->
     <link rel="stylesheet" href="css\bootstrap.min.css">
-    <link rel="icon" type="image/ico" href="uploads\title.ico">
+    <link rel="icon" type="image/ico" href="uploads\title.png">
     <script type='text/javascript'>
         msg = "                  ";
-        msg = "Lietuvos padelio teniso asociacija                          " + msg;
+        msg = "Lietuvos padelio teniso draugija                          " + msg;
         position = 0;
         function scrolltitle() {
             document.title = msg.substring(position, msg.length) + msg.substring(0, position); position++;
@@ -22,8 +22,8 @@
 <?php
 
 include_once('include.php');
-use app\Association;
-$app = new Association();
+use app\Society;
+$app = new Society();
 
 ?>
 

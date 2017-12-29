@@ -74,7 +74,7 @@ class UsersController
 
         if ($result->num_rows != 1){
             (new UsersController())->login();
-            die('<div style="text-align: center">Please check login or password!</div>');
+            die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div>');
         }
 
         foreach ($result as $key => $value)
@@ -91,13 +91,13 @@ class UsersController
 
             if ($result->num_rows != 1){
                 (new UsersController())->login();
-                die('<div style="text-align: center">Please check login or password!</div>');
+                die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div>');
             }
             setcookie('user', $_COOKIE['user'], time()+36000);
         }
         else {
             (new UsersController())->login();
-            die('<div style="text-align: center">Please login first...</div>');
+            die('<div class="text-center" style="color:red">Turite būti prisijungęs...</div>');
         }
             }
     public function delete()

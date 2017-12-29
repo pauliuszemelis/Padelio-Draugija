@@ -6,7 +6,7 @@ namespace app;
 use app\controller\ProductController;
 use app\controller\UsersController;
 
-class Association
+class Society
 {
     public function __construct()
     {
@@ -21,9 +21,10 @@ class Association
         $action = $_GET['action'];
 
         if ($method == 'GET') {
-            (new UsersController())->isLogged();
+
             switch ($view) {
                 case 'product':
+                    (new UsersController())->isLogged();
                     if ($action == 'new')
                         (new ProductController())->create();
                     elseif ($action == 'list')
@@ -32,6 +33,7 @@ class Association
                         (new ProductController())->edit();
                     break;
                 case 'match_history':
+                    (new UsersController())->isLogged();
                     if ($action == 'new') {
                         (new MatchController())->create();
                     } elseif ($action == 'list') {
@@ -42,8 +44,10 @@ class Association
                     if ($action == 'new') {
                         (new UsersController())->create();
                     } elseif ($action == 'list') {
+                        (new UsersController())->isLogged();
                         (new UsersController())->list();
                     } elseif ($action == 'edit') {
+                        (new UsersController())->isLogged();
                         (new ProductController())->edit();
                         break;
                     }
@@ -77,7 +81,6 @@ class Association
                     }
                     break;
                 case 'users':
-
                     if ($action == 'create') {
                         (new UsersController())->isLogged();
                         (new UsersController())->store();
@@ -87,10 +90,12 @@ class Association
                         break;
                     }
                     if ($action == 'delete') {
+                        (new UsersController())->isLogged();
                         (new UsersController())->delete();
                         break;
                     }
                     if ($action == 'update') {
+                        (new UsersController())->isLogged();
                         (new ProductController())->update();
                         break;
                     }
