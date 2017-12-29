@@ -21,6 +21,12 @@ class UsersController
     public function store()
     {
         $data = $_POST;
+        foreach ($data as $value) {
+            if(empty($value)) {
+                (new UsersController())->create();
+                die('<div class="text-center" style="color:red">Užpildykite visus duomenis...</div>');
+            }
+        }
         $data['password'] = sha1($data['password']. SALT);
 
         $model = new Users();

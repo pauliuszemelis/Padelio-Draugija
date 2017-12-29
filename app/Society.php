@@ -82,7 +82,6 @@ class Society
                     break;
                 case 'users':
                     if ($action == 'create') {
-                        (new UsersController())->isLogged();
                         (new UsersController())->store();
                     }
                     elseif ($action == 'auth')   {
