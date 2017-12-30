@@ -7,7 +7,7 @@
     <link rel="icon" type="image/ico" href="uploads\title.png">
     <script type='text/javascript'>
         msg = "                  ";
-        msg = "Lietuvos padelio teniso draugija                          " + msg;
+        msg = "Lietuvos padelio draugija                          " + msg;
         position = 0;
         function scrolltitle() {
             document.title = msg.substring(position, msg.length) + msg.substring(0, position); position++;
