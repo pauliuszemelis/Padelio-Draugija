@@ -53,9 +53,11 @@ class Society
                         (new ProductController())->edit();
                         break;}
                     if ($action == 'logout') {
-                        (new UsersController())->logout();
+                        (new UsersController())->logout();                      
+                    }
+                    if ($action == 'login') {                      
                         (new UsersController())->login();
-                }
+                    }
 
             }
         } elseif
