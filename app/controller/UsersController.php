@@ -33,15 +33,15 @@ class UsersController
         $model = new Users();
         $model->create($data);
 
-        header('Location:?view=users&action=list');
+        header('Location:?view=users&action=listall');
         exit;
 
     }
 
-    public function list()
+    public function listall()
     {
         $model = new Users();
-        $result = $model->list();
+        $result = $model->listall();
         $header = '';
         $data = '';
 
@@ -51,7 +51,6 @@ class UsersController
             if ($header == '') {
                 foreach ($item as $key => $value) {
                     $header .= '<th>' . $key . '</th>';
-
                 }
             }
             $data .= '<tr>';
@@ -62,7 +61,7 @@ class UsersController
             $data .= '</tr>';
         }
 
-        $template = new TemplateEngineController('table-list');
+        $template = new TemplateEngineController('table-listall');
         $template->set('header', $header);
         $template->set('data', $data);
 
@@ -82,8 +81,9 @@ class UsersController
             (new UsersController())->login();
             die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div>');
         }
-        foreach ($result as $key => $value)
+        foreach ($result as $value) {
             setcookie('user', $value['id'], time() + 3600);
+        }
         header('Location:?view=match_history&action=new');
     }
 
@@ -124,9 +124,10 @@ function isLogged()
 public
 function logout()
 {
-    if (isset($_COOKIE['user']))
-    setcookie('user', $_COOKIE['user'], time() - 3600);
-}
+if (isset($_COOKIE['user'])) {
+            setcookie('user', $_COOKIE['user'], time() - 3600);
+        }
+    }
 
 public
 function delete()
@@ -134,7 +135,7 @@ function delete()
     $model = new Users();
     $model->delete($_GET['id']);
 
-    header('Location: ?view=users&action=list');
+    header('Location: ?view=users&action=listall');
 
     exit();
 }
@@ -158,7 +159,7 @@ function getRanking($id)
 
     $model = new Users();
     $playersRanks = $model->find($id);
-    foreach ($playersRanks as $key => $value) {
+    foreach ($playersRanks as $value) {
         $record = $value;
         return ($record['ranking']);
     }
@@ -200,22 +201,18 @@ function calcNewRanks()
     $rankDiff = $average1 > $average2 ? $average1 - $average2 : $average2 - $average1;
     if ($winners[0] > $winners[1]) {
         $newRank1 = 0 + round($average2 * 0.02) - round($rankDiff * 0.04);
-        $newRank2 = 0 - round($average1 * 0.02) + round($rankDiff * 0.04);
-    } else {
+        $newRank2 = 0 - round($average1 * 0.02) + round($rankDiff * 0.04);} else {
         $newRank1 = 0 - round($average2 * 0.02) - round($rankDiff * 0.04);
-        $newRank2 = 0 + round($average1 * 0.02) + round($rankDiff * 0.04);
-    }
+        $newRank2 = 0 + round($average1 * 0.02) + round($rankDiff * 0.04);}
     $ranks[0] += $newRank1;
     $ranks[1] += $newRank1;
     $ranks[2] += $newRank2;
     $ranks[3] += $newRank2;
-
     $model = new Users();
     $data = $_POST;
     $playersID = [$data['teammate1'], $data['teammate2'], $data['oponent1'], $data['oponent2']];
     foreach ($playersID as $key => $id) {
-        $model->updateRanks($ranks[$key], $id);
-    }
+        $model->updateRanks($ranks[$key], $id);}
 }
 
 }

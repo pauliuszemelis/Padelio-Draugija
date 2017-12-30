@@ -22,9 +22,9 @@ class MatchController
         $template->echoOutput();
     }
 
-    public function getUsersOptions() : string
+    public function getUsersOptions()
     {
-        $result = (new Users())->list();
+        $result = (new Users())->listall();
         $menu = '';
 
         foreach ($result as $key => $item) {
@@ -41,15 +41,15 @@ class MatchController
         $model = new MatchHistory();
         $model->create($_POST);
 
-        header('Location:?view=match_history&action=list');
+        header('Location:?view=match_history&action=listall');
 
         exit;
     }
 
-    public function list()
+    public function listall()
     {
         $model = new MatchHistory();
-        $result = $model->list();
+        $result = $model->listall();
         $header = '';
         $data = '';
 
@@ -59,7 +59,6 @@ class MatchController
             if ($header == '') {
                 foreach ($item as $key => $value) {
                     $header .= '<th>' . $key . '</th>';
-
                 }
             }
             $data .= '<tr>';
@@ -69,7 +68,7 @@ class MatchController
             }
             $data .= '</tr>';
         }
-        $template = new TemplateEngineController('table-list');
+        $template = new TemplateEngineController('table-listall');
         $template->set('header', $header);
         $template->set('data', $data);
 

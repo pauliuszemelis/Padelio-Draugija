@@ -16,8 +16,9 @@ class CoreModel
 
     public function __construct()
     {
-        if (!$this->table)
+        if (!$this->table) {
             die("No table name provided.");
+        }
     }
 
     private function connect()
@@ -32,7 +33,7 @@ class CoreModel
 
     }
 
-    protected function query(string $query)
+    protected function query($query)
     {
         $this->connect();
         $result = $this->conn->query($query);
@@ -45,21 +46,19 @@ class CoreModel
         die();
     }
 
-    protected function generateInsertQuery(array $data, bool $uuid = false): string
+    protected function generateInsertQuery(array $data, $uuid = false)
     {
 
-        if ($uuid)
+        if ($uuid) {
             $data['id'] = uniqid();
+        }
 
         $keys = $values = '';
 
         foreach ($data as $key => $value) {
-
             $keys .= "`$key`, ";
             $values .= "'$value', ";
-
         }
-
         $keys = rtrim($keys, ", ");
         $values = rtrim($values, ", ");
 
@@ -69,13 +68,13 @@ class CoreModel
 
     }
 
-    public function list (){
+    public function listall (){
         $query = "SELECT * FROM `".$this->table ."` WHERE `deleted_at` IS NULL";
         return $this->query($query);
 
     }
 
-    public function find (string $id){
+    public function find ($id){
         $query = "SELECT * FROM `".$this->table ."` WHERE `deleted_at` IS NULL AND `id`= '$id'";
         return $this->query($query);
 

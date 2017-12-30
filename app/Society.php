@@ -27,8 +27,8 @@ class Society
                     (new UsersController())->isLogged();
                     if ($action == 'new')
                         (new ProductController())->create();
-                    elseif ($action == 'list')
-                        (new ProductController())->list();
+                    elseif ($action == 'listall')
+                        (new ProductController())->listall();
                     elseif ($action == 'edit')
                         (new ProductController())->edit();
                     break;
@@ -36,17 +36,17 @@ class Society
                     (new UsersController())->isLogged();
                     if ($action == 'new') {
                         (new MatchController())->create();
-                    } elseif ($action == 'list') {
-                        (new MatchController())->list();
+                    } elseif ($action == 'listall') {
+                        (new MatchController())->listall();
                     }
                     break;
                 case 'users':
                     if ($action == 'new') {
                         (new UsersController())->create();
                     }
-                    if ($action == 'list') {
+                    if ($action == 'listall') {
                         (new UsersController())->isLogged();
-                        (new UsersController())->list();
+                        (new UsersController())->listall();
                     }
                     if ($action == 'edit') {
                         (new UsersController())->isLogged();

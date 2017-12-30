@@ -9,13 +9,13 @@ class TemplateEngineController
 
     private $values = [];
 
-    public function __construct(string $viewName)
+    public function __construct($viewName)
     {
 
         $this->viewName = "app/view/tpl/$viewName.tpl";
     }
 
-    public function set (string $key, string $value = null ) {
+    public function set ($key, $value = null ) {
         $this->values[$key] = $value;
     }
 

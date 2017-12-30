@@ -31,15 +31,15 @@ class ProductController
         $model = new Product();
         $model->create($data);
 
-        header('Location:?view=product&action=list');
+        header('Location:?view=product&action=listall');
         exit;
 
     }
 
-    public function list()
+    public function listall()
     {
         $model = new Product();
-        $result = $model->list();
+        $result = $model->listall();
         $header = '';
         $data = '';
 
@@ -63,7 +63,7 @@ class ProductController
             $data .= '</tr>';
         }
 
-        $template = new TemplateEngineController('table-list');
+        $template = new TemplateEngineController('table-listall');
         $template->set('header', $header);
         $template->set('data', $data);
 
@@ -106,7 +106,7 @@ class ProductController
         $model->update($_GET['id']);
 
 
-        header('Location: ?view=product&action=list');
+        header('Location: ?view=product&action=listall');
 
         exit();
 
@@ -115,7 +115,7 @@ class ProductController
         {$model = new Product();
         $model->find($_GET['id']);
 
-        header('Location: ?view=product&action=list');
+        header('Location: ?view=product&action=listall');
 
         exit();
 
