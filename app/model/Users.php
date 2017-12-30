@@ -38,9 +38,9 @@ class Users extends CoreModel implements Manageable, Destroyable
             return $this->query($query);
     }
 
-    public function updateRanks ($rank, $id)
+    public function updateRanks ($rank, $progress, $id)
     {
-        $query = "UPDATE `" . $this->table . "` SET `ranking`=" . $rank . " WHERE `id`='$id'";
+        $query = "UPDATE `" . $this->table . "` SET `ranking`=" . $rank . ", `latest`='" . $progress . "' WHERE `id`='$id'";
         return $this->query($query);
     }
 

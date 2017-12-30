@@ -47,7 +47,6 @@ class UsersController
 
         foreach ($result as $item) {
 
-
             if ($header == '') {
                 foreach ($item as $key => $value) {
                     $header .= '<th>' . $key . '</th>';
@@ -156,7 +155,6 @@ function ranks()
 public
 function getRanking($id)
 {
-
     $model = new Users();
     $playersRanks = $model->find($id);
     foreach ($playersRanks as $value) {
@@ -199,8 +197,7 @@ function calcNewRanks()
     $average1 = ($ranks[0] + $ranks[1]) / 2;
     $average2 = ($ranks[2] + $ranks[3]) / 2;
     $rankDiff = $average1 > $average2 ? $average1 - $average2 : $average2 - $average1;
-    if ($winners[0] > $winners[1]) {
-        $newRank1 = 0 + round($average2 * 0.02) - round($rankDiff * 0.04);
+    if ($winners[0] > $winners[1]) {$newRank1 = 0 + round($average2 * 0.02) - round($rankDiff * 0.04);
         $newRank2 = 0 - round($average1 * 0.02) + round($rankDiff * 0.04);} else {
         $newRank1 = 0 - round($average2 * 0.02) - round($rankDiff * 0.04);
         $newRank2 = 0 + round($average1 * 0.02) + round($rankDiff * 0.04);}
@@ -208,11 +205,12 @@ function calcNewRanks()
     $ranks[1] += $newRank1;
     $ranks[2] += $newRank2;
     $ranks[3] += $newRank2;
-    $model = new Users();
+    $progress = array($newRank1,$newRank1,$newRank2,$newRank2);
+    $othermodel = new Users();
     $data = $_POST;
     $playersID = [$data['teammate1'], $data['teammate2'], $data['oponent1'], $data['oponent2']];
     foreach ($playersID as $key => $id) {
-        $model->updateRanks($ranks[$key], $id);}
+        $othermodel->updateRanks($ranks[$key], $progress [$key], $id);}
 }
 
 }

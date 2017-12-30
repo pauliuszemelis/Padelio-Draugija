@@ -7,7 +7,6 @@
     <?php
     if (isset($_COOKIE['user'])){
         echo ("(");
-        
         $model = new \app\controller\UsersController();
         echo $model->loggedUser();
         echo ")";
