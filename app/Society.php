@@ -96,9 +96,7 @@ class Society
                         break;
                     }
                     if ($action == 'delete') {
-                        (new UsersController())->isLogged();
-                        (new matchController())->delete();
-                        break;
+                        (new MatchController())->delete();
                     }
                     break;
                 case 'users':

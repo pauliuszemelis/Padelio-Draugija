@@ -67,41 +67,38 @@ class CoreModel
         return ($query);
 
     }
-
-    public function listall (){
-        $query = "SELECT * FROM `".$this->table ."`";
+    public function getMenu (){
+        $query = "SELECT * FROM `".$this->table ."` WHERE `deleted_at` IS NULL ORDER BY `association_users`.`Slapyvardis` ASC";
         return $this->query($query);
-
     }
 
-    public function find ($id){
-        $query = "SELECT * FROM `".$this->table ."` WHERE `deleted_at` IS NULL AND `id`= '$id'";
+    public function listall (){
+        $query = "SELECT * FROM `".$this->table ."` WHERE `deleted_at` IS NULL";
+        return $this->query($query);
+    }
+
+    public function find($id){
+        $query = "SELECT * FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id'";
         return $this->query($query);
 
     }
     public function update ($id) {
-
         $data = $_POST;
         $options = '';
-
         foreach ($data as $key => $value) {
-
             $options .= "`$key` = '$value', ";
-
         }
-
         $options = rtrim($options, ", ");
-
         $query = "UPDATE `" . $this->table . "` SET " . $options . " WHERE `id`='$id'";
         return $this->query($query);
-
     }
+    
     public function delete ($id)
     {
         $query = "DELETE FROM `" . $this->table . "` WHERE `id`='$id'";
         return $this->query($query);
-
     }
+    
     public function findUserNick ($id) {
             $model = new Users();
             $findUser = $model->findUser($id);

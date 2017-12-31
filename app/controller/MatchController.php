@@ -20,7 +20,7 @@ class MatchController {
     }
 
     public function getUsersOptions() {
-        $result = (new Users())->listall();
+        $result = (new Users())->getMenu();
         $menu = '';
 
         foreach ($result as $item) {
@@ -122,25 +122,20 @@ class MatchController {
         $template->set('team2_result1', $record['team2_result1']);
         $template->set('team2_result2', $record['team2_result2']);
         $template->set('team2_result3', $record['team2_result3']);
-
+        $template->set('id', $record['id']);    
         $menu = $this->getUsersOptions();
         $template->set('menu', $menu);
 
 //$template->set('unit_' . $record['unit'], 'selected');
 
-
         $template->echoOutput();
     }
-    
+   
     public function delete()
         {$model = new MatchHistory();
-        $model->find($_GET['id']);
+        $model->delete($_GET['id']);
 
         header('Location: ?view=match_history&action=listall');
-
-        exit();
-
-
 
     }
 

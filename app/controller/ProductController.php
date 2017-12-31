@@ -80,8 +80,9 @@ class ProductController
         foreach($result as $value) {
             $record = $value;
         }
-        if (!$record)
+        if (!$record) {
             die('Record not found');
+        }
 
         $template = new TemplateEngineController('edit-product');
         $template->set('id', $record['id']);
