@@ -69,7 +69,7 @@ class CoreModel
     }
 
     public function listall (){
-        $query = "SELECT * FROM `".$this->table ."` WHERE `deleted_at` IS NULL";
+        $query = "SELECT * FROM `".$this->table ."`";
         return $this->query($query);
 
     }

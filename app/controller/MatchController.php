@@ -27,7 +27,7 @@ class MatchController
         $result = (new Users())->listall();
         $menu = '';
 
-        foreach ($result as $key => $item) {
+        foreach ($result as $item) {
             $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
         }
         $menu .= '<option selected value="">Pasirinkite žaidėją</option>';
@@ -39,7 +39,9 @@ class MatchController
     {
 
         $model = new MatchHistory();
+        $_POST['created_by'] = $_COOKIE['user'];
         $model->create($_POST);
+    
 
         header('Location:?view=match_history&action=table');
 
