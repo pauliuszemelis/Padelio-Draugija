@@ -41,7 +41,9 @@ class Society
                         (new MatchController())->listall();
                     } elseif ($action == 'table') {
                         (new MatchController())->table();
-                    }
+                    } elseif ($action == 'edit') {
+                        (new MatchController())->edit();
+                        break;}
                     break;
                 case 'users':
                     if ($action == 'new') {
@@ -57,7 +59,7 @@ class Society
                     }
                     if ($action == 'edit') {
                         (new UsersController())->isLogged();
-                        (new ProductController())->edit();
+                        (new UsersController())->edit();
                         break;}
                     if ($action == 'logout') {
                         (new UsersController())->logout();                      
@@ -77,10 +79,6 @@ class Society
                         (new ProductController())->store();
                         break;
                     }
-                    if ($action == 'update') {
-                        (new ProductController())->update();
-                        break;
-                    }
                     if ($action == 'delete') {
                         (new ProductController())->delete();
                         break;
@@ -91,6 +89,15 @@ class Society
                     if ($action == 'create') {
                         (new UsersController())->calcNewRanks();
                         (new MatchController())->store();
+                        break;
+                    }
+                    if ($action == 'update') {
+                        (new MatchController())->update();
+                        break;
+                    }
+                    if ($action == 'delete') {
+                        (new UsersController())->isLogged();
+                        (new matchController())->delete();
                         break;
                     }
                     break;
@@ -109,7 +116,7 @@ class Society
                     }
                     if ($action == 'update') {
                         (new UsersController())->isLogged();
-                        (new ProductController())->update();
+                        (new UsersController())->update();
                         break;
                     }
                     break;

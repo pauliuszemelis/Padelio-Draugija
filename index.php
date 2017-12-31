@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!--<title>Lithuania padel tennis society / Lietuvos padelio teniso draugija</title>-->
     <link rel="stylesheet" href="css\bootstrap.min.css">
     <link rel="icon" type="image/ico" href="uploads\title.png">
     <script type='text/javascript'>

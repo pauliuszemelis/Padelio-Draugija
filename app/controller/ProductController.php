@@ -54,11 +54,11 @@ class ProductController
             }
             $data .= '<tr onclick="window.location=\'?view=product&action=edit&id=' . $item['id'] . '\'">';
             foreach ($item as $key => $value) {
-                if ($key == 'picture')
+                if ($key == 'picture') {
                     $data .= '<td><img src ="' . $value . '" width="200px"></td>';
-                else
-                $data .= '<td>' . $value . '</td>';
-
+                } else {
+                    $data .= '<td>' . $value . '</td>';
+                }
             }
             $data .= '</tr>';
         }

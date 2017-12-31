@@ -1,17 +1,14 @@
 <?php
 
-
 namespace app;
 
 use app\controller\TemplateEngineController;
 use app\model\MatchHistory;
-//use app\model\Product;
 use app\model\Users;
 
-class MatchController
-{
-    public function create()
-    {
+class MatchController {
+
+    public function create() {
         $template = new TemplateEngineController('match-history');
 
         $menu = $this->getUsersOptions();
@@ -22,8 +19,7 @@ class MatchController
         $template->echoOutput();
     }
 
-    public function getUsersOptions()
-    {
+    public function getUsersOptions() {
         $result = (new Users())->listall();
         $menu = '';
 
@@ -34,22 +30,19 @@ class MatchController
         return $menu;
     }
 
-
-    public function store()
-    {
+    public function store() {
 
         $model = new MatchHistory();
         $_POST['created_by'] = $_COOKIE['user'];
         $model->create($_POST);
-    
+
 
         header('Location:?view=match_history&action=table');
 
         exit;
     }
 
-    public function table()
-    {
+    public function table() {
         $model = new MatchHistory();
         $result = $model->matchHistory();
         $data = '';
@@ -57,9 +50,9 @@ class MatchController
         foreach ($result as $item) {
             $data .= '<tr>';
             foreach ($item as $key => $value) {
-                if($key == 'teammate1' || $key == 'teammate2' || $key == 'oponent1' || $key == 'oponent2'){
+                if ($key == 'teammate1' || $key == 'teammate2' || $key == 'oponent1' || $key == 'oponent2') {
                     $value = (new Users())->findUserNick($value);
-                    }
+                }
                 $data .= '<td>' . $value . '</td>';
             }
             $data .= '</tr>';
@@ -70,10 +63,9 @@ class MatchController
 
 
         $template->echoOutput();
-
     }
-    public function listall()
-    {
+
+    public function listall() {
         $model = new MatchHistory();
         $result = $model->listall();
         $header = '';
@@ -86,10 +78,9 @@ class MatchController
                     $header .= '<th>' . $key . '</th>';
                 }
             }
-            $data .= '<tr>';
+            $data .= '<tr onclick="window.location=\'?view=match_history&action=edit&id=' . $item['id'] . '\'">';
             foreach ($item as $key => $value) {
                 $data .= '<td>' . $value . '</td>';
-
             }
             $data .= '</tr>';
         }
@@ -99,6 +90,58 @@ class MatchController
 
 
         $template->echoOutput();
+    }
+
+    public function update() {
+        $model = new MatchHistory();
+        $model->update($_GET['id']);
+
+
+        header('Location: ?view=match_history&action=listall');
+
+        exit();
+    }
+
+    public function edit() {
+        $model = new MatchHistory();
+        $result = $model->find($_GET['id']);
+        $record = null;
+
+        foreach ($result as $value) {
+            $record = $value;
+        }
+        if (!$record) {
+            die('Record not found');
+        }
+
+        $template = new TemplateEngineController('edit-match-history');
+        $template->set('Data', $record['Data']);
+        $template->set('team1_result1', $record['team1_result1']);
+        $template->set('team1_result2', $record['team1_result2']);
+        $template->set('team1_result3', $record['team1_result3']);
+        $template->set('team2_result1', $record['team2_result1']);
+        $template->set('team2_result2', $record['team2_result2']);
+        $template->set('team2_result3', $record['team2_result3']);
+
+        $menu = $this->getUsersOptions();
+        $template->set('menu', $menu);
+
+//$template->set('unit_' . $record['unit'], 'selected');
+
+
+        $template->echoOutput();
+    }
+    
+    public function delete()
+        {$model = new MatchHistory();
+        $model->find($_GET['id']);
+
+        header('Location: ?view=match_history&action=listall');
+
+        exit();
+
+
 
     }
+
 }
