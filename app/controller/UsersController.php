@@ -38,6 +38,35 @@ class UsersController
 
     }
 
+    public function table ()
+    {
+        $model = new Users();
+        $result = $model->playersList();
+        $header = '';
+        $data = '';
+
+        foreach ($result as $item) {
+
+            if ($header == '') {
+                foreach ($item as $key => $value) {
+                    $header .= '<th>' . $key . '</th>';
+                }
+            }
+            $data .= '<tr>';
+            foreach ($item as $key => $value) {
+                $data .= '<td>' . $value . '</td>';
+
+            }
+            $data .= '</tr>';
+        }
+
+        $template = new TemplateEngineController('table-listall');
+        $template->set('header', $header);
+        $template->set('data', $data);
+
+        $template->echoOutput();
+    }
+    
     public function listall()
     {
         $model = new Users();
@@ -94,7 +123,7 @@ class UsersController
             $sessionUser = $model->sessionUser($id);
             foreach ($sessionUser as $value) {
                 $record = $value;
-                $sessionNickname = ($record['nickname']);
+                $sessionNickname = ($record['Slapyvardis']);
                 return $sessionNickname;
             }
         }
@@ -160,7 +189,7 @@ function getRanking($id)
     $playersRanks = $model->find($id);
     foreach ($playersRanks as $value) {
         $record = $value;
-        return ($record['ranking']);
+        return ($record['Reitingas']);
     }
     die;
 }

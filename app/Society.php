@@ -25,12 +25,13 @@ class Society
             switch ($view) {
                 case 'product':
                     (new UsersController())->isLogged();
-                    if ($action == 'new')
+                    if ($action == 'new') {
                         (new ProductController())->create();
-                    elseif ($action == 'listall')
+                    } elseif ($action == 'listall') {
                         (new ProductController())->listall();
-                    elseif ($action == 'edit')
+                    } elseif ($action == 'edit') {
                         (new ProductController())->edit();
+                    }
                     break;
                 case 'match_history':
                     (new UsersController())->isLogged();
@@ -47,6 +48,10 @@ class Society
                     if ($action == 'listall') {
                         (new UsersController())->isLogged();
                         (new UsersController())->listall();
+                    }
+                    if ($action == 'table') {
+                        (new UsersController())->isLogged();
+                        (new UsersController())->table();
                     }
                     if ($action == 'edit') {
                         (new UsersController())->isLogged();

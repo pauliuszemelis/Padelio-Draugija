@@ -34,18 +34,22 @@ class Users extends CoreModel implements Manageable, Destroyable
     }
 
     public function getRank ($id) {
-            $query = "SELECT `ranking` FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id'";
+            $query = "SELECT `Reitingas` FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id'";
             return $this->query($query);
     }
 
     public function updateRanks ($rank, $progress, $id)
     {
-        $query = "UPDATE `" . $this->table . "` SET `ranking`=" . $rank . ", `latest`='" . $progress . "' WHERE `id`='$id'";
+        $query = "UPDATE `" . $this->table . "` SET `Reitingas`=" . $rank . ", `Paskutinis`='" . $progress . "' WHERE `id`='$id'";
         return $this->query($query);
     }
 
     public function sessionUser ($id) {
-        $query = "SELECT `nickname` FROM `association_users` WHERE `deleted_at` IS NULL AND `id`= '$id'";
+        $query = "SELECT `Slapyvardis` FROM `association_users` WHERE `deleted_at` IS NULL AND `id`= '$id'";
+        return $this->query($query);
+    }
+    public function playersList () {
+        $query = "SELECT `Nr`, `Slapyvardis`, `Vardas`, `Pavardė`, `Reitingas`, `Paskutinis` FROM `association_users` WHERE `deleted_at` IS NULL ORDER BY `association_users`.`Reitingas` DESC";
         return $this->query($query);
     }
 }

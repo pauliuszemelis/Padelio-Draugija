@@ -1,4 +1,4 @@
-<table class='table table-success '>
+<table class='table table-bordered table-success ' style="text-align: center">
     <thead>
     <tr>
         [@header]

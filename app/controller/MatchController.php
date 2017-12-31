@@ -28,7 +28,7 @@ class MatchController
         $menu = '';
 
         foreach ($result as $key => $item) {
-            $menu .= '<option value="' . $item['id'] . '">' . $item['nickname'] . '</option>';
+            $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
         }
         $menu .= '<option selected value="">Pasirinkite žaidėją</option>';
         return $menu;
