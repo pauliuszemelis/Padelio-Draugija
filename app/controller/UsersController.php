@@ -115,13 +115,15 @@ class UsersController
         header('Location:?view=match_history&action=new');
     }
 
+    
+
     public function loggedUser()
     {
         if (isset($_COOKIE['user'])) {
             $model = new Users();
             $id = $_COOKIE['user'];
-            $sessionUser = $model->sessionUser($id);
-            foreach ($sessionUser as $value) {
+            $findUser = $model->findUser($id);
+            foreach ($findUser as $value) {
                 $record = $value;
                 $sessionNickname = ($record['Slapyvardis']);
                 return $sessionNickname;

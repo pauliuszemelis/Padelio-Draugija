@@ -1,7 +1,7 @@
 <div class="font-weight-bold" style="text-align: center">Suveskite žaidimo duomenis</div><br>
 <div style="text-align: center">
     <form method="POST" action="?view=match_history&action=create">
-        <div>Data:</div><input type="date" name="date" value="[@date]"><br><br>
+        <div>Data:</div><input type="date" name="Data" value="[@date]"><br><br>
         <table align="center"><tr style='align-content: center'>
                 <td><div class="font-weight-bold">Mano komanda:</div><select name="teammate1">[@menu]</select><br><select name="teammate2">[@menu]</select></td>
                 <td style="width:30px"> </td><td><div class="font-weight-bold">Oponentai:</div><select name="oponent1">[@menu]</select><br><select name="oponent2">[@menu]</select></td>

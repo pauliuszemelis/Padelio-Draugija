@@ -41,7 +41,7 @@ class MatchController
         $model = new MatchHistory();
         $model->create($_POST);
 
-        header('Location:?view=match_history&action=listall');
+        header('Location:?view=match_history&action=table');
 
         exit;
     }
@@ -55,6 +55,9 @@ class MatchController
         foreach ($result as $item) {
             $data .= '<tr>';
             foreach ($item as $key => $value) {
+                if($key == 'teammate1' || $key == 'teammate2' || $key == 'oponent1' || $key == 'oponent2'){
+                    $value = (new Users())->findUserNick($value);
+                    }
                 $data .= '<td>' . $value . '</td>';
             }
             $data .= '</tr>';

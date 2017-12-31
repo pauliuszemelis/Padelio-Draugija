@@ -44,7 +44,7 @@ class Users extends CoreModel implements Manageable, Destroyable
         return $this->query($query);
     }
 
-    public function sessionUser ($id) {
+    public function findUser ($id) {
         $query = "SELECT `Slapyvardis` FROM `association_users` WHERE `deleted_at` IS NULL AND `id`= '$id'";
         return $this->query($query);
     }

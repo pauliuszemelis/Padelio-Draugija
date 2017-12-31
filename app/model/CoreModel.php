@@ -102,7 +102,15 @@ class CoreModel
         return $this->query($query);
 
     }
-
+    public function findUserNick ($id) {
+            $model = new Users();
+            $findUser = $model->findUser($id);
+            foreach ($findUser as $value) {
+                $record = $value;
+                $echoNickname = ($record['Slapyvardis']);
+                return $echoNickname;
+            }
+    }
 
 }
 
