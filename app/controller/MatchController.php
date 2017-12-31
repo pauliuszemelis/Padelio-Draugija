@@ -46,6 +46,27 @@ class MatchController
         exit;
     }
 
+    public function table()
+    {
+        $model = new MatchHistory();
+        $result = $model->matchHistory();
+        $data = '';
+        $header = '<th>Nr</th><th>Data</th><th colspan=2>Komanda 1</th><th colspan=2>Pirmas setas</th><th colspan=2>Antras setas</th><th colspan=2>Trečias setas</th><th colspan=2>Komanda 2</th>';
+        foreach ($result as $item) {
+            $data .= '<tr>';
+            foreach ($item as $key => $value) {
+                $data .= '<td>' . $value . '</td>';
+            }
+            $data .= '</tr>';
+        }
+        $template = new TemplateEngineController('table-listall');
+        $template->set('header', $header);
+        $template->set('data', $data);
+
+
+        $template->echoOutput();
+
+    }
     public function listall()
     {
         $model = new MatchHistory();
@@ -54,7 +75,6 @@ class MatchController
         $data = '';
 
         foreach ($result as $item) {
-
 
             if ($header == '') {
                 foreach ($item as $key => $value) {

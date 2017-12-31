@@ -39,6 +39,8 @@ class Society
                         (new MatchController())->create();
                     } elseif ($action == 'listall') {
                         (new MatchController())->listall();
+                    } elseif ($action == 'table') {
+                        (new MatchController())->table();
                     }
                     break;
                 case 'users':
