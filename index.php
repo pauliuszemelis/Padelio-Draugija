@@ -21,8 +21,8 @@
 <?php
 
 include_once('include.php');
-use app\Society;
-$app = new Society();
+use app\Club;
+$app = new Club();
 
 ?>
 

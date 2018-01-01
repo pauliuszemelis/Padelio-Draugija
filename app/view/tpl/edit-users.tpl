@@ -5,8 +5,10 @@
         <div>Pavarde:</div><input type="text" value="[@Pavardė]" name="Pavardė">
         <div>Slapyvardis:</div><input type="text" value="[@Slapyvardis]" name="Slapyvardis">
         <div>El.paštas:</div><input type="email" value="[@email]" name="email"><br>
+        <div>Reitingas:</div><input type="number" value="[@Reitingas]" name="Reitingas"><br>
+        <div>Paskutinis:</div><input type="number" value="[@Paskutinis]" name="Paskutinis"><br>
         <div>Slaptažodis:</div><input type="password" name="password"><br>
-        <br><br>
+        <br>
         <input type="submit" class="btn btn-secondary" value="Atnaujinti duomenis"><br>
     </form><br>
 </div>

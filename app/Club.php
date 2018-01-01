@@ -6,7 +6,7 @@ namespace app;
 use app\controller\ProductController;
 use app\controller\UsersController;
 
-class Society
+class Club
 {
     public function __construct()
     {

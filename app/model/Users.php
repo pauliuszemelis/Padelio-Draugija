@@ -8,7 +8,7 @@ use app\model\interfaces\Manageable;
 class Users extends CoreModel implements Manageable, Destroyable
 {
 
-    protected $table = 'association_users';
+    protected $table = 'club_users';
     public function create(array $data)
     {
 
@@ -40,11 +40,11 @@ class Users extends CoreModel implements Manageable, Destroyable
     }
 
     public function findUser ($id) {
-        $query = "SELECT `Slapyvardis` FROM `association_users` WHERE `deleted_at` IS NULL AND `id`= '$id'";
+        $query = "SELECT `Slapyvardis` FROM `club_users` WHERE `deleted_at` IS NULL AND `id`= '$id'";
         return $this->query($query);
     }
     public function playersList () {
-        $query = "SELECT `Nr`, `Slapyvardis`, `Vardas`, `Pavardė`, `Reitingas`, `Paskutinis` FROM `association_users` WHERE `deleted_at` IS NULL ORDER BY `association_users`.`Reitingas` DESC";
+        $query = "SELECT `Nr`, `Slapyvardis`, `Vardas`, `Pavardė`, `Reitingas`, `Paskutinis` FROM `club_users` WHERE `deleted_at` IS NULL ORDER BY `club_users`.`Reitingas` DESC";
         return $this->query($query);
     }
     public function selfupdate ($id) {

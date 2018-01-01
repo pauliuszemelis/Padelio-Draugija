@@ -8,7 +8,7 @@ class CoreModel
     private $servername = '127.0.0.1';
     private $username = 'root';
     private $password = '';
-    private $dbname = 'pz_padelAssociation';
+    private $dbname = 'pz_padelclub';
 
     private $conn;
 
@@ -68,7 +68,7 @@ class CoreModel
 
     }
     public function getMenu (){
-        $query = "SELECT `id`, `Slapyvardis` FROM `".$this->table ."` WHERE `deleted_at` IS NULL ORDER BY `association_users`.`Slapyvardis` ASC";
+        $query = "SELECT `id`, `Slapyvardis` FROM `".$this->table ."` WHERE `deleted_at` IS NULL ORDER BY `club_users`.`Slapyvardis` ASC";
         return $this->query($query);
     }
 

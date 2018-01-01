@@ -231,12 +231,13 @@ class UsersController {
 
         $template = new TemplateEngineController('edit-users');
         $template->set('id', $record['id']);
-
         $template->set('Vardas', $record['Vardas']);
         $template->set('Pavardė', $record['Pavardė']);
         $template->set('Slapyvardis', $record['Slapyvardis']);
         $template->set('email', $record['email']);
         $template->set('password', $record['password']);
+        $template->set('Reitingas', $record['Reitingas']);
+        $template->set('Paskutinis', $record['Paskutinis']);
 
         $template->echoOutput();
     }
@@ -255,7 +256,6 @@ class UsersController {
 
         $template = new TemplateEngineController('edit-self');
         $template->set('id', $record['id']);
-
         $template->set('Vardas', $record['Vardas']);
         $template->set('Pavardė', $record['Pavardė']);
         $template->set('Slapyvardis', $record['Slapyvardis']);

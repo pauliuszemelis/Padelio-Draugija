@@ -12,7 +12,6 @@ class ProductController
     {
         $template = new TemplateEngineController('new-product');
         $template->echoOutput();
-        //(new TemplateEngineController('new-product'))->echoOutput;
     }
 
     public function store()
