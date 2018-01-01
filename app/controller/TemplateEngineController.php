@@ -35,7 +35,7 @@ class TemplateEngineController
             $output = str_replace($tagToReplace, $value, $output);
 
         }
-        //echo result
+    
         echo $output;
     }
 

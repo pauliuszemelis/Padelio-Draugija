@@ -43,7 +43,7 @@ class Society
                         (new MatchController())->table();
                     } elseif ($action == 'edit') {
                         (new MatchController())->edit();
-                        break;}
+                    }
                     break;
                 case 'users':
                     if ($action == 'new') {
@@ -60,7 +60,7 @@ class Society
                     if ($action == 'edit') {
                         (new UsersController())->isLogged();
                         (new UsersController())->edit();
-                        break;}
+                    }
                     if ($action == 'logout') {
                         (new UsersController())->logout();                      
                     }

@@ -113,7 +113,6 @@ class MatchController {
         if (!$record) {
             die('Record not found');
         }
-
         $template = new TemplateEngineController('edit-match-history');
         $template->set('Data', $record['Data']);
         $template->set('team1_result1', $record['team1_result1']);
@@ -125,9 +124,9 @@ class MatchController {
         $template->set('id', $record['id']);    
         $menu = $this->getUsersOptions();
         $template->set('menu', $menu);
-
-//$template->set('unit_' . $record['unit'], 'selected');
-
+        
+        //$template->set('unit_' . $record['unit'], 'selected');
+        
         $template->echoOutput();
     }
    

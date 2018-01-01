@@ -80,8 +80,8 @@ class CoreModel
     public function find($id){
         $query = "SELECT * FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id'";
         return $this->query($query);
-
     }
+    
     public function update ($id) {
         $data = $_POST;
         $options = '';

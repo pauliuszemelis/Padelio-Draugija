@@ -2,8 +2,8 @@
 
 namespace app\model;
 
-    use app\model\interfaces\Destroyable;
-    use app\model\interfaces\Manageable;
+use app\model\interfaces\Destroyable;
+use app\model\interfaces\Manageable;
 
 class MatchHistory extends CoreModel implements Manageable, Destroyable
 {

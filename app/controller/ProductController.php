@@ -106,7 +106,6 @@ class ProductController
         $model = new Product();
         $model->update($_GET['id']);
 
-
         header('Location: ?view=product&action=listall');
 
         exit();

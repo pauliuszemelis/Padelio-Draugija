@@ -2,6 +2,7 @@
 
 namespace app\controller;
 
+use app\controller\TemplateEngineController;
 use app\model\Users;
 
 class UsersController {
@@ -73,7 +74,7 @@ class UsersController {
                     $header .= '<th>' . $key . '</th>';
                 }
             }
-            $data .= '<tr>';
+            $data .= '<tr onclick="window.location=\'?view=users&action=edit&id=' . $item['id'] . '\'">';
             foreach ($item as $key => $value) {
                 $data .= '<td>' . $value . '</td>';
             }
@@ -229,30 +230,36 @@ class UsersController {
     }
 
     public function edit() {
-        $model = new Product();
+        $model = new Users();
         $result = $model->find($_GET['id']);
         $record = null;
 
         foreach ($result as $value) {
             $record = $value;
         }
-        if (!$record)
+        if (!$record) {
             die('Record not found');
+        }
 
-        $template = new TemplateEngineController('edit-product');
+        $template = new TemplateEngineController('edit-users');
         $template->set('id', $record['id']);
-        $template->set('ean', $record['ean']);
 
-        $template->set('name', $record['name']);
-        $template->set('weight', $record['weight']);
-        $template->set('prime_cost', $record['prime_cost']);
-        $template->set('sale_price', $record['sale_price']);
-        $template->set('picture', $record['picture']);
-
-        $template->set('unit_' . $record['unit'], 'selected');
-
+        $template->set('Vardas', $record['Vardas']);
+        $template->set('Pavardė', $record['Pavardė']);
+        $template->set('Slapyvardis', $record['Slapyvardis']);
+        $template->set('email', $record['email']);
+        $template->set('password', $record['password']);
 
         $template->echoOutput();
+    }
+    public  function update()
+    {
+        $model = new Users();
+        $model->update($_GET['id']);
+
+        header('Location: ?view=users&action=listall');
+
+
     }
 
 }
