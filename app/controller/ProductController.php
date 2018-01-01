@@ -74,7 +74,7 @@ class ProductController
     public function edit()
     {
         $model = new Product();
-        $result= $model->find($_GET['id']);
+        $result= $model->findAll($_GET['id']);
         $record = null;
 
         foreach($result as $value) {

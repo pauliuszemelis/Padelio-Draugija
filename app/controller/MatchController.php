@@ -36,11 +36,12 @@ class MatchController {
         $_POST['created_by'] = $_COOKIE['user'];
         $model->create($_POST);
 
-
         header('Location:?view=match_history&action=table');
 
         exit;
     }
+
+    
 
     public function table() {
         $model = new MatchHistory();
@@ -96,7 +97,6 @@ class MatchController {
         $model = new MatchHistory();
         $model->update($_GET['id']);
 
-
         header('Location: ?view=match_history&action=listall');
 
         exit();
@@ -104,7 +104,7 @@ class MatchController {
 
     public function edit() {
         $model = new MatchHistory();
-        $result = $model->find($_GET['id']);
+        $result = $model->findAll($_GET['id']);
         $record = null;
 
         foreach ($result as $value) {
@@ -121,21 +121,56 @@ class MatchController {
         $template->set('team2_result1', $record['team2_result1']);
         $template->set('team2_result2', $record['team2_result2']);
         $template->set('team2_result3', $record['team2_result3']);
-        $template->set('id', $record['id']);    
-        $menu = $this->getUsersOptions();
-        $template->set('menu', $menu);
-        
+        $template->set('id', $record['id']);
+        $menu = $this->getUpdateMatchPlayers();
+        $template->set('menu1', $menu[0]);
+        $template->set('menu2', $menu[1]);
+        $template->set('menu3', $menu[2]);
+        $template->set('menu4', $menu[3]);
+
         //$template->set('unit_' . $record['unit'], 'selected');
-        
+
         $template->echoOutput();
     }
-   
-    public function delete()
-        {$model = new MatchHistory();
+    public function getUpdateMatchPlayers() {
+
+        $menu = array();
+        $result = (new MatchHistory())->matchPlayers($_GET['id']);  
+        foreach ($result as $players) {
+            foreach ($players as $id) { 
+                $nickname = (new Users())->findUserNick($id);
+                $menu[] = $this->updateMatchMenu().'<option selected value="' . $id . '">' . $nickname . '</option>';  
+            }
+        }
+        return $menu;
+    }
+    
+    public function updateMatchMenu () {
+        $res = (new Users())->getMenu();
+        $menu = '';
+        foreach ($res as $item) {
+                $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
+                }
+        return $menu;
+    }
+
+    public function delete() {
+        $model = new MatchHistory();
         $model->delete($_GET['id']);
 
         header('Location: ?view=match_history&action=listall');
+    }
+    public function undelete() {
+        $model = new MatchHistory();
+        $model->undelete($_GET['id']);
 
+        header('Location: ?view=match_history&action=listall');
+    }
+    public function permDelete() {
+        $model = new MatchHistory();
+        $model->permDelete($_GET['id']);
+
+        header('Location: ?view=match_history&action=listall');
     }
 
 }

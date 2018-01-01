@@ -145,15 +145,7 @@ class UsersController {
         }
     }
 
-    public
-            function delete() {
-        $model = new Users();
-        $model->delete($_GET['id']);
-
-        header('Location: ?view=users&action=listall');
-
-        exit();
-    }
+    
 
     public
             function ranks() {
@@ -231,7 +223,7 @@ class UsersController {
 
     public function edit() {
         $model = new Users();
-        $result = $model->find($_GET['id']);
+        $result = $model->findAll($_GET['id']);
         $record = null;
 
         foreach ($result as $value) {
@@ -258,8 +250,27 @@ class UsersController {
         $model->update($_GET['id']);
 
         header('Location: ?view=users&action=listall');
+    }
+    public
+            function delete() {
+        $model = new Users();
+        $model->delete($_GET['id']);
 
+        header('Location: ?view=users&action=listall');
 
+        exit();
+    }
+    public function undelete() {
+        $model = new Users();
+        $model->undelete($_GET['id']);
+
+        header('Location: ?view=users&action=listall');
+    }
+    public function permDelete() {
+        $model = new Users();
+        $model->permDelete($_GET['id']);
+
+        header('Location: ?view=users&action=listall');
     }
 
 }

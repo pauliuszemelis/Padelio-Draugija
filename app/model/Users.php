@@ -15,14 +15,10 @@ class Users extends CoreModel implements Manageable, Destroyable
         $query = $this->generateInsertQuery($data, true);
         $this->query($query);
     }
-
-    public function destroy()
-    {
-        // TODO: Implement destroy() method.
+    public function destroy() {
     }
 
-    public function echoOutput()
-    {
+    public function echoOutput() {
     }
 
     public function auth ($data) {

@@ -7,10 +7,14 @@
         <div>El.paštas:</div><input type="email" value="[@email]" name="email"><br>
         <div>Slaptažodis:</div><input type="password" value="[@password]" name="password"><br>
         <br><br>
-        <input type="submit" class="btn btn-secondary" value="Registruotis"><br>
+        <input type="submit" class="btn btn-secondary" value="Atnaujinti duomenis"><br>
     </form><br>
-    <div style="text-align: center">
-    <form method="POST" action="?view=users&action=delete&id=[@id]">
-        <input type="submit" class="btn btn-danger" value="Ištrinti"><br>
-    </form></div>
+</div>
+<div style="text-align: center">
+<form method="POST" action="?view=users&action=delete&id=[@id]">
+    <input type="submit" class="btn btn-dark" value="Užšaldyti"></form><br>
+<form method="POST" action="?view=users&action=undelete&id=[@id]">
+    <input type="submit" class="btn btn-dark" value="Sugrąžinti"></form><br>
+    <form method="POST" action="?view=users&action=permdelete&id=[@id]">
+    <input type="submit" class="btn btn-danger" value="Ištrinti"></form><br>
 </div>

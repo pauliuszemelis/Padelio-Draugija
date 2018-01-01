@@ -97,6 +97,15 @@ class Society
                     }
                     if ($action == 'delete') {
                         (new MatchController())->delete();
+                        break;
+                    }
+                    if ($action == 'permdelete') {
+                        (new MatchController())->permDelete();
+                        break;
+                    }
+                    if ($action == 'undelete') {
+                        (new MatchController())->undelete();
+                        break;
                     }
                     break;
                 case 'users':
@@ -115,6 +124,15 @@ class Society
                     if ($action == 'update') {
                         (new UsersController())->isLogged();
                         (new UsersController())->update();
+                        break;
+                    }if ($action == 'undelete') {
+                        (new UsersController())->isLogged();
+                        (new UsersController())->undelete();
+                        break;
+                    }
+                    if ($action == 'permdelete') {
+                        (new UsersController())->isLogged();
+                        (new UsersController())->permDelete();
                         break;
                     }
                     break;

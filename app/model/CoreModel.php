@@ -68,12 +68,16 @@ class CoreModel
 
     }
     public function getMenu (){
-        $query = "SELECT * FROM `".$this->table ."` WHERE `deleted_at` IS NULL ORDER BY `association_users`.`Slapyvardis` ASC";
+        $query = "SELECT `id`, `Slapyvardis` FROM `".$this->table ."` WHERE `deleted_at` IS NULL ORDER BY `association_users`.`Slapyvardis` ASC";
         return $this->query($query);
     }
 
     public function listall (){
-        $query = "SELECT * FROM `".$this->table ."` WHERE `deleted_at` IS NULL";
+        $query = "SELECT * FROM `".$this->table ."`";
+        return $this->query($query);
+    }
+    public function findAll($id){
+        $query = "SELECT * FROM `" . $this->table . "` WHERE `id`= '$id'";
         return $this->query($query);
     }
 
@@ -83,6 +87,7 @@ class CoreModel
     }
     
     public function update ($id) {
+        $_POST['updeated_by'] = $_COOKIE['user'];
         $data = $_POST;
         $options = '';
         foreach ($data as $key => $value) {
@@ -94,6 +99,17 @@ class CoreModel
     }
     
     public function delete ($id)
+    { 
+        $query = "UPDATE `" . $this->table . "` SET `deleted_at` = CURRENT_TIMESTAMP WHERE `id`='$id'";
+        return $this->query($query);
+    }
+    public function undelete ($id)
+    { 
+        $query = "UPDATE `" . $this->table . "` SET `deleted_at` = NULL WHERE `id`='$id'";
+        return $this->query($query);
+    }
+    
+    public function permDelete ($id)
     {
         $query = "DELETE FROM `" . $this->table . "` WHERE `id`='$id'";
         return $this->query($query);
