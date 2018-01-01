@@ -58,7 +58,7 @@ class MatchController {
             }
             $data .= '</tr>';
         }
-        $template = new TemplateEngineController('table-listall');
+        $template = new TemplateEngineController('table-list');
         $template->set('header', $header);
         $template->set('data', $data);
 
@@ -85,7 +85,7 @@ class MatchController {
             }
             $data .= '</tr>';
         }
-        $template = new TemplateEngineController('table-listall');
+        $template = new TemplateEngineController('table-list');
         $template->set('header', $header);
         $template->set('data', $data);
 
@@ -97,7 +97,7 @@ class MatchController {
         $model = new MatchHistory();
         $model->update($_GET['id']);
 
-        header('Location: ?view=match_history&action=listall');
+        header('Location: ?view=match_history&action=table');
 
         exit();
     }
@@ -158,19 +158,19 @@ class MatchController {
         $model = new MatchHistory();
         $model->delete($_GET['id']);
 
-        header('Location: ?view=match_history&action=listall');
+        header('Location: ?view=match_history&action=table');
     }
     public function undelete() {
         $model = new MatchHistory();
         $model->undelete($_GET['id']);
 
-        header('Location: ?view=match_history&action=listall');
+        header('Location: ?view=match_history&action=table');
     }
     public function permDelete() {
         $model = new MatchHistory();
         $model->permDelete($_GET['id']);
 
-        header('Location: ?view=match_history&action=listall');
+        header('Location: ?view=match_history&action=table');
     }
 
 }

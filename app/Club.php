@@ -23,16 +23,6 @@ class Club
         if ($method == 'GET') {
 
             switch ($view) {
-                case 'product':
-                    (new UsersController())->isLogged();
-                    if ($action == 'new') {
-                        (new ProductController())->create();
-                    } elseif ($action == 'listall') {
-                        (new ProductController())->listall();
-                    } elseif ($action == 'edit') {
-                        (new ProductController())->edit();
-                    }
-                    break;
                 case 'match_history':
                     (new UsersController())->isLogged();
                     if ($action == 'new') {

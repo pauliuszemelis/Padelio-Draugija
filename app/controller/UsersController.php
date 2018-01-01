@@ -53,7 +53,7 @@ class UsersController {
             $data .= '</tr>';
         }
 
-        $template = new TemplateEngineController('table-listall');
+        $template = new TemplateEngineController('table-list');
         $template->set('header', $header);
         $template->set('data', $data);
 
@@ -80,7 +80,7 @@ class UsersController {
             $data .= '</tr>';
         }
 
-        $template = new TemplateEngineController('table-listall');
+        $template = new TemplateEngineController('table-list');
         $template->set('header', $header);
         $template->set('data', $data);
 
@@ -146,9 +146,9 @@ class UsersController {
     public
             function ranks() {
         $data = $_POST;
-        $ranks = [];
+        $ranks = array();
         $model = new UsersController();
-        $playersID = [$data['teammate1'], $data['teammate2'], $data['oponent1'], $data['oponent2']];
+        $playersID = array($data['teammate1'], $data['teammate2'], $data['oponent1'], $data['oponent2']);
         foreach ($playersID as $id) {
             $ranks[] = $model->getRanking($id);
         }
@@ -169,7 +169,7 @@ class UsersController {
     public
             function calcWinners() {
         $data = $_POST;
-        $winners = [0, 0];
+        $winners = array(0, 0);
 
         if ($data['team1_result1'] > $data['team2_result1']) {
             $winners[0] ++;
@@ -196,13 +196,27 @@ class UsersController {
         $winners = $model->calcWinners();
         $average1 = ($ranks[0] + $ranks[1]) / 2;
         $average2 = ($ranks[2] + $ranks[3]) / 2;
-        $rankDiff = $average1 > $average2 ? $average1 - $average2 : $average2 - $average1;
+        
+        $winPoints1 = round($average2 * 0.02);
+        $winPoints2 = round($average1 * 0.02);     
+        
         if ($winners[0] > $winners[1]) {
-            $newRank1 = 0 + round($average2 * 0.02) - round($rankDiff * 0.04);
-            $newRank2 = 0 - round($average1 * 0.02) + round($rankDiff * 0.04);
-        } else {
-            $newRank1 = 0 - round($average2 * 0.02) - round($rankDiff * 0.04);
-            $newRank2 = 0 + round($average1 * 0.02) + round($rankDiff * 0.04);
+            $newRank1 = 0+$winPoints1;
+            $newRank2 = 0-$winPoints2;
+        }
+        if ($winners[0] < $winners[1]){
+            $newRank1 = 0-$winPoints1;
+            $newRank2 = 0+$winPoints2;
+        }
+        $rankDiff = abs($average1 - $average2);
+        $dif = round($rankDiff * 0.02);
+        if($average1>$average2){
+            $newRank1-=$dif;
+            $newRank2+=$dif;
+        }
+        else {
+            $newRank1+=$dif;
+            $newRank2-=$dif;
         }
         $ranks[0] += $newRank1;
         $ranks[1] += $newRank1;
