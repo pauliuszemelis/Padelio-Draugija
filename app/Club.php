@@ -67,17 +67,6 @@ class Club
         ($method == 'POST') {
 
             switch ($view) {
-                case 'product':
-                    (new UsersController())->isLogged();
-                    if ($action == 'create') {
-                        (new ProductController())->store();
-                        break;
-                    }
-                    if ($action == 'delete') {
-                        (new ProductController())->delete();
-                        break;
-                    }
-                    break;
                 case 'match_history':
                     (new UsersController())->isLogged();
                     if ($action == 'create') {

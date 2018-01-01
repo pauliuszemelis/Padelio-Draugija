@@ -28,9 +28,14 @@ class UsersController {
 
         $model = new Users();
         $model->create($data);
-
+    if (isset($_COOKIE['user'])) {
         header('Location:?view=users&action=table');
         exit;
+    }
+    else {
+        header('Location:?view=users&action=login');
+        echo "Sėkmingai užsiregistravote. Galite prisijungti.";
+    }
     }
 
     public function table() {
