@@ -47,9 +47,14 @@ class Users extends CoreModel implements Manageable, Destroyable
         $query = "SELECT `Nr`, `Slapyvardis`, `Vardas`, `Pavardė`, `Reitingas`, `Paskutinis` FROM `association_users` WHERE `deleted_at` IS NULL ORDER BY `association_users`.`Reitingas` DESC";
         return $this->query($query);
     }
-    public function update ($id) {
+    public function selfupdate ($id) {
+        if(!empty($_POST['password'])){  
+            $_POST['password'] = sha1($_POST['password'] . SALT);
+        }
+        else {
+            unset($_POST['password']);
+        }
         $data = $_POST;
-        $data['password'] = sha1($data['password'] . SALT);
         $options = '';
         foreach ($data as $key => $value) {
             $options .= "`$key` = '$value', ";

@@ -28,5 +28,16 @@ class MatchHistory extends CoreModel implements Manageable, Destroyable {
         $query = "SELECT `teammate1`, `teammate2`, `oponent1`, `oponent2` FROM `match_history` WHERE `id`= '$id'";
         return $this->query($query);
     }
+    public function update ($id) {
+        $_POST['updeated_by'] = $_COOKIE['user'];
+        $data = $_POST;
+        $options = '';
+        foreach ($data as $key => $value) {
+            $options .= "`$key` = '$value', ";
+        }
+        $options = rtrim($options, ", ");
+        $query = "UPDATE `" . $this->table . "` SET " . $options . " WHERE `id`='$id'";
+        return $this->query($query);
+    }
 
 }

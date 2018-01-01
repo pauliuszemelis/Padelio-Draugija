@@ -61,6 +61,10 @@ class Society
                         (new UsersController())->isLogged();
                         (new UsersController())->edit();
                     }
+                    if ($action == 'self') {
+                        (new UsersController())->isLogged();
+                        (new UsersController())->selfedit();
+                    }
                     if ($action == 'logout') {
                         (new UsersController())->logout();                      
                     }
@@ -125,7 +129,13 @@ class Society
                         (new UsersController())->isLogged();
                         (new UsersController())->update();
                         break;
-                    }if ($action == 'undelete') {
+                    }
+                    if ($action == 'selfupdate') {
+                        (new UsersController())->isLogged();
+                        (new UsersController())->selfupdate();
+                        break;
+                    }
+                    if ($action == 'undelete') {
                         (new UsersController())->isLogged();
                         (new UsersController())->undelete();
                         break;

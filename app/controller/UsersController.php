@@ -14,7 +14,6 @@ class UsersController {
     public function create() {
         $template = new TemplateEngineController('new-users');
         $template->echoOutput();
-        //(new TemplateEngineController('new-product'))->echoOutput;
     }
 
     public function store() {
@@ -30,7 +29,7 @@ class UsersController {
         $model = new Users();
         $model->create($data);
 
-        header('Location:?view=users&action=listall');
+        header('Location:?view=users&action=table');
         exit;
     }
 
@@ -109,12 +108,9 @@ class UsersController {
     public function loggedUser() {
         if (isset($_COOKIE['user'])) {
             $model = new Users();
-            $id = $_COOKIE['user'];
-            $findUser = $model->findUser($id);
+            $findUser = $model->findUser($_COOKIE['user']);
             foreach ($findUser as $value) {
-                $record = $value;
-                $sessionNickname = ($record['Slapyvardis']);
-                return $sessionNickname;
+                return ($value['Slapyvardis']);
             }
         }
     }
@@ -244,19 +240,50 @@ class UsersController {
 
         $template->echoOutput();
     }
+    
+    public function selfedit() {
+        $model = new Users();
+        $result = $model->findAll($_GET['id']);
+        $record = null;
+
+        foreach ($result as $value) {
+            $record = $value;
+        }
+        if (!$record) {
+            die('Record not found');
+        }
+
+        $template = new TemplateEngineController('edit-self');
+        $template->set('id', $record['id']);
+
+        $template->set('Vardas', $record['Vardas']);
+        $template->set('Pavardė', $record['Pavardė']);
+        $template->set('Slapyvardis', $record['Slapyvardis']);
+        $template->set('email', $record['email']);
+
+        $template->echoOutput();
+    }
     public  function update()
     {
         $model = new Users();
         $model->update($_GET['id']);
 
-        header('Location: ?view=users&action=listall');
+        header('Location: ?view=users&action=table');
+    }
+    
+    public  function selfupdate()
+    {
+        $model = new Users();
+        $model->selfupdate($_GET['id']);
+
+        header('Location: ?view=users&action=table');
     }
     public
             function delete() {
         $model = new Users();
         $model->delete($_GET['id']);
 
-        header('Location: ?view=users&action=listall');
+        header('Location: ?view=users&action=table');
 
         exit();
     }
@@ -264,13 +291,13 @@ class UsersController {
         $model = new Users();
         $model->undelete($_GET['id']);
 
-        header('Location: ?view=users&action=listall');
+        header('Location: ?view=users&action=table');
     }
     public function permDelete() {
         $model = new Users();
         $model->permDelete($_GET['id']);
 
-        header('Location: ?view=users&action=listall');
+        header('Location: ?view=users&action=table');
     }
 
 }

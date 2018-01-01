@@ -87,7 +87,12 @@ class CoreModel
     }
     
     public function update ($id) {
-        $_POST['updeated_by'] = $_COOKIE['user'];
+        if(!empty($_POST['password'])){  
+            $_POST['password'] = sha1($_POST['password'] . SALT);
+        }
+        else {
+            unset($_POST['password']);
+        }
         $data = $_POST;
         $options = '';
         foreach ($data as $key => $value) {
