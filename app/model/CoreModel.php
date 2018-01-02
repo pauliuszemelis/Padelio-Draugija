@@ -138,15 +138,7 @@ class CoreModel
         } 
     }
     
-    public function checkEmail() {
-        $model = new Users();
-        $result = $model->checkEmail();
-        foreach ($result as $item) {
-            if (isset($item['email']) && $item['email'] == $_POST['email']) {
-                die('<div class="text-center" style="color:red">Toks el.pašto adresas jau yra duomenų bazėje...</div>');
-            }
-        }
-    }
+    
     
 }
 

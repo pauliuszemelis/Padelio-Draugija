@@ -266,7 +266,7 @@ class UsersController {
 
     public function selfedit() {
         $model = new Users();
-        $result = $model->findAll($_GET['id']);
+        $result = $model->findAll($_COOKIE['user']);
         $record = null;
 
         foreach ($result as $value) {
@@ -295,7 +295,7 @@ class UsersController {
 
     public function selfupdate() {
         $model = new Users();
-        $model->selfupdate($_GET['id']);
+        $model->selfupdate($_COOKIE['user']);
 
         header('Location: ?view=users&action=table');
     }

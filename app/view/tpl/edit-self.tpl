@@ -1,6 +1,6 @@
 <div class="font-weight-bold" style="text-align: center">Redaguoti mano duomenis</div><br>
 <div style="text-align: center">
-    <form method="POST" action="?view=users&action=selfupdate&id=[@id]" enctype="multipart/form-data">
+    <form method="POST" action="?view=users&action=selfupdate" enctype="multipart/form-data">
         <div>Vardas:</div><input type="text" value="[@Vardas]" name="Vardas"><br>
         <div>Pavarde:</div><input type="text" value="[@Pavardė]" name="Pavardė">
         <div>Slapyvardis:</div><input type="text" value="[@Slapyvardis]" name="Slapyvardis">
