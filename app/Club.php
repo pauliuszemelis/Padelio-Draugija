@@ -2,8 +2,6 @@
 
 namespace app;
 
-
-use app\controller\ProductController;
 use app\controller\UsersController;
 
 class Club
@@ -61,6 +59,11 @@ class Club
                     if ($action == 'login') {                      
                         (new UsersController())->login();
                     }
+                case 'info':
+                    if ($action == 'about') {
+                        (new UsersController())->about();
+                    }
+                    break;
 
             }
         } elseif

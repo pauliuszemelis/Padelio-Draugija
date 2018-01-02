@@ -323,7 +323,10 @@ class UsersController {
 
         header('Location: ?view=users&action=table');
     }
-
+    
+    public function about () {
+        (new TemplateEngineController('about'))->echoOutput();
+    }
     
 
 }
