@@ -15,27 +15,33 @@ class UsersController {
         $template = new TemplateEngineController('new-users');
         $template->echoOutput();
     }
-
-    public function store() {
-        $data = $_POST;
-        foreach ($data as $value) {
-            if (empty($value)) {
-                (new UsersController())->create();
-                die('<div class="text-center" style="color:red">Užpildykite visus duomenis...</div>');
+    
+    public function checkEmail() {
+        $model = new Users();
+        $result = $model->checkEmail();
+        foreach ($result as $item) {
+            if (isset($item['email']) && $item['email'] == $_POST['email']) {
+                die('<div class="text-center" style="color:red">Toks el.pašto adresas jau yra duomenų bazėje...</div>');
             }
         }
+    }
+
+    public function store() {
+        
+        (new Users())->isEmptyForm();       
+        (new UsersController())->checkEmail();
+        $data = $_POST;
         $data['password'] = sha1($data['password'] . SALT);
 
         $model = new Users();
         $model->create($data);
-    if (isset($_COOKIE['user'])) {
-        header('Location:?view=users&action=table');
-        exit;
-    }
-    else {
-        header('Location:?view=users&action=login');
-        echo "Sėkmingai užsiregistravote. Galite prisijungti.";
-    }
+        if (isset($_COOKIE['user'])) {
+            header('Location:?view=users&action=table');
+            exit;
+        } else {
+            header('Location:?view=users&action=login');
+            echo "Sėkmingai užsiregistravote. Galite prisijungti.";
+        }
     }
 
     public function table() {
@@ -146,8 +152,6 @@ class UsersController {
         }
     }
 
-    
-
     public
             function ranks() {
         $data = $_POST;
@@ -201,27 +205,26 @@ class UsersController {
         $winners = $model->calcWinners();
         $average1 = ($ranks[0] + $ranks[1]) / 2;
         $average2 = ($ranks[2] + $ranks[3]) / 2;
-        
+
         $winPoints1 = round($average2 * 0.02);
-        $winPoints2 = round($average1 * 0.02);     
-        
+        $winPoints2 = round($average1 * 0.02);
+
         if ($winners[0] > $winners[1]) {
-            $newRank1 = 0+$winPoints1;
-            $newRank2 = 0-$winPoints2;
+            $newRank1 = 0 + $winPoints1;
+            $newRank2 = 0 - $winPoints2;
         }
-        if ($winners[0] < $winners[1]){
-            $newRank1 = 0-$winPoints1;
-            $newRank2 = 0+$winPoints2;
+        if ($winners[0] < $winners[1]) {
+            $newRank1 = 0 - $winPoints1;
+            $newRank2 = 0 + $winPoints2;
         }
         $rankDiff = abs($average1 - $average2);
         $dif = round($rankDiff * 0.02);
-        if($average1>$average2){
-            $newRank1-=$dif;
-            $newRank2+=$dif;
-        }
-        else {
-            $newRank1+=$dif;
-            $newRank2-=$dif;
+        if ($average1 > $average2) {
+            $newRank1 -= $dif;
+            $newRank2 += $dif;
+        } else {
+            $newRank1 += $dif;
+            $newRank2 -= $dif;
         }
         $ranks[0] += $newRank1;
         $ranks[1] += $newRank1;
@@ -260,7 +263,7 @@ class UsersController {
 
         $template->echoOutput();
     }
-    
+
     public function selfedit() {
         $model = new Users();
         $result = $model->findAll($_GET['id']);
@@ -282,21 +285,21 @@ class UsersController {
 
         $template->echoOutput();
     }
-    public  function update()
-    {
+
+    public function update() {
         $model = new Users();
         $model->update($_GET['id']);
 
         header('Location: ?view=users&action=table');
     }
-    
-    public  function selfupdate()
-    {
+
+    public function selfupdate() {
         $model = new Users();
         $model->selfupdate($_GET['id']);
 
         header('Location: ?view=users&action=table');
     }
+
     public
             function delete() {
         $model = new Users();
@@ -306,17 +309,21 @@ class UsersController {
 
         exit();
     }
+
     public function undelete() {
         $model = new Users();
         $model->undelete($_GET['id']);
 
         header('Location: ?view=users&action=table');
     }
+
     public function permDelete() {
         $model = new Users();
         $model->permDelete($_GET['id']);
 
         header('Location: ?view=users&action=table');
     }
+
+    
 
 }

@@ -129,6 +129,24 @@ class CoreModel
                 return $echoNickname;
             }
     }
-
+    
+    public function isEmptyForm () {
+        foreach ($_POST as $value) {
+            if (empty($value)) {
+                die('<div class="text-center" style="color:red">Būtina užpildyti visus duomenis...</div>');
+            }
+        } 
+    }
+    
+    public function checkEmail() {
+        $model = new Users();
+        $result = $model->checkEmail();
+        foreach ($result as $item) {
+            if (isset($item['email']) && $item['email'] == $_POST['email']) {
+                die('<div class="text-center" style="color:red">Toks el.pašto adresas jau yra duomenų bazėje...</div>');
+            }
+        }
+    }
+    
 }
 

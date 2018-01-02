@@ -38,9 +38,13 @@ class Users extends CoreModel implements Manageable, Destroyable
         $query = "UPDATE `" . $this->table . "` SET `Reitingas`=" . $rank . ", `Paskutinis`='" . $progress . "' WHERE `id`='$id'";
         return $this->query($query);
     }
+    public function checkEmail () {
+        $query = "SELECT `email` FROM `" . $this->table . "`";
+        return $this->query($query);
+    }
 
     public function findUser ($id) {
-        $query = "SELECT `Slapyvardis` FROM `club_users` WHERE `deleted_at` IS NULL AND `id`= '$id'";
+        $query = "SELECT `Slapyvardis` FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id'";
         return $this->query($query);
     }
     public function playersList () {
