@@ -12,7 +12,7 @@
 </div>
 <div style="text-align: center">
 <form method="POST" action="?view=users&action=delete&id=[@id]">
-    <input type="submit" class="btn btn-danger" value="Ištrinti žaidėją"></form><br>
+    <input type="submit" class="btn btn-danger" value="Ištrinti anketą"></form><br>
 
     
 </div>

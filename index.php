@@ -15,8 +15,17 @@
         }
         scrolltitle();
     </script>
+    <style>
+body { 
+    background: lightblue url("uploads/pretty image.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; 
+}
+</style>
 </head>
-<body>
+<body class="body">
 
 <?php
 
