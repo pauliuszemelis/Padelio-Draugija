@@ -4,13 +4,15 @@
     
 if (isset($_COOKIE['user'])){
 echo "<div class='header'>"
+    ."<br>"
     . "<a class ='btn btn-outline-dark' href='?view=match_history&action=new'>Naujas rezultatas</a>"
     . "<a class ='btn btn-outline-dark' href='?view=match_history&action=table'>Žaidimų istorija</a>"
     . "<a class ='btn btn-outline-dark' href='?view=users&action=table'>Žaidėjų sąrašas</a>"
     . "<a class ='btn btn-outline-dark' href='?view=users&action=new'>Registruoti žaidėją</a>"
     . "<a class ='btn btn-outline-dark' href='?view=info&action=about'>Apie</a>"
     . "<a class ='btn btn-outline-dark' href='?view=users&action=logout'>Atsijungti</a>"
-    . "<a align='right' class ='btn btn-outline-secondary' href='?view=users&action=self'>$user</a></div>";
+    . "<a align='right' class ='btn btn-outline-secondary' href='?view=users&action=self'>$user</a></div>"
+        ."<br>";
 }
 else {
         echo "<div class='header'>"
@@ -18,7 +20,8 @@ else {
         . "<a class ='btn btn-outline-dark' href='?view=match_history&action=table'>   Žaidimų istorija   </a>"
         . "<a class ='btn btn-outline-dark' href='?view=users&action=table'>   Žaidėjų sąrašas   </a>"
         . "<a class ='btn btn-outline-dark' href='?view=users&action=new'>   Registruotis   </a>"
-        . "<a class ='btn btn-outline-dark' href='?view=users&action=login'>   Prisijungti   </a></div>";
+        . "<a class ='btn btn-outline-dark' href='?view=users&action=login'>   Prisijungti   </a></div>"
+                ."<br>";
         }
 ?>
 
