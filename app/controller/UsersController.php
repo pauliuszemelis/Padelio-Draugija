@@ -15,7 +15,7 @@ class UsersController {
         $template = new TemplateEngineController('new-users');
         $template->echoOutput();
     }
-    
+
     public function checkEmail() {
         $model = new Users();
         $result = $model->checkEmail();
@@ -27,8 +27,8 @@ class UsersController {
     }
 
     public function store() {
-        
-        (new Users())->isEmptyForm();       
+
+        (new Users())->isEmptyForm();
         (new UsersController())->checkEmail();
         $data = $_POST;
         $data['password'] = sha1($data['password'] . SALT);
@@ -112,6 +112,7 @@ class UsersController {
         }
         foreach ($result as $value) {
             setcookie('user', $value['id'], time() + 3600);
+            setcookie('nickname', $value['Slapyvardis'], time() + 3600);
         }
         header('Location:?view=match_history&action=new');
     }
@@ -138,6 +139,7 @@ class UsersController {
                 die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div>');
             }
             setcookie('user', $_COOKIE['user'], time() + 3600);
+            setcookie('nickname', $_COOKIE['nickname'], time() + 3600);
         } else {
             (new UsersController())->login();
             die('<div class="text-center" style="color:red">Turite būti prisijungęs...</div>');
@@ -148,6 +150,7 @@ class UsersController {
             function logout() {
         if (isset($_COOKIE['user'])) {
             setcookie('user', $_COOKIE['user'], time() - 3600);
+            setcookie('nickname', $_COOKIE['nickname'], time() - 3600);
             header('Location: ?view=users&action=login');
         }
     }
@@ -323,10 +326,9 @@ class UsersController {
 
         header('Location: ?view=users&action=table');
     }
-    
-    public function about () {
+
+    public function about() {
         (new TemplateEngineController('about'))->echoOutput();
     }
-    
 
 }
