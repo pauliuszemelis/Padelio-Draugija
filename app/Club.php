@@ -6,8 +6,7 @@ use app\controller\UsersController;
 
 class Club
 {
-    public function __construct()
-    {
+    public function __construct() {
         $method = $_SERVER['REQUEST_METHOD'];
 
         if($method == 'GET' && (!isset($_GET['view']) || !isset($_GET['action']))){
@@ -62,6 +61,11 @@ class Club
                 case 'info':
                     if ($action == 'about') {
                         (new UsersController())->about();
+                    }
+                case 'chat':
+                    if ($action == 'session') {
+                        (new UsersController())->isLogged();
+                        include 'chat.php';
                     }
                     break;
 

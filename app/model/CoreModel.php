@@ -2,7 +2,6 @@
 
 namespace app\model;
 
-
 class CoreModel
 {
     private $servername = '127.0.0.1';
