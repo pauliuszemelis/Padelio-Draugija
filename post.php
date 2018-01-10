@@ -6,5 +6,4 @@ if(isset($_COOKIE['nickname'])){
     $fp = fopen("log.html", 'a');
     fwrite($fp, "<div class='msgln'>(".$days[date("N")-1].date("G:i").") <b>".$_COOKIE['nickname']."</b>: ".stripslashes(htmlspecialchars($text))."<br/></div>");
     fclose($fp);
-}
-?>
+}    
