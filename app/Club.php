@@ -18,8 +18,19 @@ class Club
         $action = $_GET['action'];
 
         if ($method == 'GET') {
-
             switch ($view) {
+                case 'match_plan':
+                    (new UsersController())->isLogged();
+                    if ($action == 'new') {
+                        (new MatchPlanController())->create();
+                    } elseif ($action == 'listall') {
+                        (new MatchPlanController())->listall();
+                    } elseif ($action == 'table') {
+                        (new MatchPlanController())->table();
+                    } elseif ($action == 'edit') {
+                        (new MatchPlanController())->edit();
+                    }
+                    break;
                 case 'match_history':
                     (new UsersController())->isLogged();
                     if ($action == 'new') {

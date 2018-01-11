@@ -1,6 +1,6 @@
 <?php
 
-namespace app\model;
+namespace app\model; // jeigu palieku namespace - niekas neveikia
 
 use app\model\interfaces\Destroyable;
 use app\model\interfaces\Manageable;

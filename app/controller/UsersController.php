@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controller;
+namespace app\controller; // jeigu palieku namespace - niekas neveikia
 
 use app\controller\TemplateEngineController;
 use app\model\Users;
@@ -15,7 +15,7 @@ class UsersController {
         $template = new TemplateEngineController('new-users');
         $template->echoOutput();
     }
-
+    
     public function checkEmail() {
         $model = new Users();
         $result = $model->checkEmail();
@@ -27,8 +27,8 @@ class UsersController {
     }
 
     public function store() {
-
-        (new Users())->isEmptyForm();
+        
+        (new Users())->isEmptyForm();       
         (new UsersController())->checkEmail();
         $data = $_POST;
         $data['password'] = sha1($data['password'] . SALT);
@@ -212,23 +212,26 @@ class UsersController {
         $winPoints1 = round($average2 * 0.02);
         $winPoints2 = round($average1 * 0.02);
 
-        if ($winners[0] > $winners[1]) {
-            $newRank1 = 0 + $winPoints1;
-            $newRank2 = 0 - $winPoints2;
-        }
-        if ($winners[0] < $winners[1]) {
-            $newRank1 = 0 - $winPoints1;
-            $newRank2 = 0 + $winPoints2;
-        }
         $rankDiff = abs($average1 - $average2);
-        $dif = round($rankDiff * 0.02);
-        if ($average1 > $average2) {
+        $dif = round($rankDiff * 0.04);
+            if ($winners[0] > $winners[1]) {
+                $newRank1 = 0 + $winPoints2;
+                $newRank2 = 0 - $winPoints2;
+            }
+            if ($winners[0] < $winners[1]) {
+                $newRank1 = 0 - $winPoints1;
+                $newRank2 = 0 + $winPoints1;
+            }
+
+            if ($average1 > $average2) {
             $newRank1 -= $dif;
             $newRank2 += $dif;
-        } else {
+            } 
+
+            if ($average1 < $average2){
             $newRank1 += $dif;
             $newRank2 -= $dif;
-        }
+            }
         $ranks[0] += $newRank1;
         $ranks[1] += $newRank1;
         $ranks[2] += $newRank2;
@@ -326,9 +329,10 @@ class UsersController {
 
         header('Location: ?view=users&action=table');
     }
-
-    public function about() {
+    
+    public function about () {
         (new TemplateEngineController('about'))->echoOutput();
     }
+    
 
 }

@@ -1,16 +1,17 @@
 <?php
+include (__DIR__.'/header.php');
+include (__DIR__.'/app/Club.php');
 
-include ('app\Club.php');
+include (__DIR__.'/app/controller/TemplateEngineController.php');
+include (__DIR__.'/app/controller/MatchController.php');
+include (__DIR__.'/app/controller/MatchPlanController.php');
+include (__DIR__.'/app/controller/UsersController.php');
 
-include ('app\controller\TemplateEngineController.php');
-include ('app\controller\MatchController.php');
-include ('app\controller\UsersController.php');
-
-include ('app\model\interfaces\Manageable.php');
-include ('app\model\interfaces\Destroyable.php');
-include ('app\model\CoreModel.php');
-include ('app\model\MatchHistory.php');
-include ('app\model\Users.php');
-include ('header.php');
-
+include (__DIR__.'/app/model/interfaces/Manageable.php');
+include (__DIR__.'/app/model/interfaces/Destroyable.php');
+include (__DIR__.'/app/model/CoreModel.php');
+include (__DIR__.'/app/model/MatchHistory.php');
+include (__DIR__.'/app/model/MatchPlan.php');
+include (__DIR__.'/app/model/Users.php');
 define ("SALT", "Labas vakaras brangioji");
+

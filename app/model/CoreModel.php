@@ -1,14 +1,15 @@
 <?php
 
-namespace app\model;
+namespace app\model; // jeigu palieku namespace - niekas neveikia
 
 class CoreModel
 {
-    private $servername = '127.0.0.1';
+
+    private $servername = 'localhost';
     private $username = 'root';
     private $password = '';
     private $dbname = 'pz_padelclub';
-
+    
     private $conn;
 
     protected $table;

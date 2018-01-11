@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controller;
+namespace app\controller; // jeigu palieku namespace - niekas neveikia
 
 class TemplateEngineController
 {
