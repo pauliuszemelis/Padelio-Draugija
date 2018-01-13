@@ -85,6 +85,21 @@ class Club
         ($method == 'POST') {
 
             switch ($view) {
+                case 'match_plan':
+                    (new UsersController())->isLogged();
+                    if ($action == 'create') {
+                        (new MatchPlanController())->store();
+                        break;
+                    }
+                    if ($action == 'update') {
+                        (new MatchController())->update();
+                        break;
+                    }
+                    if ($action == 'delete') {
+                        (new MatchController())->delete();
+                        break;
+                    }
+                    break;
                 case 'match_history':
                     (new UsersController())->isLogged();
                     if ($action == 'create') {

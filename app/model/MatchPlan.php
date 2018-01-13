@@ -5,9 +5,9 @@ namespace app\model; // jeigu palieku namespace - niekas neveikia
 use app\model\interfaces\Destroyable;
 use app\model\interfaces\Manageable;
 
-class MatchHistory extends CoreModel implements Manageable, Destroyable {
+class MatchPlan extends CoreModel implements Manageable, Destroyable {
 
-    protected $table = 'match_history';
+    protected $table = 'match_plan';
 
     public function create(array $data) {
 
