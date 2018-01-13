@@ -1,7 +1,7 @@
 <div class="font-weight-bold" style="text-align: center">Žaidimo duomenų redagavimas</div><br/>
 <div style="text-align: center">
     <form method="POST" action="?view=match_history&action=update&id=[@id]" enctype="multipart/form-data">
-        <div>Data:</div><input type="date" value="[@Data]" name="Data" value="[@date]"><br/><br/>
+        <div>Data:</div><input name="Data" style="text-align:center" type="text" id="datepicker2" size="10" value="[@date]"><br/><br/>
         <table align="center"><tr style='align-content: center'>
                 <td><div class="font-weight-bold">Mano komanda:</div><select name="teammate1">[@menu1]</select><br/><select name="teammate2">[@menu2]</select></td>
                 <td style="width:30px"> </td><td><div class="font-weight-bold">Oponentai:</div><select name="oponent1">[@menu3]</select><br/><select name="oponent2">[@menu4]</select></td>

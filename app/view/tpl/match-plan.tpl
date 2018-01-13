@@ -6,7 +6,7 @@
 <div class="font-weight-bold" style="text-align: center">Planuojami žaidimai</div><br/>
 <div style="text-align: center">
     <form method="POST" action="?view=match_plan&action=create">
-        <div>Data ir laikas:</div><input name="Data" type="text" id="datepicker" size="10" value="[@date]">
+        <div>Data ir laikas:</div><input name="Data" style="text-align:center;" type="text" id="datepicker" size="10" value="[@date]">
         <select name="Laikas">
             <option value="22:00">22:00</option>
             <option value="21:30">21:30</option>
@@ -39,8 +39,8 @@
             <option value="08:00">08:00</option>
             <option value="07:30">07:30</option>
             <option value="07:00">07:00</option>
-        </select>
-        <table align="center"><tr style='align-content: center'>
+        </select><br/>
+               <table align="center"><tr style='align-content: center'><br/>
                 <td><div class="font-weight-bold">Mano komanda:</div><select name="teammate1">[@menu]</select><br/><select name="teammate2">[@menu]</select></td>
                 <td style="width:30px"> </td><td><div class="font-weight-bold">Oponentai:</div><select name="oponent1">[@menu]</select><br/><select name="oponent2">[@menu]</select></td>
             </tr></table><br/>

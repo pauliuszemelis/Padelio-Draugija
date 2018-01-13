@@ -114,7 +114,7 @@ class MatchController {
             die('Record not found');
         }
         $template = new TemplateEngineController('edit-match-history');
-        $template->set('Data', $record['Data']);
+        $template->set('date', $record['Data']);
         $template->set('team1_result1', $record['team1_result1']);
         $template->set('team1_result2', $record['team1_result2']);
         $template->set('team1_result3', $record['team1_result3']);

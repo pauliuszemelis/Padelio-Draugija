@@ -1,7 +1,6 @@
 <?php
 include (__DIR__.'/header.php');
 include (__DIR__.'/app/Club.php');
-include (__DIR__.'/scripts/datepicker.js');
 
 include (__DIR__.'/app/controller/TemplateEngineController.php');
 include (__DIR__.'/app/controller/MatchController.php');
@@ -14,6 +13,6 @@ include (__DIR__.'/app/model/CoreModel.php');
 include (__DIR__.'/app/model/MatchHistory.php');
 include (__DIR__.'/app/model/MatchPlan.php');
 include (__DIR__.'/app/model/Users.php');
-define ("SALT", "Labas vakaras brangioji"); //kolkas nereikia SALT
+define ("SALT", "Labas vakaras brangioji");
 ?>
 
