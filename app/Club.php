@@ -23,8 +23,13 @@ class Club
                     (new UsersController())->isLogged();
                     if ($action == 'new') {
                         (new MatchPlanController())->create();
+                        (new MatchPlanController())->table();
+                    } elseif ($action == 'plantohistory') {
+                        (new MatchController())->planToHistory();
                     } elseif ($action == 'listall') {
                         (new MatchPlanController())->listall();
+                    } elseif ($action == 'editall') {
+                        (new MatchPlanController())->editall();
                     } elseif ($action == 'table') {
                         (new MatchPlanController())->table();
                     } elseif ($action == 'edit') {
@@ -35,6 +40,7 @@ class Club
                     (new UsersController())->isLogged();
                     if ($action == 'new') {
                         (new MatchController())->create();
+                        (new MatchController())->tablePlan();
                     } elseif ($action == 'listall') {
                         (new MatchController())->listall();
                     } elseif ($action == 'table') {
@@ -89,15 +95,18 @@ class Club
                     (new UsersController())->isLogged();
                     if ($action == 'create') {
                         (new MatchPlanController())->store();
-                        break;
                     }
                     if ($action == 'update') {
-                        (new MatchController())->update();
-                        break;
+                        (new MatchPlanController())->update();
                     }
                     if ($action == 'delete') {
-                        (new MatchController())->delete();
-                        break;
+                        (new MatchPlanController())->delete();
+                    }
+                    if ($action == 'permdelete') {
+                        (new MatchPlanController())->permDelete();
+                    }
+                    if ($action == 'undelete') {
+                        (new MatchPlanController())->undelete();
                     }
                     break;
                 case 'match_history':
@@ -105,23 +114,23 @@ class Club
                     if ($action == 'create') {
                         (new UsersController())->calcNewRanks();
                         (new MatchController())->store();
-                        break;
+                    }
+                    if ($action == 'createfromplan') {
+                        (new MatchPlanController())->delete();
+                        (new UsersController())->calcNewRanks();
+                        (new MatchController())->store();
                     }
                     if ($action == 'update') {
                         (new MatchController())->update();
-                        break;
                     }
                     if ($action == 'delete') {
                         (new MatchController())->delete();
-                        break;
                     }
                     if ($action == 'permdelete') {
                         (new MatchController())->permDelete();
-                        break;
                     }
                     if ($action == 'undelete') {
                         (new MatchController())->undelete();
-                        break;
                     }
                     break;
                 case 'users':
@@ -130,32 +139,26 @@ class Club
                     }
                     if ($action == 'auth')   {
                         (new UsersController())->auth();
-                        break;
                     }
                     if ($action == 'delete') {
                         (new UsersController())->isLogged();
                         (new UsersController())->delete();
-                        break;
                     }
                     if ($action == 'update') {
                         (new UsersController())->isLogged();
                         (new UsersController())->update();
-                        break;
                     }
                     if ($action == 'selfupdate') {
                         (new UsersController())->isLogged();
                         (new UsersController())->selfupdate();
-                        break;
                     }
                     if ($action == 'undelete') {
                         (new UsersController())->isLogged();
                         (new UsersController())->undelete();
-                        break;
                     }
                     if ($action == 'permdelete') {
                         (new UsersController())->isLogged();
                         (new UsersController())->permDelete();
-                        break;
                     }
                     break;
             }

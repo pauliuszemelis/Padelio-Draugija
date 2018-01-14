@@ -29,7 +29,7 @@
 $app = new Club();
         ?>
 
-        <div class="footer">  © 2018 Padelio Teniso Klubas </div>
+       <div class="footer">  © 2018 Padelio Teniso Klubas </div>
     </body>
 </html>
 

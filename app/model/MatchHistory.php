@@ -18,6 +18,11 @@ class MatchHistory extends CoreModel implements Manageable, Destroyable {
     public function destroy() {
         
     }
+    
+    public function matchPlanForHistory() {
+        $query = "SELECT `Nr`, `Data`, `Laikas`, `teammate1`, `teammate2`, `oponent1`, `oponent2`, `Lygis`, `id` FROM `match_plan` WHERE `deleted_at` IS NULL AND `Data` <= CURDATE() ORDER BY `match_plan`.`Data` ASC";
+        return $this->query($query);
+    }
 
     public function matchHistory() {
         $query = "SELECT `Nr`, `Data`, `teammate1`, `teammate2`, `team1_result1`, `team2_result1`, `team1_result2`, `team2_result2`, `team1_result3`, `team2_result3`, `oponent1`, `oponent2` FROM `match_history` WHERE `deleted_at` IS NULL ORDER BY `match_history`.`Data` DESC";

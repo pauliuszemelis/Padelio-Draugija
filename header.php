@@ -3,8 +3,8 @@
 if (isset($_COOKIE['user'])){
     $user =  $_COOKIE['nickname'];
 echo "<div class='navbar'>"
-    . "<a class ='btn btn-outline-dark' href='?view=match_plan&action=new'>Planuoju žaisti</a>"
-    . "<a class ='btn btn-outline-dark' href='?view=match_history&action=new'>Naujas rezultatas</a>"
+    . "<a class ='btn btn-outline-primary' href='?view=match_plan&action=new'>Artėjantys žaidimai</a>"
+    . "<a class ='btn btn-outline-dark' href='?view=match_history&action=new'>Suvesti rezultatus</a>"
     . "<a class ='btn btn-outline-dark' href='?view=match_history&action=table'>Žaidimų istorija</a>"
     . "<a class ='btn btn-outline-dark' href='?view=users&action=table'>Žaidėjų sąrašas</a>"
     . "<a class ='btn btn-outline-dark' href='?view=users&action=new'>Registruoti žaidėją</a>"

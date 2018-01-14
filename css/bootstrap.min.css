@@ -9,6 +9,8 @@ html{
 	min-height:100%;
 }
 
+#selectplaceholder { color: lightgray; }
+
 body { 
 	min-height:100%;
     background: #fff url("../uploads/pretty image.jpg") no-repeat center center fixed; 
@@ -22,6 +24,8 @@ body {
     padding: 25px;
 }
 
+#ddmenu option { width:2000px; }
+
 .header {
     width: 100%;
     height: 30px;
@@ -30,11 +34,13 @@ body {
     padding-bottom: 30px;
 }
 .footer {
+    margin-top: 10px;
+    border: 2px black; 
     width: 100%;
     background-color: #e5e5e5;
     height: 25px;
     position: fixed;
-    bottom: 0px;  
+    bottom: 0;  
     color: #000;
     text-align: center;
 }
@@ -94,6 +100,18 @@ a:hover {
 
 #submit {
     width: 60px;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: lightgray;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: lightgray;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: lightgray;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: lightgray;
 }
 
 .error {

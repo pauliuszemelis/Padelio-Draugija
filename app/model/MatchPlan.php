@@ -1,6 +1,6 @@
 <?php
 
-namespace app\model; // jeigu palieku namespace - niekas neveikia
+namespace app\model;
 
 use app\model\interfaces\Destroyable;
 use app\model\interfaces\Manageable;
@@ -19,13 +19,13 @@ class MatchPlan extends CoreModel implements Manageable, Destroyable {
         
     }
 
-    public function matchHistory() {
-        $query = "SELECT `Nr`, `Data`, `teammate1`, `teammate2`, `team1_result1`, `team2_result1`, `team1_result2`, `team2_result2`, `team1_result3`, `team2_result3`, `oponent1`, `oponent2` FROM `match_history` WHERE `deleted_at` IS NULL ORDER BY `match_history`.`Data` DESC";
+    public function matchPlan() {
+        $query = "SELECT `Nr`, `Data`, `Laikas`, `teammate1`, `teammate2`, `oponent1`, `oponent2`, `Lygis`, `id` FROM `match_plan` WHERE `deleted_at` IS NULL AND `Data` >= CURDATE() ORDER BY `match_plan`.`Data` ASC";
         return $this->query($query);
     }
-
+    
     public function matchPlayers($id) {
-        $query = "SELECT `teammate1`, `teammate2`, `oponent1`, `oponent2` FROM `match_history` WHERE `id`= '$id'";
+        $query = "SELECT `teammate1`, `teammate2`, `oponent1`, `oponent2` FROM `match_plan` WHERE `id`= '$id'";
         return $this->query($query);
     }
     public function update ($id) {
@@ -37,6 +37,16 @@ class MatchPlan extends CoreModel implements Manageable, Destroyable {
         }
         $options = rtrim($options, ", ");
         $query = "UPDATE `" . $this->table . "` SET " . $options . " WHERE `id`='$id'";
+        return $this->query($query);
+    }
+    public function delete ($id)
+    { 
+        $query = "UPDATE `" . $this->table . "` SET `deleted_at` = CURRENT_TIMESTAMP WHERE `id`='$id'";
+        return $this->query($query);
+    }
+    
+    public function findAll($id){
+        $query = "SELECT * FROM `" . $this->table . "` WHERE `id`= '$id'";
         return $this->query($query);
     }
 

@@ -4,6 +4,7 @@ namespace app;
 
 use app\controller\TemplateEngineController;
 use app\model\MatchHistory;
+use app\model\MatchPlan;
 use app\model\Users;
 
 class MatchController {
@@ -18,6 +19,59 @@ class MatchController {
 
         $template->echoOutput();
     }
+    
+    public function planToHistory () {
+        $model = new MatchPlan();
+        $result = $model->findAll($_GET['id']);
+        $record = null;
+
+        foreach ($result as $value) {
+            $record = $value;
+        }
+        if (!$record) {
+            die('Record not found');
+        }
+        $template = new TemplateEngineController('match-plan-history');
+        $template->set('date', $record['Data']);
+        $model2 = new MatchPlanController();
+        $menu = $model2->getUpdateMatchPlayers();
+        $template->set('id', $_GET['id']);
+        $template->set('menu1', $menu[0]);
+        $template->set('menu2', $menu[1]);
+        $template->set('menu3', $menu[2]);
+        $template->set('menu4', $menu[3]);
+
+        $template->echoOutput();
+    }
+    
+    public function tablePlan() {
+        $model = new MatchHistory();
+        $result = $model->matchPlanForHistory();
+        $data = '';
+        $header = '<th>Nr</th><th>Data</th><th>Laikas</th><th>Pirmas žaidėjas</th><th>Antras žaidėjas</th><th>Trečias žaidėjas</th><th>Ketvirtas žaidėjas</th><th>Lygis</th><th></th>';
+        foreach ($result as $item) {
+            $data .= '<tr>';
+            foreach ($item as $key => $value) {
+                if ($key == 'teammate1' || $key == 'teammate2' || $key == 'oponent1' || $key == 'oponent2') {
+                    $value = (new Users())->findUserNick($value);
+                }
+                if ($key == 'id'){
+                    $value = "<button onclick=\"window.location.href='?view=match_plan&action=plantohistory&id=$value'\">Suvesti rezultatus</button>";
+                }
+                if ($key == 'Laikas'){
+                    $value = substr($value, 0, -3);
+                }
+                $data .= '<td>' . $value . '</td>';
+            }
+            $data .= '</tr>';
+        }
+        $template = new TemplateEngineController('table-list');
+        $template->set('header', $header);
+        $template->set('data', $data);
+
+
+        $template->echoOutput();
+    }
 
     public function getUsersOptions() {
         $result = (new Users())->getMenu();
@@ -26,7 +80,7 @@ class MatchController {
         foreach ($result as $item) {
             $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
         }
-        $menu .= '<option selected value="">Pasirinkite žaidėją</option>';
+        $menu .= '<option disabled selected hidden value="">Pasirinkite žaidėją</option>';
         return $menu;
     }
 
@@ -128,8 +182,6 @@ class MatchController {
         $template->set('menu3', $menu[2]);
         $template->set('menu4', $menu[3]);
 
-        //$template->set('unit_' . $record['unit'], 'selected');
-
         $template->echoOutput();
     }
     public function getUpdateMatchPlayers() {
@@ -139,7 +191,7 @@ class MatchController {
         foreach ($result as $players) {
             foreach ($players as $id) { 
                 $nickname = (new Users())->findUserNick($id);
-                $menu[] = $this->updateMatchMenu().'<option selected value="' . $id . '">' . $nickname . '</option>';  
+                $menu[] = $this->updateMatchMenu().'<option selected hidden value="' . $id . '">' . $nickname . '</option>';  
             }
         }
         return $menu;

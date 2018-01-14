@@ -1,16 +1,17 @@
-<div class="font-weight-bold" style="text-align: center">Artėjantys žaidimai</div><br/>
+<div class="font-weight-bold" style="text-align: center">Redaguoti planuojamą žaidimą</div><br/>
 <div style="text-align: center">
-    <form method="POST" action="?view=match_plan&action=create">
-        <div>Data, laikas ir žaidėjų lygis</div>
-        <input name="Data" style="text-align:center;" type="text" id="datepicker" size="10" value="[@date]">
+    <form method="POST" action="?view=match_plan&action=update&id=[@id]">
+        <div>Data ir laikas:</div>
+        <input name="Data" style="text-transform:uppercase" style="text-align:center;" type="text" id="datepicker" size="10" value="[@date]" readonly>
         <select name="Laikas">
+            <option selected disabled hidden value="[@Laikas]">[@Laikas]</option>
             <option value="22:00">22:00</option>
             <option value="21:30">21:30</option>
             <option value="21:00">21:00</option>
             <option value="20:30">20:30</option>
             <option value="20:00">20:00</option>
             <option value="19:30">19:30</option>
-            <option value="19:00" selected="19:00">19:00</option>
+            <option value="19:00">19:00</option>
             <option value="18:30">18:30</option>
             <option value="18:00">18:00</option>
             <option value="17:30">17:30</option>
@@ -35,16 +36,26 @@
             <option value="08:00">08:00</option>
             <option value="07:30">07:30</option>
             <option value="07:00">07:00</option>
-        </select>
-        <input name="Lygis" style="text-transform:uppercase; text-align:center;" type="text" placeholder=" pvz: B-C " size="5" >
+            
+        </select><br/>
+        <div>Lygis:</div><input name="Lygis" style="text-align:center;" type="text" placeholder=" pvz: B-C " size="5" value="[@Lygis]">
                <table align="center"><tr style='align-content: center'><br/>
                 <br/><td><div class="font-weight-bold">Mano komanda:</div>
-                    <select style="min-width: 150px !important;" name="teammate1">[@menu]</select><br/>
-                    <select style="min-width: 150px !important;" name="teammate2">[@menu]</select></td>
+                    <select style="min-width: 150px !important;" name="teammate1">[@menu1]</select><br/>
+                    <select style="min-width: 150px !important;" name="teammate2">[@menu2]</select></td>
                 <td style="width:30px"> </td><td><div class="font-weight-bold">Oponentai:</div>
-                    <select style="min-width: 150px !important;" name="oponent1">[@menu]</select><br/>
-                    <select style="min-width: 150px !important;" name="oponent2">[@menu]</select></td>
-            </tr></table>
-            <br/><input type="submit" class="btn btn-secondary" value="Išsaugoti duomenis"><br/><br/>
+                    <select style="min-width: 150px !important;" name="oponent1">[@menu3]</select><br/>
+                    <select style="min-width: 150px !important;" name="oponent2">[@menu4]</select></td>
+            </tr></table><br/>
+            <br/><input type="submit" class="btn btn-secondary" value="Išsaugoti duomenis">
     </form>
+</div>
+<br/>
+<div style="text-align: center">
+<form method="POST" action="?view=match_plan&action=delete&id=[@id]">
+    <input type="submit" class="btn btn-dark" value="Užšaldyti"></form><br/>
+<form method="POST" action="?view=match_plan&action=undelete&id=[@id]">
+    <input type="submit" class="btn btn-dark" value="Sugrąžinti"></form><br/>
+    <form method="POST" action="?view=match_plan&action=permdelete&id=[@id]">
+    <input type="submit" class="btn btn-danger" value="Ištrinti"></form><br/>
 </div>
