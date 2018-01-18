@@ -1,4 +1,4 @@
-<div class="font-weight-bold" style="text-align: center">Redaguoti planuojamą žaidimą</div><br/>
+<br/><h4 class="font-weight-bold">Redaguoti planuojamą žaidimą</h4><br/>
 <div style="text-align: center">
     <form method="POST" action="?view=match_plan&action=update&id=[@id]">
         <div>Data ir laikas:</div>
@@ -39,14 +39,13 @@
             
         </select><br/>
         <div>Lygis:</div><input name="Lygis" style="text-transform:uppercase; text-align:center;" placeholder=" pvz: B-C " size="5" value="[@Lygis]">
-               <table align="center"><tr style='align-content: center'><br/>
-                <br/><td><div class="font-weight-bold">Mano komanda:</div>
-                    <select style="min-width: 150px !important;" name="teammate1">[@menu1]</select><br/>
-                    <select style="min-width: 150px !important;" name="teammate2">[@menu2]</select></td>
-                <td style="width:30px"> </td><td><div class="font-weight-bold">Oponentai:</div>
-                    <select style="min-width: 150px !important;" name="oponent1">[@menu3]</select><br/>
-                    <select style="min-width: 150px !important;" name="oponent2">[@menu4]</select></td>
-            </tr></table><br/>
+               <table class="komandos" align="center"><br/>
+            <tr><td>Mano komanda:</td><th style="width:30px"></th><td>Oponentai</td></tr>
+            <tr><td><select style="min-width: 150px !important;" name="teammate1">[@menu1]</select></td><td></td>
+                <td><select style="min-width: 150px !important;" name="oponent1">[@menu3]</select></td></tr>
+            <tr><td><select style="min-width: 150px !important;" name="teammate2">[@menu2]</select></td><td></td>
+                <td><select style="min-width: 150px !important;" name="oponent2">[@menu4]</select></td></tr>
+            </table><br/>
             <br/><input type="submit" class="btn btn-secondary" value="Išsaugoti duomenis">
     </form>
 </div>

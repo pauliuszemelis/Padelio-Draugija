@@ -1,5 +1,4 @@
 <?php
-include (__DIR__.'/header.php');
 include (__DIR__.'/app/Club.php');
 
 include (__DIR__.'/app/controller/TemplateEngineController.php');

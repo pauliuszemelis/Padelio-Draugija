@@ -5,7 +5,7 @@ if(!isset($_COOKIE['nickname'])){
 }
 else{
 ?>
-<div id="wrapper">
+<div id="wrapper" >
     <div id="menu">
         <div class="welcome"><b><?php echo "Pokalbių kambarys"; ?></b></div>
         <!--<div class="logout"><a id="exit" href="#">Exit Chat</a></div>-->

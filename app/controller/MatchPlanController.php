@@ -148,13 +148,26 @@ class MatchPlanController {
         $template->set('Laikas', substr($record['Laikas'], 0, -3));
         $template->set('Lygis', $record['Lygis']);
         $template->set('id', $record['id']);
-        $menu = $this->getUpdateMatchPlayers();
+        $menu = $this->getUpdateMatchPlanPlayers();
         $template->set('menu1', $menu[0]);
         $template->set('menu2', $menu[1]);
         $template->set('menu3', $menu[2]);
         $template->set('menu4', $menu[3]);
 
         $template->echoOutput();
+    }
+    
+    public function getUpdateMatchPlanPlayers() {
+
+        $menu = array();
+        $result = (new MatchPlan())->matchPlayers($_GET['id']);  
+        foreach ($result as $players) {
+            foreach ($players as $id) { 
+                $nickname = (new Users())->findUserNick($id);
+                $menu[] = $this->updateMatchMenu().'<option selected hidden value="' . $id . '">' . $nickname . '</option>';  
+            }
+        }
+        return $menu;
     }
     
     public function getUpdateMatchPlayers() {

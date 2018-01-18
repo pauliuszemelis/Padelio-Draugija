@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controller; // jeigu palieku namespace - niekas neveikia
+namespace app\controller;
 
 use app\controller\TemplateEngineController;
 use app\model\Users;
@@ -114,7 +114,7 @@ class UsersController {
             setcookie('user', $value['id'], time() + 3600);
             setcookie('nickname', $value['Slapyvardis'], time() + 3600);
         }
-        header('Location:?view=match_history&action=new');
+        header('Location:?view=match_plan&action=new');
     }
 
     public function loggedUser() {

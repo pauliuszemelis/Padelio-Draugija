@@ -1,4 +1,4 @@
-<table align="center" class='table table-bordered' style="text-align: center; background: rgba(235, 235, 235, 0.7); width: 90%;" >
+<table class="table table-bordered" style="background: rgba(255, 255, 255, 0.8);" >
     <thead>
     <tr>
         [@header]
