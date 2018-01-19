@@ -76,7 +76,8 @@ body {
 	padding: 0;
 	float: left;
 	position: relative;
-        border-bottom: 1px solid whitesmoke;
+        border-bottom: 1px solid #0062cc;
+        margin-bottom: 1px;
 }
 #header img {
   max-width:100%;
@@ -169,7 +170,19 @@ body {
     top: 0;
     text-align: center;
     padding-bottom: 30px;
+    position: relative;
 }
+
+#pavadinimas{
+    margin-bottom: -250px;
+    max-width: 550px;
+    z-index: 1999;
+    top: -116px;
+    left: 50px;
+    position: relative;
+    display: flow-root;
+}
+
 .footer {
     margin: auto;
     background-color: whitesmoke;
@@ -180,13 +193,6 @@ body {
     right: 0;
     padding: 0.2rem;
     color: #000;
-}
-
-#pavadinimas {
-    top: 30px;
-    right: 100px;
-    position:absolute;
-    margin-right: 60%;
 }
 
 form, p, span {
@@ -227,13 +233,12 @@ a:hover {
     padding: 5px;
     background: #fff;
     margin: 0;
-    height:450px;
+    height:290px;
     width: 90%;
     border: 1px solid #838383;
     overflow: auto;
     margin-left: 30px;
     margin-bottom: 15px;
-    
 }
 
 #usermsg {
@@ -2582,6 +2587,8 @@ select.form-control:focus::-ms-value {
 }
 
 .btn {
+    min-width: 130px;
+    margin: 1px;
     z-index: 2000;
     display: inline-block;
     font-weight: 400;
@@ -2596,7 +2603,7 @@ select.form-control:focus::-ms-value {
     font-size: 1rem;
     line-height: 1.5;
     border-radius: .25rem;
-    transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+    transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 .btn:focus, .btn:hover {
@@ -3110,16 +3117,16 @@ a.btn.disabled, fieldset[disabled] a.btn {
     line-height: 1.5;
     border-radius: .2rem;
     justify-content:center;
-    background-color: #343a40;
 }
 
 .btn-block {
     display: block;
-    width: 100%
+    width: 100%;
+    justify-content:space-around;
 }
 
 .btn-block + .btn-block {
-    margin-top: .5rem
+    margin-top: .2rem
 }
 
 input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].btn-block {
@@ -3277,7 +3284,6 @@ tbody.collapse.show {
     vertical-align: middle;
     width: 100%;
     justify-content:space-around;
-    background-color: #343a40;
 }
 
 .btn-group-vertical > .btn, .btn-group > .btn {
