@@ -108,18 +108,33 @@ class MatchController {
         $data = '';
         $nr = $result->num_rows;
         
-        $header = '<th>Nr</th><th>Data</th><th colspan=2>Komanda 1</th><th colspan=2>Pirmas setas</th><th colspan=2>Antras setas</th><th colspan=2>Trečias setas</th><th colspan=2>Komanda 2</th>';
+        $header = '<th>Nr</th><th>Data</th><th colspan=2>Komanda 1</th><th colspan=3>Sužaisti setai</th><th colspan=2>Komanda 2</th>';
         foreach ($result as $item) {
             $data .= '<tr>';
             foreach ($item as $key => $value) {
                 if ($key == 'teammate1' || $key == 'teammate2' || $key == 'oponent1' || $key == 'oponent2') {
                     $value = (new Users())->findUserNick($value);
                 }
+                if ($key == 'team1_result1' || $key == 'team1_result2' || $key == 'team1_result3') {
+                    $firstRez = $value;
+                }
+                if ($key == 'team2_result1' || $key == 'team2_result2' || $key == 'team2_result3') {
+                    $secondRez = $value;
+                    if($firstRez == 0 && $secondRez == 0){
+                        $firstRez = "-";
+                        $secondRez = "-";
+                    }
+                    $value = $firstRez.":".$secondRez;
+                }
                 if ($key == 'Nr'){
                     $value = $nr;
                     $nr--;
                 }
-                $data .= '<td>' . $value . '</td>';
+                if ($key == 'team1_result1' || $key == 'team1_result2' || $key == 'team1_result3') {
+                }
+                else {
+                    $data .= '<td>' . $value . '</td>';
+                }
             }
             $data .= '</tr>';
         }
