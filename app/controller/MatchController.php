@@ -48,6 +48,7 @@ class MatchController {
         $model = new MatchHistory();
         $result = $model->matchPlanForHistory();
         $data = '';
+        $nr = 1;
         $header = '<th>Nr</th><th>Data</th><th>Laikas</th><th>Pirmas žaidėjas</th><th>Antras žaidėjas</th><th>Trečias žaidėjas</th><th>Ketvirtas žaidėjas</th><th>Lygis</th><th></th>';
         foreach ($result as $item) {
             $data .= '<tr>';
@@ -60,6 +61,10 @@ class MatchController {
                 }
                 if ($key == 'Laikas'){
                     $value = substr($value, 0, -3);
+                }
+                if ($key == 'Nr'){
+                    $value = $nr;
+                    $nr++;
                 }
                 $data .= '<td>' . $value . '</td>';
             }
@@ -101,12 +106,18 @@ class MatchController {
         $model = new MatchHistory();
         $result = $model->matchHistory();
         $data = '';
+        $nr = $result->num_rows;
+        
         $header = '<th>Nr</th><th>Data</th><th colspan=2>Komanda 1</th><th colspan=2>Pirmas setas</th><th colspan=2>Antras setas</th><th colspan=2>Trečias setas</th><th colspan=2>Komanda 2</th>';
         foreach ($result as $item) {
             $data .= '<tr>';
             foreach ($item as $key => $value) {
                 if ($key == 'teammate1' || $key == 'teammate2' || $key == 'oponent1' || $key == 'oponent2') {
                     $value = (new Users())->findUserNick($value);
+                }
+                if ($key == 'Nr'){
+                    $value = $nr;
+                    $nr--;
                 }
                 $data .= '<td>' . $value . '</td>';
             }

@@ -35,6 +35,7 @@ class MatchPlanController {
         $model = new MatchPlan();
         $result = $model->matchPlan();
         $data = '';
+        $nr = 1;
         $header = '<th>Nr</th><th>Data</th><th>Laikas</th><th>Pirmas žaidėjas</th><th>Antras žaidėjas</th><th>Trečias žaidėjas</th><th>Ketvirtas žaidėjas</th><th>Lygis</th><th></th>';
         foreach ($result as $item) {
             $data .= '<tr>';
@@ -47,6 +48,10 @@ class MatchPlanController {
                 }
                 if ($key == 'Laikas'){
                     $value = substr($value, 0, -3);
+                }
+                if ($key == 'Nr'){
+                    $value = $nr;
+                    $nr++;
                 }
                 $data .= '<td>' . $value . '</td>';
             }

@@ -15,7 +15,7 @@ class UsersController {
         $template = new TemplateEngineController('new-users');
         $template->echoOutput();
     }
-    
+
     public function checkEmail() {
         $model = new Users();
         $result = $model->checkEmail();
@@ -27,8 +27,8 @@ class UsersController {
     }
 
     public function store() {
-        
-        (new Users())->isEmptyForm();       
+
+        (new Users())->isEmptyForm();
         (new UsersController())->checkEmail();
         $data = $_POST;
         $data['password'] = sha1($data['password'] . SALT);
@@ -49,7 +49,7 @@ class UsersController {
         $result = $model->playersList();
         $header = '';
         $data = '';
-
+        $nr = 1;
         foreach ($result as $item) {
 
             if ($header == '') {
@@ -59,6 +59,10 @@ class UsersController {
             }
             $data .= '<tr>';
             foreach ($item as $key => $value) {
+                if ($key == 'Nr'){
+                    $value = $nr;
+                    $nr++;
+                }
                 $data .= '<td>' . $value . '</td>';
             }
             $data .= '</tr>';
@@ -127,8 +131,7 @@ class UsersController {
         }
     }
 
-    public
-            function isLogged() {
+    public function isLogged() {
         if (isset($_COOKIE['user'])) {
 
             $model = new Users();
@@ -146,8 +149,7 @@ class UsersController {
         }
     }
 
-    public
-            function logout() {
+    public function logout() {
         if (isset($_COOKIE['user'])) {
             setcookie('user', $_COOKIE['user'], time() - 3600);
             setcookie('nickname', $_COOKIE['nickname'], time() - 3600);
@@ -155,8 +157,7 @@ class UsersController {
         }
     }
 
-    public
-            function ranks() {
+    public function ranks() {
         $data = $_POST;
         $ranks = array();
         $model = new UsersController();
@@ -167,8 +168,7 @@ class UsersController {
         return ($ranks);
     }
 
-    public
-            function getRanking($id) {
+    public function getRanking($id) {
         $model = new Users();
         $playersRanks = $model->find($id);
         foreach ($playersRanks as $value) {
@@ -178,8 +178,7 @@ class UsersController {
         die;
     }
 
-    public
-            function calcWinners() {
+    public function calcWinners() {
         $data = $_POST;
         $winners = array(0, 0);
 
@@ -201,8 +200,7 @@ class UsersController {
         return ($winners);
     }
 
-    public
-            function calcNewRanks() {
+    public function calcNewRanks() {
         $model = new UsersController();
         $ranks = $model->ranks();
         $winners = $model->calcWinners();
@@ -214,24 +212,24 @@ class UsersController {
 
         $rankDiff = abs($average1 - $average2);
         $dif = round($rankDiff * 0.04);
-            if ($winners[0] > $winners[1]) {
-                $newRank1 = 0 + $winPoints2;
-                $newRank2 = 0 - $winPoints2;
-            }
-            if ($winners[0] < $winners[1]) {
-                $newRank1 = 0 - $winPoints1;
-                $newRank2 = 0 + $winPoints1;
-            }
+        if ($winners[0] > $winners[1]) {
+            $newRank1 = 0 + $winPoints2;
+            $newRank2 = 0 - $winPoints2;
+        }
+        if ($winners[0] < $winners[1]) {
+            $newRank1 = 0 - $winPoints1;
+            $newRank2 = 0 + $winPoints1;
+        }
 
-            if ($average1 > $average2) {
+        if ($average1 > $average2) {
             $newRank1 -= $dif;
             $newRank2 += $dif;
-            } 
+        }
 
-            if ($average1 < $average2){
+        if ($average1 < $average2) {
             $newRank1 += $dif;
             $newRank2 -= $dif;
-            }
+        }
         $ranks[0] += $newRank1;
         $ranks[1] += $newRank1;
         $ranks[2] += $newRank2;
@@ -306,8 +304,7 @@ class UsersController {
         header('Location: ?view=users&action=table');
     }
 
-    public
-            function delete() {
+    public function delete() {
         $model = new Users();
         $model->delete($_GET['id']);
 
@@ -329,10 +326,9 @@ class UsersController {
 
         header('Location: ?view=users&action=table');
     }
-    
-    public function about () {
+
+    public function about() {
         (new TemplateEngineController('about'))->echoOutput();
     }
-    
 
 }
