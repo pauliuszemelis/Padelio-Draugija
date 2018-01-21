@@ -46,6 +46,6 @@
             <tr><td><select style="min-width: 150px !important;" name="teammate2">[@menu2]</select></td><td></td>
                 <td><select style="min-width: 150px !important;" name="oponent2">[@menu4]</select></td></tr>
             </table><br/>
-            <br/><input type="submit" class="btn btn-secondary" value="Išsaugoti duomenis">
+            <br/><input type="submit" class="btn btn-secondary" value="Išsaugoti duomenis"><br/><br/>
     </form>
 </div>

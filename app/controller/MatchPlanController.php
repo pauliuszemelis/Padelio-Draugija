@@ -1,6 +1,6 @@
 <?php
 
-namespace app; 
+namespace app;
 
 use app\controller\TemplateEngineController;
 use app\model\MatchHistory;
@@ -8,9 +8,9 @@ use app\model\MatchPlan;
 use app\model\Users;
 
 class MatchPlanController {
-    
-        public function create() {
-                
+
+    public function create() {
+
         $template = new TemplateEngineController('match-plan');
 
         $menu = $this->getUsersOptions();
@@ -20,7 +20,7 @@ class MatchPlanController {
 
         $template->echoOutput();
     }
-    
+
     public function getUsersOptions() {
         $result = (new Users())->getMenu();
         $menu = '<option value="">Ieškomas žaidėjas</option>';
@@ -30,26 +30,35 @@ class MatchPlanController {
         $menu .= '<option selected disabled hidden value="">Pasirinkite žaidėją</option>';
         return $menu;
     }
-    
+
     public function table() {
         $model = new MatchPlan();
         $result = $model->matchPlan();
+        $wantToPlay = "";
         $data = '';
         $nr = 1;
         $header = '<th>Nr</th><th>Data</th><th>Laikas</th><th>Pirmas žaidėjas</th><th>Antras žaidėjas</th><th>Trečias žaidėjas</th><th>Ketvirtas žaidėjas</th><th>Lygis</th><th></th>';
         foreach ($result as $item) {
             $data .= '<tr>';
             foreach ($item as $key => $value) {
+
                 if ($key == 'teammate1' || $key == 'teammate2' || $key == 'oponent1' || $key == 'oponent2') {
-                    $value = (new Users())->findUserNick($value);
+                    if (empty($value)) {
+                        $wantToPlay = "<button onclick=\"window.location.href='?view=match_plan&action=edit&id=" . $item['id'] . "'\">Žaisiu</button>";
+                    } else {
+                        if ($value == $_COOKIE['user']) {
+                            $wantToPlay = "<button onclick=\"window.location.href='?view=match_plan&action=edit&id=" . $item['id'] . "'\">Redaguoti</button>";
+                        }
+                        $value = (new Users())->findUserNick($value);
+                    }
                 }
-                if ($key == 'id'){
-                    $value = "<button onclick=\"window.location.href='?view=match_plan&action=edit&id=$value'\">Žaisiu</button>";
+                if ($key == 'id') {
+                    $value = $wantToPlay;
                 }
-                if ($key == 'Laikas'){
+                if ($key == 'Laikas') {
                     $value = substr($value, 0, -3);
                 }
-                if ($key == 'Nr'){
+                if ($key == 'Nr') {
                     $value = $nr;
                     $nr++;
                 }
@@ -64,9 +73,30 @@ class MatchPlanController {
 
         $template->echoOutput();
     }
-    
+
+    public function checkTwoPlayers() {
+        $players = 0;
+        if (isset($_POST['teammate1']) && !empty($_POST['teammate1'])) {
+            $players++;
+        }
+        if (isset($_POST['teammate2']) && !empty($_POST['teammate2'])) {
+            $players++;
+        }
+        if (isset($_POST['oponent1']) && !empty($_POST['oponent1'])) {
+            $players++;
+        }
+        if (isset($_POST['oponent2']) && !empty($_POST['oponent2'])) {
+            $players++;
+        }
+
+        if ($players < 2) {
+            die('<br/><div class="text-center" style="color:red">Turite pasirinkti bent 2 žaidėjus.</div><br/>');
+        }
+    }
+
     public function store() {
 
+        $this->checkTwoPlayers();
         $model = new MatchPlan();
         $_POST['created_by'] = $_COOKIE['user'];
         $model->create($_POST);
@@ -75,7 +105,7 @@ class MatchPlanController {
 
         exit;
     }
-    
+
     public function listall() {
         $model = new MatchPlan();
         $result = $model->listall();
@@ -136,7 +166,7 @@ class MatchPlanController {
 
         $template->echoOutput();
     }
-    
+
     public function editall() {
         $model = new MatchPlan();
         $result = $model->findAll($_GET['id']);
@@ -161,60 +191,63 @@ class MatchPlanController {
 
         $template->echoOutput();
     }
-    
+
     public function getUpdateMatchPlanPlayers() {
 
         $menu = array();
-        $result = (new MatchPlan())->matchPlayers($_GET['id']);  
+        $result = (new MatchPlan())->matchPlayers($_GET['id']);
         foreach ($result as $players) {
-            foreach ($players as $id) { 
+            foreach ($players as $id) {
                 $nickname = (new Users())->findUserNick($id);
-                $menu[] = $this->updateMatchMenu().'<option selected hidden value="' . $id . '">' . $nickname . '</option>';  
+                $menu[] = $this->updateMatchMenu() . '<option selected hidden value="' . $id . '">' . $nickname . '</option>';
             }
         }
         return $menu;
     }
-    
+
     public function getUpdateMatchPlayers() {
 
         $menu = array();
-        $result = (new MatchPlan())->matchPlayers($_GET['id']);  
+        $result = (new MatchPlan())->matchPlayers($_GET['id']);
         foreach ($result as $players) {
-            foreach ($players as $id) { 
+            foreach ($players as $id) {
                 $nickname = (new Users())->findUserNick($id);
-                If (isset($nickname)){
-                    $menu[] = '<option selected value="' . $id . '">' . $nickname . '</option>';  
+                if ($id == $_COOKIE['user']) {
+                    $menu[] = $this->updateMatchMenu() . '<option selected hidden value="' . $id . '">' . $nickname . '</option>';
                 }
-                else{
-                    $menu[] = $this->updateMatchMenu();  
+                else {
+                if (isset($nickname)) {
+                    $menu[] = '<option selected value="' . $id . '">' . $nickname . '</option>';
+                } else {
+                    $menu[] = $this->updateMatchMenu();
+                }
                 }
             }
         }
         return $menu;
     }
-    
-    public function updateMatchMenu () {
+
+    public function updateMatchMenu() {
         $res = (new Users())->getMenu();
-        $menu = '';
-        $menu .= '<option value="">Ieškomas žaidėjas</option>';
-             foreach ($res as $item) {
-                
-                $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
-                }
+        $menu = '<option value="">Ieškomas žaidėjas</option>';
+        foreach ($res as $item) {
+            $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
+        }
         return $menu;
     }
 
     public function delete() {
         $model = new MatchPlan();
         $model->delete($_GET['id']);
-        
     }
+
     public function undelete() {
         $model = new MatchPlan();
         $model->undelete($_GET['id']);
 
         header('Location: ?view=match_plan&action=table');
     }
+
     public function permDelete() {
         $model = new MatchPlan();
         $model->permDelete($_GET['id']);
@@ -222,5 +255,4 @@ class MatchPlanController {
         header('Location: ?view=match_plan&action=table');
     }
 
-    
 }

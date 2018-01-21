@@ -7,7 +7,7 @@ use app\model\MatchHistory;
 use app\model\MatchPlan;
 use app\model\Users;
 
-class MatchController {
+class MatchHistoryController {
 
     public function create() {
         $template = new TemplateEngineController('match-history');
@@ -108,7 +108,7 @@ class MatchController {
         $data = '';
         $nr = $result->num_rows;
         
-        $header = '<th>Nr</th><th>Data</th><th colspan=2>Komanda 1</th><th colspan=3>Sužaisti setai</th><th colspan=2>Komanda 2</th>';
+        $header = '<th>Nr</th><th>Data</th><th colspan=2>Komanda 1</th><th colspan=3>Rezultatai</th><th colspan=2>Komanda 2</th>';
         foreach ($result as $item) {
             $data .= '<tr>';
             foreach ($item as $key => $value) {

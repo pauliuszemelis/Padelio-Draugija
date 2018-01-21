@@ -25,7 +25,7 @@ class Club
                         (new MatchPlanController())->create();
                         (new MatchPlanController())->table();
                     } elseif ($action == 'plantohistory') {
-                        (new MatchController())->planToHistory();
+                        (new MatchHistoryController())->planToHistory();
                     } elseif ($action == 'listall') {
                         (new MatchPlanController())->listall();
                     } elseif ($action == 'editall') {
@@ -39,14 +39,14 @@ class Club
                 case 'match_history':
                     (new UsersController())->isLogged();
                     if ($action == 'new') {
-                        (new MatchController())->create();
-                        (new MatchController())->tablePlan();
+                        (new MatchHistoryController())->create();
+                        (new MatchHistoryController())->tablePlan();
                     } elseif ($action == 'listall') {
-                        (new MatchController())->listall();
+                        (new MatchHistoryController())->listall();
                     } elseif ($action == 'table') {
-                        (new MatchController())->table();
+                        (new MatchHistoryController())->table();
                     } elseif ($action == 'edit') {
-                        (new MatchController())->edit();
+                        (new MatchHistoryController())->edit();
                     }
                     break;
                 case 'users':
@@ -113,24 +113,24 @@ class Club
                     (new UsersController())->isLogged();
                     if ($action == 'create') {
                         (new UsersController())->calcNewRanks();
-                        (new MatchController())->store();
+                        (new MatchHistoryController())->store();
                     }
                     if ($action == 'createfromplan') {
                         (new MatchPlanController())->delete();
                         (new UsersController())->calcNewRanks();
-                        (new MatchController())->store();
+                        (new MatchHistoryController())->store();
                     }
                     if ($action == 'update') {
-                        (new MatchController())->update();
+                        (new MatchHistoryController())->update();
                     }
                     if ($action == 'delete') {
-                        (new MatchController())->delete();
+                        (new MatchHistoryController())->delete();
                     }
                     if ($action == 'permdelete') {
-                        (new MatchController())->permDelete();
+                        (new MatchHistoryController())->permDelete();
                     }
                     if ($action == 'undelete') {
-                        (new MatchController())->undelete();
+                        (new MatchHistoryController())->undelete();
                     }
                     break;
                 case 'users':

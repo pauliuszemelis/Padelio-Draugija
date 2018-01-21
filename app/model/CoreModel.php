@@ -65,7 +65,6 @@ class CoreModel
         $query = "INSERT INTO `".$this->table ."` ($keys) VALUES ($values)";
 
         return ($query);
-
     }
     public function getMenu (){
         $query = "SELECT `id`, `Slapyvardis` FROM `".$this->table ."` WHERE `deleted_at` IS NULL ORDER BY `club_users`.`Slapyvardis` ASC";
