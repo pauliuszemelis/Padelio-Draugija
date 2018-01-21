@@ -1,6 +1,6 @@
 <?php
 
-namespace app; 
+namespace app;
 
 use app\controller\TemplateEngineController;
 use app\model\MatchHistory;
@@ -8,6 +8,19 @@ use app\model\MatchPlan;
 use app\model\Users;
 
 class MatchHistoryController {
+
+    public function checkEmptyPlayers() {
+        if (!isset($_POST['teammate1']) || empty($_POST['teammate1']) || !isset($_POST['teammate2']) || empty($_POST['teammate2']) || !isset($_POST['oponent1']) || empty($_POST['oponent1']) || !isset($_POST['oponent2']) || empty($_POST['oponent2'])) {
+            die('<br/><div class="text-center" style="color:red">Turite pasirinkti visus 4 žaidėjus.</div><br/>');
+        }
+    }
+    
+    public function checkOneSet () {
+        if (!isset($_POST['team1_result1']) || empty($_POST['team1_result1']) || !isset($_POST['team2_result1']) || empty($_POST['team2_result1'])) {
+            die('<br/><div class="text-center" style="color:red">Būtina sužaisi bent vieną setą.</div><br/>');
+
+        }
+    }
 
     public function create() {
         $template = new TemplateEngineController('match-history');
@@ -19,8 +32,8 @@ class MatchHistoryController {
 
         $template->echoOutput();
     }
-    
-    public function planToHistory () {
+
+    public function planToHistory() {
         $model = new MatchPlan();
         $result = $model->findAll($_GET['id']);
         $record = null;
@@ -43,7 +56,7 @@ class MatchHistoryController {
 
         $template->echoOutput();
     }
-    
+
     public function tablePlan() {
         $model = new MatchHistory();
         $result = $model->matchPlanForHistory();
@@ -51,18 +64,22 @@ class MatchHistoryController {
         $nr = 1;
         $header = '<th>Nr</th><th>Data</th><th>Laikas</th><th>Pirmas žaidėjas</th><th>Antras žaidėjas</th><th>Trečias žaidėjas</th><th>Ketvirtas žaidėjas</th><th>Lygis</th><th></th>';
         foreach ($result as $item) {
+            $wantToPlay = "";
             $data .= '<tr>';
             foreach ($item as $key => $value) {
                 if ($key == 'teammate1' || $key == 'teammate2' || $key == 'oponent1' || $key == 'oponent2') {
+                    if ($value == $_COOKIE['user']) {
+                        $wantToPlay = "<button onclick=\"window.location.href='?view=match_plan&action=plantohistory&id=".$item['id']."'\">Suvesti rezultatus</button>";
+                    } 
                     $value = (new Users())->findUserNick($value);
                 }
-                if ($key == 'id'){
-                    $value = "<button onclick=\"window.location.href='?view=match_plan&action=plantohistory&id=$value'\">Suvesti rezultatus</button>";
+                if ($key == 'id') {
+                    $value = $wantToPlay;
                 }
-                if ($key == 'Laikas'){
+                if ($key == 'Laikas') {
                     $value = substr($value, 0, -3);
                 }
-                if ($key == 'Nr'){
+                if ($key == 'Nr') {
                     $value = $nr;
                     $nr++;
                 }
@@ -100,14 +117,12 @@ class MatchHistoryController {
         exit;
     }
 
-    
-
     public function table() {
         $model = new MatchHistory();
         $result = $model->matchHistory();
         $data = '';
         $nr = $result->num_rows;
-        
+
         $header = '<th>Nr</th><th>Data</th><th colspan=2>Komanda 1</th><th colspan=3>Rezultatai</th><th colspan=2>Komanda 2</th>';
         foreach ($result as $item) {
             $data .= '<tr>';
@@ -120,19 +135,19 @@ class MatchHistoryController {
                 }
                 if ($key == 'team2_result1' || $key == 'team2_result2' || $key == 'team2_result3') {
                     $secondRez = $value;
-                    if($firstRez == 0 && $secondRez == 0){
+                    if ($firstRez == 0 && $secondRez == 0) {
                         $firstRez = "-";
                         $secondRez = "-";
                     }
-                    $value = $firstRez.":".$secondRez;
+                    $value = $firstRez . ":" . $secondRez;
                 }
-                if ($key == 'Nr'){
+                if ($key == 'Nr') {
                     $value = $nr;
                     $nr--;
                 }
                 if ($key == 'team1_result1' || $key == 'team1_result2' || $key == 'team1_result3') {
-                }
-                else {
+                    
+                } else {
                     $data .= '<td>' . $value . '</td>';
                 }
             }
@@ -210,25 +225,26 @@ class MatchHistoryController {
 
         $template->echoOutput();
     }
+
     public function getUpdateMatchPlayers() {
 
         $menu = array();
-        $result = (new MatchHistory())->matchPlayers($_GET['id']);  
+        $result = (new MatchHistory())->matchPlayers($_GET['id']);
         foreach ($result as $players) {
-            foreach ($players as $id) { 
+            foreach ($players as $id) {
                 $nickname = (new Users())->findUserNick($id);
-                $menu[] = $this->updateMatchMenu().'<option selected hidden value="' . $id . '">' . $nickname . '</option>';  
+                $menu[] = $this->updateMatchMenu() . '<option selected hidden value="' . $id . '">' . $nickname . '</option>';
             }
         }
         return $menu;
     }
-    
-    public function updateMatchMenu () {
+
+    public function updateMatchMenu() {
         $res = (new Users())->getMenu();
         $menu = '';
         foreach ($res as $item) {
-                $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
-                }
+            $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
+        }
         return $menu;
     }
 
@@ -238,12 +254,14 @@ class MatchHistoryController {
 
         header('Location: ?view=match_history&action=table');
     }
+
     public function undelete() {
         $model = new MatchHistory();
         $model->undelete($_GET['id']);
 
         header('Location: ?view=match_history&action=table');
     }
+
     public function permDelete() {
         $model = new MatchHistory();
         $model->permDelete($_GET['id']);

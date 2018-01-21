@@ -34,26 +34,32 @@ class MatchPlanController {
     public function table() {
         $model = new MatchPlan();
         $result = $model->matchPlan();
-        $wantToPlay = "";
         $data = '';
         $nr = 1;
         $header = '<th>Nr</th><th>Data</th><th>Laikas</th><th>Pirmas žaidėjas</th><th>Antras žaidėjas</th><th>Trečias žaidėjas</th><th>Ketvirtas žaidėjas</th><th>Lygis</th><th></th>';
         foreach ($result as $item) {
+            $wantToPlay = 0;
+            $iPlayed = 0;
+            $msg = '';
             $data .= '<tr>';
             foreach ($item as $key => $value) {
 
                 if ($key == 'teammate1' || $key == 'teammate2' || $key == 'oponent1' || $key == 'oponent2') {
                     if (empty($value)) {
-                        $wantToPlay = "<button onclick=\"window.location.href='?view=match_plan&action=edit&id=" . $item['id'] . "'\">Žaisiu</button>";
-                    } else {
-                        if ($value == $_COOKIE['user']) {
-                            $wantToPlay = "<button onclick=\"window.location.href='?view=match_plan&action=edit&id=" . $item['id'] . "'\">Redaguoti</button>";
-                        }
-                        $value = (new Users())->findUserNick($value);
+                        $wantToPlay ++;
+                    } elseif ($value == $_COOKIE['user']) {
+                        $iPlayed++;
                     }
+                    $value = (new Users())->findUserNick($value);
                 }
                 if ($key == 'id') {
-                    $value = $wantToPlay;
+                    if($wantToPlay > 0) {
+                        $msg = "<button onclick=\"window.location.href='?view=match_plan&action=edit&id=" . $item['id'] . "'\">Aš žaisiu</button>";
+                    }
+                    if ($iPlayed > 0) {
+                        $msg = "<button onclick=\"window.location.href='?view=match_plan&action=edit&id=" . $item['id'] . "'\">Redaguoti</button>";
+                    }
+                    $value = $msg;
                 }
                 if ($key == 'Laikas') {
                     $value = substr($value, 0, -3);
@@ -214,13 +220,12 @@ class MatchPlanController {
                 $nickname = (new Users())->findUserNick($id);
                 if ($id == $_COOKIE['user']) {
                     $menu[] = $this->updateMatchMenu() . '<option selected hidden value="' . $id . '">' . $nickname . '</option>';
-                }
-                else {
-                if (isset($nickname)) {
-                    $menu[] = '<option selected value="' . $id . '">' . $nickname . '</option>';
                 } else {
-                    $menu[] = $this->updateMatchMenu();
-                }
+                    if (isset($nickname)) {
+                        $menu[] = '<option selected value="' . $id . '">' . $nickname . '</option>';
+                    } else {
+                        $menu[] = $this->updateMatchMenu();
+                    }
                 }
             }
         }

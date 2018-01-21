@@ -72,7 +72,7 @@ class CoreModel
     }
 
     public function listall (){
-        $query = "SELECT * FROM `".$this->table ."`";
+        $query = "SELECT * FROM `".$this->table ."` ORDER BY `Nr` DESC";
         return $this->query($query);
     }
     public function findAll($id){

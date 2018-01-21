@@ -11,6 +11,11 @@ class UsersController {
         (new TemplateEngineController('login'))->echoOutput();
     }
 
+    public function invitePlayer() {
+        $template = new TemplateEngineController('invite-player');
+        $template->echoOutput();
+    }
+
     public function create() {
         $template = new TemplateEngineController('new-users');
         $template->echoOutput();
@@ -21,7 +26,7 @@ class UsersController {
         $result = $model->checkEmail();
         foreach ($result as $item) {
             if (isset($item['email']) && $item['email'] == $_POST['email']) {
-                die('<div class="text-center" style="color:red">Toks el.pašto adresas jau yra duomenų bazėje...</div>');
+                die('<div class="text-center" style="color:red">Toks el.pašto adresas jau yra duomenų bazėje...</div><br/>');
             }
         }
     }
@@ -59,7 +64,7 @@ class UsersController {
             }
             $data .= '<tr>';
             foreach ($item as $key => $value) {
-                if ($key == 'Nr'){
+                if ($key == 'Nr') {
                     $value = $nr;
                     $nr++;
                 }
@@ -112,7 +117,7 @@ class UsersController {
 
         if ($result->num_rows != 1) {
             (new UsersController())->login();
-            die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div>');
+            die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div><br/>');
         }
         foreach ($result as $value) {
             setcookie('user', $value['id'], time() + 3600);
@@ -139,13 +144,13 @@ class UsersController {
 
             if ($result->num_rows != 1) {
                 (new UsersController())->login();
-                die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div>');
+                die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div><br/>');
             }
             setcookie('user', $_COOKIE['user'], time() + 3600);
             setcookie('nickname', $_COOKIE['nickname'], time() + 3600);
         } else {
             (new UsersController())->login();
-            die('<div class="text-center" style="color:red">Turite būti prisijungęs...</div>');
+            die('<div class="text-center" style="color:red">Turite būti prisijungęs...</div><br/>');
         }
     }
 
@@ -201,6 +206,7 @@ class UsersController {
     }
 
     public function calcNewRanks() {
+
         $model = new UsersController();
         $ranks = $model->ranks();
         $winners = $model->calcWinners();

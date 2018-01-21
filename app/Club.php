@@ -53,6 +53,10 @@ class Club
                     if ($action == 'new') {
                         (new UsersController())->create();
                     }
+                    if ($action == 'invite') {
+                        (new UsersController())->isLogged();
+                        (new UsersController())->invitePlayer();
+                    }
                     if ($action == 'listall') {
                         (new UsersController())->isLogged();
                         (new UsersController())->listall();
@@ -112,11 +116,15 @@ class Club
                 case 'match_history':
                     (new UsersController())->isLogged();
                     if ($action == 'create') {
+                        (new MatchHistoryController())->checkEmptyPlayers();
+                        (new MatchHistoryController())->checkOneSet();
                         (new UsersController())->calcNewRanks();
                         (new MatchHistoryController())->store();
                     }
                     if ($action == 'createfromplan') {
-                        (new MatchPlanController())->delete();
+                        (new MatchHistoryController())->checkEmptyPlayers();
+                        (new MatchHistoryController())->checkOneSet();
+                        (new MatchPlanController())->permDelete();
                         (new UsersController())->calcNewRanks();
                         (new MatchHistoryController())->store();
                     }
