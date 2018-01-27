@@ -59,7 +59,13 @@ class UsersController {
 
             if ($header == '') {
                 foreach ($item as $key => $value) {
+                    if($key == 'win'){}
+                    elseif($key == 'lose'){
+                    $header .= '<th title="Pergalės / Pralaimėjimai (Santykis %)">Santykis</th>';   
+                    }
+                    else{
                     $header .= '<th>' . $key . '</th>';
+                    }
                 }
             }
             $data .= '<tr>';
@@ -68,7 +74,22 @@ class UsersController {
                     $value = $nr;
                     $nr++;
                 }
+                if ($key == 'win') {
+                    $win = $value;
+                }
+                if ($key == 'lose') {
+                    $lose = $value;
+                    if($item['win'] ==0 && $item['lose'] == 0){
+                    $value = $win . '/' . $lose . ' (0%)';    
+                    }
+                    else {
+                    $value = $win . '/' . $lose . ' (' . round($win/($win+$lose)*100) . '%)';
+                    }
+                }
+                if ($key == 'win') {
+                }else{
                 $data .= '<td>' . $value . '</td>';
+                }
             }
             $data .= '</tr>';
         }
@@ -169,8 +190,31 @@ class UsersController {
         $playersID = array($data['teammate1'], $data['teammate2'], $data['oponent1'], $data['oponent2']);
         foreach ($playersID as $id) {
             $ranks[] = $model->getRanking($id);
+            $wins[] = $model->getWins($id);
+            $lose[] = $model->getLose($id);
         }
-        return ($ranks);
+        $all = array ($ranks, $wins, $lose);
+        return ($all);
+    }
+    
+    public function getLose($id) {
+        $model = new Users();
+        $playersRanks = $model->find($id);
+        foreach ($playersRanks as $value) {
+            $record = $value;
+            return ($record['lose']);
+        }
+        die;
+    }
+    
+    public function getWins($id) {
+        $model = new Users();
+        $playersRanks = $model->find($id);
+        foreach ($playersRanks as $value) {
+            $record = $value;
+            return ($record['win']);
+        }
+        die;
     }
 
     public function getRanking($id) {
@@ -208,25 +252,35 @@ class UsersController {
     public function calcNewRanks() {
 
         $model = new UsersController();
-        $ranks = $model->ranks();
-        $winners = $model->calcWinners();
-        $average1 = ($ranks[0] + $ranks[1]) / 2;
-        $average2 = ($ranks[2] + $ranks[3]) / 2;
+        $all = $model->ranks(); // ranks [0], wins [1], lose [2]
+
+        $average1 = ($all[0][0] + $all[0][1]) / 2;
+        $average2 = ($all[0][2] + $all[0][3]) / 2;
 
         $winPoints1 = round($average2 * 0.02);
         $winPoints2 = round($average1 * 0.02);
 
         $rankDiff = abs($average1 - $average2);
         $dif = round($rankDiff * 0.04);
+        
+        $winners = $model->calcWinners();
         if ($winners[0] > $winners[1]) {
             $newRank1 = 0 + $winPoints2;
             $newRank2 = 0 - $winPoints2;
+            $all[1][0]++;
+            $all[1][1]++;
+            $all[2][2]++;
+            $all[2][3]++;
         }
         if ($winners[0] < $winners[1]) {
             $newRank1 = 0 - $winPoints1;
             $newRank2 = 0 + $winPoints1;
+            $all[2][0]++;
+            $all[2][1]++;
+            $all[1][2]++;
+            $all[1][3]++;
         }
-
+        
         if ($average1 > $average2) {
             $newRank1 -= $dif;
             $newRank2 += $dif;
@@ -236,16 +290,16 @@ class UsersController {
             $newRank1 += $dif;
             $newRank2 -= $dif;
         }
-        $ranks[0] += $newRank1;
-        $ranks[1] += $newRank1;
-        $ranks[2] += $newRank2;
-        $ranks[3] += $newRank2;
+        $all[0][0] += $newRank1;
+        $all[0][1] += $newRank1;
+        $all[0][2] += $newRank2;
+        $all[0][3] += $newRank2;
         $progress = array($newRank1, $newRank1, $newRank2, $newRank2);
         $othermodel = new Users();
         $data = $_POST;
         $playersID = [$data['teammate1'], $data['teammate2'], $data['oponent1'], $data['oponent2']];
         foreach ($playersID as $key => $id) {
-            $othermodel->updateRanks($ranks[$key], $progress [$key], $id);
+            $othermodel->updateRanks($all[0][$key], $progress[$key], $id, $all[1][$key], $all[2][$key]);
         }
     }
 

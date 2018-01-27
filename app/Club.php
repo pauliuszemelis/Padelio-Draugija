@@ -37,15 +37,17 @@ class Club
                     }
                     break;
                 case 'match_history':
-                    (new UsersController())->isLogged();
                     if ($action == 'new') {
+                        (new UsersController())->isLogged();
                         (new MatchHistoryController())->create();
                         (new MatchHistoryController())->tablePlan();
                     } elseif ($action == 'listall') {
+                        (new UsersController())->isLogged();
                         (new MatchHistoryController())->listall();
                     } elseif ($action == 'table') {
                         (new MatchHistoryController())->table();
                     } elseif ($action == 'edit') {
+                        (new UsersController())->isLogged();
                         (new MatchHistoryController())->edit();
                     }
                     break;
@@ -62,7 +64,6 @@ class Club
                         (new UsersController())->listall();
                     }
                     if ($action == 'table') {
-                        (new UsersController())->isLogged();
                         (new UsersController())->table();
                     }
                     if ($action == 'edit') {

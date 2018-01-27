@@ -7,7 +7,7 @@
 
     <div class="parent">
         <img id='header' role="banner" src='uploads/padelblue.jpg' alt='Banner Image'/>
-        <a href="http://padelioklubas.lt/?view=match_plan&action=new" title="Padelio teniso klubas"><img id="pavadinimas" src='uploads/picturetopeople9.png'/></a>
+        <a href="http://padelioklubas.lt/?view=match_plan&action=new" title="Padelio teniso klubas"><img id="pavadinimas" src='uploads/14.png'/></a>
     </div>
     <title>Padelio teniso klubas</title>
     <link rel="stylesheet" href="css/jquery-ui.css">

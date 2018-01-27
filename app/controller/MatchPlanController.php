@@ -25,7 +25,7 @@ class MatchPlanController {
         $result = (new Users())->getMenu();
         $menu = '<option value="">Ieškomas žaidėjas</option>';
         foreach ($result as $item) {
-            $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
+            $menu .= '<option value="' . $item['id'] . '">' . $item['Vardas'] .' '. $item['Pavardė'] . '</option>';
         }
         $menu .= '<option selected disabled hidden value="">Pasirinkite žaidėją</option>';
         return $menu;
@@ -236,7 +236,7 @@ class MatchPlanController {
         $res = (new Users())->getMenu();
         $menu = '<option value="">Ieškomas žaidėjas</option>';
         foreach ($res as $item) {
-            $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
+            $menu .= '<option value="' . $item['id'] . '">' . $item['Vardas'] . ' ' .$item['Pavardė'] . '</option>';
         }
         return $menu;
     }

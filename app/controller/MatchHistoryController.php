@@ -100,7 +100,7 @@ class MatchHistoryController {
         $menu = '';
 
         foreach ($result as $item) {
-            $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
+            $menu .= '<option value="' . $item['id'] . '">' . $item['Vardas'].' '.$item['Pavardė'] . '</option>';
         }
         $menu .= '<option disabled selected hidden value="">Pasirinkite žaidėją</option>';
         return $menu;
@@ -243,7 +243,7 @@ class MatchHistoryController {
         $res = (new Users())->getMenu();
         $menu = '';
         foreach ($res as $item) {
-            $menu .= '<option value="' . $item['id'] . '">' . $item['Slapyvardis'] . '</option>';
+            $menu .= '<option value="' . $item['id'] . '">' . $item['Vardas'] .' '.$item['Pavardė']. '</option>';
         }
         return $menu;
     }

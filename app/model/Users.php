@@ -33,9 +33,9 @@ class Users extends CoreModel implements Manageable, Destroyable
             return $this->query($query);
     }
 
-    public function updateRanks ($rank, $progress, $id)
+    public function updateRanks ($rank, $progress, $id, $win, $lose)
     {
-        $query = "UPDATE `" . $this->table . "` SET `Reitingas`=" . $rank . ", `Paskutinis`='" . $progress . "' WHERE `id`='$id'";
+        $query = "UPDATE `" . $this->table . "` SET `Reitingas`=" . $rank . ", `win`=" . $win . ", `lose`=" . $lose . ", `Paskutinis`='" . $progress . "' WHERE `id`='$id'";
         return $this->query($query);
     }
     public function checkEmail () {
@@ -44,11 +44,11 @@ class Users extends CoreModel implements Manageable, Destroyable
     }
 
     public function findUser ($id) {
-        $query = "SELECT `Slapyvardis` FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id'";
+        $query = "SELECT `Vardas`, `Pavardė` FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id'";
         return $this->query($query);
     }
     public function playersList () {
-        $query = "SELECT `Nr`, `Slapyvardis`, `Vardas`, `Pavardė`, `Reitingas`, `Paskutinis` FROM `club_users` WHERE `deleted_at` IS NULL ORDER BY `club_users`.`Reitingas` DESC";
+        $query = "SELECT `Nr`, `Vardas`, `Pavardė`, `Slapyvardis`, `Reitingas`, `Paskutinis`, `win`, `lose` FROM `club_users` WHERE `deleted_at` IS NULL ORDER BY `club_users`.`Reitingas` DESC";
         return $this->query($query);
     }
     public function selfupdate ($id) {

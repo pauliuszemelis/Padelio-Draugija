@@ -67,7 +67,7 @@ class CoreModel
         return ($query);
     }
     public function getMenu (){
-        $query = "SELECT `id`, `Slapyvardis` FROM `".$this->table ."` WHERE `deleted_at` IS NULL ORDER BY `club_users`.`Slapyvardis` ASC";
+        $query = "SELECT `id`, `Vardas`, `Pavardė` FROM `".$this->table ."` WHERE `deleted_at` IS NULL ORDER BY `club_users`.`Vardas` ASC";
         return $this->query($query);
     }
 
@@ -124,7 +124,7 @@ class CoreModel
             $findUser = $model->findUser($id);
             foreach ($findUser as $value) {
                 $record = $value;
-                $echoNickname = ($record['Slapyvardis']);
+                $echoNickname = ($record['Vardas'].' <br/>'.$record['Pavardė']);
                 return $echoNickname;
             }
     }
