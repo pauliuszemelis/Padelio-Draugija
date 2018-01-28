@@ -61,7 +61,7 @@ class UsersController {
                 foreach ($item as $key => $value) {
                     if($key == 'win'){}
                     elseif($key == 'lose'){
-                    $header .= '<th title="Pergalės / Pralaimėjimai (Santykis %)">Santykis</th>';   
+                    $header .= '<th title="Pergalės / Viso žaista (Santykis %)">Statistika</th>';   
                     }
                     else{
                     $header .= '<th>' . $key . '</th>';
@@ -74,6 +74,9 @@ class UsersController {
                     $value = $nr;
                     $nr++;
                 }
+                if ($key == 'Reitingas' && $value == 0) {
+                    $value = "-";
+                }
                 if ($key == 'win') {
                     $win = $value;
                 }
@@ -83,7 +86,7 @@ class UsersController {
                     $value = $win . '/' . $lose . ' (0%)';    
                     }
                     else {
-                    $value = $win . '/' . $lose . ' (' . round($win/($win+$lose)*100) . '%)';
+                    $value = $win . '/' . ($win+$lose) . ' (' . round($win/($win+$lose)*100) . '%)';
                     }
                 }
                 if ($key == 'win') {
@@ -141,8 +144,8 @@ class UsersController {
             die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div><br/>');
         }
         foreach ($result as $value) {
-            setcookie('user', $value['id'], time() + 3600);
-            setcookie('nickname', $value['Slapyvardis'], time() + 3600);
+            setcookie('user', $value['id'], time() + 36000);
+            setcookie('nickname', $value['Slapyvardis'], time() + 36000);
         }
         header('Location:?view=match_plan&action=new');
     }
@@ -167,8 +170,8 @@ class UsersController {
                 (new UsersController())->login();
                 die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div><br/>');
             }
-            setcookie('user', $_COOKIE['user'], time() + 3600);
-            setcookie('nickname', $_COOKIE['nickname'], time() + 3600);
+            setcookie('user', $_COOKIE['user'], time() + 36000);
+            setcookie('nickname', $_COOKIE['nickname'], time() + 36000);
         } else {
             (new UsersController())->login();
             die('<div class="text-center" style="color:red">Turite būti prisijungęs...</div><br/>');
@@ -177,8 +180,8 @@ class UsersController {
 
     public function logout() {
         if (isset($_COOKIE['user'])) {
-            setcookie('user', $_COOKIE['user'], time() - 3600);
-            setcookie('nickname', $_COOKIE['nickname'], time() - 3600);
+            setcookie('user', $_COOKIE['user'], time() - 36000);
+            setcookie('nickname', $_COOKIE['nickname'], time() - 36000);
             header('Location: ?view=users&action=login');
         }
     }
@@ -221,6 +224,7 @@ class UsersController {
         $model = new Users();
         $playersRanks = $model->find($id);
         foreach ($playersRanks as $value) {
+            if($value == 0){$value = 1000;}
             $record = $value;
             return ($record['Reitingas']);
         }
