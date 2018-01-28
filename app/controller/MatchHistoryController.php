@@ -49,10 +49,10 @@ class MatchHistoryController {
         $model2 = new MatchPlanController();
         $menu = $model2->getUpdateMatchPlayers();
         $template->set('id', $_GET['id']);
-        $template->set('menu1', $menu[0]);
-        $template->set('menu2', $menu[1]);
-        $template->set('menu3', $menu[2]);
-        $template->set('menu4', $menu[3]);
+        $template->set('menu1', $menu[0].$this->updateMatchMenu());
+        $template->set('menu2', $menu[1].$this->updateMatchMenu());
+        $template->set('menu3', $menu[2].$this->updateMatchMenu());
+        $template->set('menu4', $menu[3].$this->updateMatchMenu());
 
         $template->echoOutput();
     }
@@ -90,7 +90,6 @@ class MatchHistoryController {
         $template = new TemplateEngineController('table-list');
         $template->set('header', $header);
         $template->set('data', $data);
-
 
         $template->echoOutput();
     }

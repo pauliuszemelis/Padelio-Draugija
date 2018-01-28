@@ -48,7 +48,6 @@ class CoreModel
 
     protected function generateInsertQuery(array $data, $uuid = false)
     {
-
         if ($uuid) {
             $data['id'] = uniqid();
         }
@@ -86,12 +85,13 @@ class CoreModel
     }
     
     public function update ($id) {
-        if(!empty($_POST['password'])){  
+        if(!empty($_POST['password'])){ 
             $_POST['password'] = sha1($_POST['password'] . SALT);
         }
         else {
             unset($_POST['password']);
         }
+        $_POST['updated_at'] = date('Y-m-d H:i:s');
         $data = $_POST;
         $options = '';
         foreach ($data as $key => $value) {

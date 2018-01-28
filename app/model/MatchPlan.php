@@ -30,6 +30,7 @@ class MatchPlan extends CoreModel implements Manageable, Destroyable {
     }
     public function update ($id) {
         $_POST['updeated_by'] = $_COOKIE['user'];
+        $_POST['updated_at'] = date('Y-m-d H:i:s');
         $data = $_POST;
         $options = '';
         foreach ($data as $key => $value) {

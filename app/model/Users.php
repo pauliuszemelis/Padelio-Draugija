@@ -52,13 +52,15 @@ class Users extends CoreModel implements Manageable, Destroyable
         return $this->query($query);
     }
     public function selfupdate ($id) {
-        if(!empty($_POST['password'])){  
+        if(!empty($_POST['password'])){ 
             $_POST['password'] = sha1($_POST['password'] . SALT);
         }
         else {
             unset($_POST['password']);
         }
+        $_POST['updated_at'] = date('Y-m-d H:i:s');
         $data = $_POST;
+               
         $options = '';
         foreach ($data as $key => $value) {
             $options .= "`$key` = '$value', ";
