@@ -163,6 +163,49 @@ body {
     justify-content:center;
     position: fixed;
 }
+.btn1 {
+    width: 10.9%;
+    margin: 1px;
+    z-index: 2000;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.btn {
+    margin: 1px;
+    z-index: 2000;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.btn-block {
+    display: block;
+    justify-content:space-between;
+}
 
 .header {
     width: 100%;
@@ -2586,26 +2629,6 @@ select.form-control:focus::-ms-value {
     }
 }
 
-.btn {
-    min-width: 130px;
-    margin: 1px;
-    z-index: 2000;
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    border: 1px solid transparent;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: .25rem;
-    transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-}
-
 .btn:focus, .btn:hover {
     text-decoration: none
 }
@@ -3117,12 +3140,6 @@ a.btn.disabled, fieldset[disabled] a.btn {
     line-height: 1.5;
     border-radius: .2rem;
     justify-content:center;
-}
-
-.btn-block {
-    display: block;
-    width: 100%;
-    justify-content:space-around;
 }
 
 .btn-block + .btn-block {

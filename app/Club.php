@@ -84,6 +84,10 @@ class Club
                     if ($action == 'about') {
                         (new UsersController())->about();
                     }
+                case 'verify':
+                    if ($action == 'email') {
+                        (new UsersController())->verifyEmail();
+                    }
                 case 'chat':
                     if ($action == 'session') {
                         (new UsersController())->isLogged();
@@ -161,6 +165,10 @@ class Club
                         (new UsersController())->isLogged();
                         (new UsersController())->selfupdate();
                     }
+                    if ($action == 'passchange') {
+                        (new UsersController())->isLogged();
+                        (new UsersController())->passCheck();
+                    }
                     if ($action == 'undelete') {
                         (new UsersController())->isLogged();
                         (new UsersController())->undelete();
@@ -170,6 +178,10 @@ class Club
                         (new UsersController())->permDelete();
                     }
                     break;
+                case 'verify':
+                    if ($action == 'again') {
+                        (new UsersController())->createVerificationCode();
+                    }
             }
         }
     }

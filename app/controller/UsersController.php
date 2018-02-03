@@ -30,23 +30,112 @@ class UsersController {
             }
         }
     }
+    
+    public function createVerificationCode () {
+        $code=substr(md5(mt_rand()),0,15);
+        
+        $email= isset($_GET['adress'])?$_GET['adress']:$_POST['email'];
+        $to=$email;
+        $subject="Elektroninio pašto patvirtinimas.";
+        $from = 'doNotReply@padelioklubas.lt';
+        $body='Sveikiname Jus užsiregistravus Padelio Teniso Klube. Tam, kad prisijungutmėte jum reikia patvirtinti savo elektroninio pašto adresą. Jūsų patvirtinimo kodas yra '.$code.'. Paspauskite šią nuorodą norėdami aktyvuoti prisijungimą: http://www.padelioklubas.lt/?view=verify&action=email&adress='.$email.'&code='.$code.' Jūsų prisijungimo vardas: '.$email.' Jūsų slaptažodis: '.$_POST['password2'];
+        $headers = "From:".$from;
+
+        mail($to,$subject,$body,$headers);
+        
+        (new Users())->createVerificationCode($code, $email);
+            
+	echo ('<br/><div class="text-center" style="color:grey">Patvirtinimo nuoroda buvo išsiųsta į jūsų elektroninį paštą. <br/>Jeigu per 5 min. negavote - patikrinkite šlamšto aplanke.</div><br/>');
+    }
+
+    public function checkIsVeryfied() {
+        if (isset($_POST)) {
+            $model = new Users();
+            $result = $model->checkIsVeryfied($_POST['email']);
+            foreach ($result as $item) {
+                if ($item['verified'] != 1) {
+                    echo '<br/><form method="POST" action="?view=verify&action=again&adress='.$_POST['email'].'"><input type="submit" class="btn btn-secondary" value="Pakartotinai atsiųsti kodą."></form><br/>';
+                    die('<br/><div class="text-center" style="color:red">Patvirtinkite savo elektroninio pašto adresą ir tada galėsite prisijungti.</div><br/>');
+                }
+            }
+        }
+    }
+    
+    public function verifyEmail () {
+            $model = new Users();
+            $result = $model->checkVerificationCode($_GET['adress']);
+            foreach ($result as $item) {
+                if ($item['verification_code'] == $_GET['code']) {
+                    ($model->verifyCode($_GET['adress']));
+                    echo ('<br/><div class="text-center" style="color:green">Jūsų elektroninio patšto adresas patvirtintas. Galite prisijungti.</div><br/>');
+                }
+                else {
+                    die('<br/><div class="text-center" style="color:red">Patvirtinimo kodas netinka.</div><br/>');
+                }
+            }
+        
+    }
+    
+    public function newPassCompare ($data) {
+        if(!isset($data['newpassword']) || strlen($data['newpassword']) < 4) {
+            die('<br/><div class="text-center" style="color:red">Naujas slaptažodis per trumpas</div><br/>');
+        }else {
+            if($data['newpassword'] != $data['new2password']){
+            die('<br/><div class="text-center" style="color:red">Slaptažodžiai nesutampa</div><br/>');
+            }
+            $email = $_POST['email'];
+            $to = $email;
+            $subject = "www.padelioklubas.lt slaptažodžio keitimas";
+            $from = 'doNotReply@padelioklubas.lt';
+            $body = 'Puslapyje www.padelioklubas.lt Jūs pakeitėte slaptažodį. Jūsų naujas slaptažodis yra: '.$data['newpassword'];
+            $headers = "From:".$from;
+            mail($to,$subject,$body,$headers);
+            
+            $data['password'] = sha1($data['newpassword'] . SALT);
+            (new Users())->updatePassword($data);
+            echo ('<br/><div class="text-center" style="color:green">Slaptažodis pakeistas sėkmingai</div><br/>');
+
+        } 
+    }
+    
+    public function passCheck () {
+        $data = $_POST;
+        $data['password'] = sha1($data['password'] . SALT);
+
+        $model = new Users();
+        $result = $model->auth($data);
+
+        if ($result->num_rows != 1) {
+            die('<div class="text-center" style="color:red"><br/>Neteisingas slaptažodis</div><br/>');
+        }else{
+            (new UsersController())->newPassCompare($data);
+        }
+    }
+    
+    public function comparePasswords () {
+        if(!isset($_POST['password']) || strlen($_POST['password2']) < 4) {
+            die('<br/><div class="text-center" style="color:red">Slaptažodis per trumpas</div><br/>');
+        }else {
+            if($_POST['password'] != $_POST['password2']){
+            die('<br/><div class="text-center" style="color:red">Slaptažodžiai nesutampa</div><br/>');
+            }
+        }
+    }
 
     public function store() {
 
         (new Users())->isEmptyForm();
         (new UsersController())->checkEmail();
+        (new UsersController())->comparePasswords();
+        
         $data = $_POST;
         $data['password'] = sha1($data['password'] . SALT);
-
+        unset($data['password2']);
+        
         $model = new Users();
         $model->create($data);
-        if (isset($_COOKIE['user'])) {
-            header('Location:?view=users&action=table');
-            exit;
-        } else {
-            header('Location:?view=users&action=login');
-            echo "Sėkmingai užsiregistravote. Galite prisijungti.";
-        }
+                
+        $this->createVerificationCode();
     }
 
     public function table() {
@@ -61,7 +150,7 @@ class UsersController {
                 foreach ($item as $key => $value) {
                     if($key == 'win'){}
                     elseif($key == 'lose'){
-                    $header .= '<th title="Pergalės / Viso žaista (Santykis %)">Statistika</th>';   
+                    $header .= '<th title="Pergalės / Viso žaista (Pergalių santykis %)">Statistika</th>';   
                     }
                     else{
                     $header .= '<th>' . $key . '</th>';
@@ -143,21 +232,13 @@ class UsersController {
             (new UsersController())->login();
             die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div><br/>');
         }
+        (new UsersController())->checkIsVeryfied();
         foreach ($result as $value) {
-            setcookie('user', $value['id'], time() + 36000);
-            setcookie('nickname', $value['Slapyvardis'], time() + 36000);
+            setcookie('user', $value['id'], time() + 360000);
+            setcookie('nickname', $value['Vardas']." ".$value['Pavardė'], time() + 360000);
+            setcookie('name', $value['Vardas'], time() + 360000);
         }
         header('Location:?view=match_plan&action=new');
-    }
-
-    public function loggedUser() {
-        if (isset($_COOKIE['user'])) {
-            $model = new Users();
-            $findUser = $model->findUser($_COOKIE['user']);
-            foreach ($findUser as $value) {
-                return ($value['Slapyvardis']);
-            }
-        }
     }
 
     public function isLogged() {
@@ -170,8 +251,10 @@ class UsersController {
                 (new UsersController())->login();
                 die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div><br/>');
             }
-            setcookie('user', $_COOKIE['user'], time() + 36000);
-            setcookie('nickname', $_COOKIE['nickname'], time() + 36000);
+            setcookie('user', $_COOKIE['user'], time() + 360000);
+            setcookie('nickname', $_COOKIE['nickname'], time() + 360000);
+            setcookie('name', $_COOKIE['name'], time() + 360000);
+
         } else {
             (new UsersController())->login();
             die('<div class="text-center" style="color:red">Turite būti prisijungęs...</div><br/>');
@@ -180,8 +263,10 @@ class UsersController {
 
     public function logout() {
         if (isset($_COOKIE['user'])) {
-            setcookie('user', $_COOKIE['user'], time() - 36000);
-            setcookie('nickname', $_COOKIE['nickname'], time() - 36000);
+            setcookie('user', $_COOKIE['user'], time() - 360000);
+            setcookie('nickname', $_COOKIE['nickname'], time() - 360000);
+            setcookie('name', $_COOKIE['name'], time() + 360000);
+
             header('Location: ?view=users&action=login');
         }
     }
@@ -224,7 +309,7 @@ class UsersController {
         $model = new Users();
         $playersRanks = $model->find($id);
         foreach ($playersRanks as $value) {
-            if($value == 0){$value = 1000;}
+            if($value['Reitingas'] == 0){$value['Reitingas'] = 1000;}
             $record = $value;
             return ($record['Reitingas']);
         }
@@ -323,11 +408,13 @@ class UsersController {
         $template->set('id', $record['id']);
         $template->set('Vardas', $record['Vardas']);
         $template->set('Pavardė', $record['Pavardė']);
-        $template->set('Slapyvardis', $record['Slapyvardis']);
+        //$template->set('Slapyvardis', $record['Slapyvardis']);
         $template->set('email', $record['email']);
         $template->set('password', $record['password']);
         $template->set('Reitingas', $record['Reitingas']);
         $template->set('Paskutinis', $record['Paskutinis']);
+        $template->set('win', $record['win']);
+        $template->set('lose', $record['lose']);
 
         $template->echoOutput();
     }
@@ -348,8 +435,13 @@ class UsersController {
         $template->set('id', $record['id']);
         $template->set('Vardas', $record['Vardas']);
         $template->set('Pavardė', $record['Pavardė']);
-        $template->set('Slapyvardis', $record['Slapyvardis']);
+        //$template->set('Slapyvardis', $record['Slapyvardis']);
         $template->set('email', $record['email']);
+        $template->set('Reitingas', $record['Reitingas']);
+        $template->set('Paskutinis', $record['Paskutinis']);
+        $template->set('win', $record['win']);
+        $template->set('played', $record['win']+$record['lose']);
+        $template->set('winPerc', $record['lose'] == 0 && $record['win'] == 0 ? '0%' : round($record['win']/($record['win']+$record['lose'])*100) . '%');
 
         $template->echoOutput();
     }
