@@ -15,6 +15,21 @@ class UsersController {
         $template = new TemplateEngineController('invite-player');
         $template->echoOutput();
     }
+    
+    public function sendInvite () {
+        $email= $_POST['email'];
+        $to=$email;
+        $name = $_POST['Vardas'];
+        $subject="Kvietimas prisijungti prie Padelio Teniso Klubo";
+        $from = 'no-reply@padelioklubas.lt';
+        $message = isset($_POST['msg']) && !empty($_POST['msg'])?' //  '.$_COOKIE['name'].' Jums parašė: '.$_POST['msg']:'';
+        $body='Sveiki '.$name.', '.$_COOKIE['name'].' Jus kviečia užsiregistruoti Padelio Teniso Klube. Ten, Jūs galėsite planuoti būsimus padelio žaidimus, išsaugoti rezultatus, matyti žaidimų istoriją, konkuruoti su kitais žaidėjais Padelio Teniso Klubo reitingavimo sistemoje. Užsiregistruoti galite čia: http://padelioklubas.lt/?view=users&action=new  '.$message;
+        $headers = "From:".$from;
+
+        mail($to,$subject,$body,$headers);
+        
+	echo ('<br/><div class="text-center" style="color:grey">Pakvietimas buvo išsiųstas į jūsų draugo elektroninį paštą.</div><br/>');
+    }
 
     public function create() {
         $template = new TemplateEngineController('new-users');
@@ -37,7 +52,7 @@ class UsersController {
         $email= isset($_GET['adress'])?$_GET['adress']:$_POST['email'];
         $to=$email;
         $subject="Elektroninio pašto patvirtinimas.";
-        $from = 'doNotReply@padelioklubas.lt';
+        $from = 'no-reply@padelioklubas.lt';
         $body='Sveikiname Jus užsiregistravus Padelio Teniso Klube. Tam, kad prisijungutmėte jum reikia patvirtinti savo elektroninio pašto adresą. Jūsų patvirtinimo kodas yra '.$code.'. Paspauskite šią nuorodą norėdami aktyvuoti prisijungimą: http://www.padelioklubas.lt/?view=verify&action=email&adress='.$email.'&code='.$code.' Jūsų prisijungimo vardas: '.$email.' Jūsų slaptažodis: '.$_POST['password2'];
         $headers = "From:".$from;
 
@@ -86,7 +101,7 @@ class UsersController {
             $email = $_POST['email'];
             $to = $email;
             $subject = "www.padelioklubas.lt slaptažodžio keitimas";
-            $from = 'doNotReply@padelioklubas.lt';
+            $from = 'no-reply@padelioklubas.lt';
             $body = 'Puslapyje www.padelioklubas.lt Jūs pakeitėte slaptažodį. Jūsų naujas slaptažodis yra: '.$data['newpassword'];
             $headers = "From:".$from;
             mail($to,$subject,$body,$headers);
@@ -165,6 +180,9 @@ class UsersController {
                 }
                 if ($key == 'Reitingas' && $value == 0) {
                     $value = "-";
+                }
+                if ($key == 'Paskutinis' && $value > 0) {
+                    $value = "+".$value;
                 }
                 if ($key == 'win') {
                     $win = $value;
@@ -435,10 +453,9 @@ class UsersController {
         $template->set('id', $record['id']);
         $template->set('Vardas', $record['Vardas']);
         $template->set('Pavardė', $record['Pavardė']);
-        //$template->set('Slapyvardis', $record['Slapyvardis']);
         $template->set('email', $record['email']);
         $template->set('Reitingas', $record['Reitingas']);
-        $template->set('Paskutinis', $record['Paskutinis']);
+        $template->set('Paskutinis', $record['Paskutinis'] > 0 ? '+'.$record['Paskutinis'] : $record['Paskutinis']);
         $template->set('win', $record['win']);
         $template->set('played', $record['win']+$record['lose']);
         $template->set('winPerc', $record['lose'] == 0 && $record['win'] == 0 ? '0%' : round($record['win']/($record['win']+$record['lose'])*100) . '%');

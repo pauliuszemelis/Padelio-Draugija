@@ -153,6 +153,10 @@ class Club
                     if ($action == 'auth')   {
                         (new UsersController())->auth();
                     }
+                    if ($action == 'sendinvite')   {
+                        (new UsersController())->isLogged();
+                        (new UsersController())->sendInvite();
+                    }
                     if ($action == 'delete') {
                         (new UsersController())->isLogged();
                         (new UsersController())->delete();
