@@ -1,6 +1,9 @@
 <br/><h4 class="font-weight-bold">Artėjantys žaidimai</h4><br/>
 <div style="text-align: center">
     <form method="POST" action="?view=match_plan&action=create">
+        <table class="komandos" align="center">
+        <hr/>
+        <h5><u>Suvesti artėjantį žaidimą</u></h5><br/>
         <div>Data, laikas ir žaidėjų lygis</div>
         <input name="Data" style="text-align:center;" type="text" id="datepicker" size="10" value="[@date]">
         <select name="Laikas">
@@ -38,7 +41,6 @@
         </select>
         <input name="Lygis" style="text-transform:uppercase; text-align:center;" type="text" placeholder=" pvz: B-C " size="5" >
         <br/><br/>
-        <table class="komandos" align="center">
             <tr><td>Mano komanda:</td><th style="width:30px"></th><td>Oponentai</td></tr>
             <tr><td><select style="min-width: 150px !important;" name="teammate1">[@menu]</select></td><td></td>
                 <td><select style="min-width: 150px !important;" name="oponent1">[@menu]</select></td></tr>

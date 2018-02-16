@@ -23,6 +23,7 @@ class MatchHistoryController {
     }
 
     public function create() {
+        
         $template = new TemplateEngineController('match-history');
 
         $menu = $this->getUsersOptions();

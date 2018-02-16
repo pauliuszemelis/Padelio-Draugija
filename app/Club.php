@@ -10,7 +10,12 @@ class Club
         $method = $_SERVER['REQUEST_METHOD'];
 
         if($method == 'GET' && (!isset($_GET['view']) || !isset($_GET['action']))){
+            if(isset($_COOKIE['user'])) {
+                header('Location:?view=match_plan&action=new');
+            }
+            else {
             (new UsersController())->login();
+            }
         die();
     }
 
@@ -22,8 +27,8 @@ class Club
                 case 'match_plan':
                     (new UsersController())->isLogged();
                     if ($action == 'new') {
-                        (new MatchPlanController())->create();
                         (new MatchPlanController())->table();
+                        (new MatchPlanController())->create();
                     } elseif ($action == 'plantohistory') {
                         (new MatchHistoryController())->planToHistory();
                     } elseif ($action == 'listall') {
@@ -39,8 +44,8 @@ class Club
                 case 'match_history':
                     if ($action == 'new') {
                         (new UsersController())->isLogged();
-                        (new MatchHistoryController())->create();
                         (new MatchHistoryController())->tablePlan();
+                        (new MatchHistoryController())->create();
                     } elseif ($action == 'listall') {
                         (new UsersController())->isLogged();
                         (new MatchHistoryController())->listall();
@@ -65,6 +70,9 @@ class Club
                     }
                     if ($action == 'table') {
                         (new UsersController())->table();
+                    }
+                    if ($action == 'forgotpassword') {
+                        (new UsersController())->forgotPassword();
                     }
                     if ($action == 'edit') {
                         (new UsersController())->isLogged();
@@ -150,12 +158,15 @@ class Club
                     if ($action == 'create') {
                         (new UsersController())->store();
                     }
-                    if ($action == 'auth')   {
+                    if ($action == 'auth') {
                         (new UsersController())->auth();
                     }
-                    if ($action == 'sendinvite')   {
+                    if ($action == 'sendinvite') {
                         (new UsersController())->isLogged();
                         (new UsersController())->sendInvite();
+                    }
+                    if ($action == 'sendNewPassword') {
+                        (new UsersController())->sendNewPassword();
                     }
                     if ($action == 'delete') {
                         (new UsersController())->isLogged();

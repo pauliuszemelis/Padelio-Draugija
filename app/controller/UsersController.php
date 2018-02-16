@@ -35,6 +35,38 @@ class UsersController {
         $template = new TemplateEngineController('new-users');
         $template->echoOutput();
     }
+    
+    public function forgotPassword () {
+        $template = new TemplateEngineController('forgot-password');
+        $template->echoOutput();
+    }
+    
+    public function sendNewPassword () {
+        $model = new Users();
+        $result = $model->checkEmail();
+        $foundEmail = 0;
+        foreach ($result as $item) {
+            if (isset($item['email']) && isset($_POST['email']) && $item['email'] == $_POST['email']) {
+                $foundEmail = 1;
+                $newPass=substr(md5(mt_rand()),0,8);
+                $email= $_POST['email'];
+                $to=$email;
+                $subject="Naujas slaptažodis";
+                $from = 'no-reply@padelioklubas.lt';
+                $body='Jūsų naujas slaptažodis yra: '.$newPass.'. Jūsų prisijungimo el.paštas yra: '.$email.' Slaptažodį galėsite pasikeisti, kuomet prisijungsite.';
+                $headers = "From:".$from;
+
+                mail($to,$subject,$body,$headers);
+        
+                (new Users())->createNewPassword($newPass, $email);
+            
+                echo ('<br/><div class="text-center" style="color:grey">Naujas slaptažodis buvo išsiųstas į jūsų elektroninį paštą. <br/>Jeigu per 5 min. negavote - patikrinkite šlamšto aplanke.</div><br/>');
+            }
+        }
+        if($foundEmail == 0) {
+            die ('<div class="text-center" style="color:red">Tokio el.pašto adreso nėra duomenų bazėje...</div><br/>');
+        }
+    }
 
     public function checkEmail() {
         $model = new Users();
@@ -248,6 +280,7 @@ class UsersController {
 
         if ($result->num_rows != 1) {
             (new UsersController())->login();
+            echo ("<button onclick=\"window.location.href='?view=users&action=forgotpassword'\">Pamiršau slaptažodį</button><br/><br/>");
             die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div><br/>');
         }
         (new UsersController())->checkIsVeryfied();
@@ -368,7 +401,7 @@ class UsersController {
         $winPoints2 = round($average1 * 0.02);
 
         $rankDiff = abs($average1 - $average2);
-        $dif = round($rankDiff * 0.04);
+        $dif = round($rankDiff * 0.06);
         
         $winners = $model->calcWinners();
         if ($winners[0] > $winners[1]) {

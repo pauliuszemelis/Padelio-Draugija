@@ -47,6 +47,12 @@ class Users extends CoreModel implements Manageable, Destroyable
         return $this->query($query);
     }
     
+    public function createNewPassword ($newPass, $email) {
+        $newPass = sha1($newPass . SALT);
+        $query = "UPDATE `$this->table` SET `password` = '$newPass' WHERE `$this->table`.`email` = '$email';";
+        return $this->query($query);
+    }
+    
     public function updatePassword ($data) {
         $query = "UPDATE `$this->table` SET `password` = '".$data['password']."', `updated_at` = '".date('Y-m-d H:i:s')."'  WHERE `$this->table`.`id` = '".$_COOKIE['user']."';";
         return $this->query($query);
