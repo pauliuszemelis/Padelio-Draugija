@@ -99,6 +99,7 @@ class Club
                 case 'chat':
                     if ($action == 'session') {
                         (new UsersController())->isLogged();
+                        (new UsersController())->updateLastMsg();
                         include 'chat.php';
                     }
                     break;

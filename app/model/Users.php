@@ -69,12 +69,12 @@ class Users extends CoreModel implements Manageable, Destroyable
     }
 
     public function checkIsVeryfied ($email) {
-        $query = "SELECT `verified` FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `email`= '$email'";
+        $query = "SELECT `verified` FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `email`= '$email';";
         return $this->query($query);
     }
 
     public function findUser ($id) {
-        $query = "SELECT `Vardas`, `Pavardė` FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id'";
+        $query = "SELECT `Vardas`, `Pavardė` FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id';";
         return $this->query($query);
     }
     public function playersList () {
@@ -96,6 +96,17 @@ class Users extends CoreModel implements Manageable, Destroyable
     }
     public function find($id){
         $query = "SELECT * FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id'";
+        return $this->query($query);
+    }
+    
+    public function updateLastMsg ($msg) {
+        $query = "UPDATE `$this->table` SET `lastSeenMsg` = '".$msg."' WHERE `$this->table`.`id` = '".$_COOKIE['user']."';";
+        //$query = "UPDATE `padelioklu_padelclub`.`club_users` SET  `lastSeenMsg` =  'juozas' WHERE  `club_users`.`id` =  '5a51da7dbde45';";
+        return $this->query($query);  
+    }
+    
+    public function checkLastMsg () {
+        $query = "SELECT `lastSeenMsg` FROM `" . $this->table . "` WHERE `id`= '" .$_COOKIE['user']. "'";
         return $this->query($query);
     }
 }

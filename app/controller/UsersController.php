@@ -284,6 +284,7 @@ class UsersController {
             die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div><br/>');
         }
         (new UsersController())->checkIsVeryfied();
+        (new UsersController())->checkLastMsg();
         foreach ($result as $value) {
             setcookie('user', $value['id'], time() + 360000);
             setcookie('nickname', $value['Vardas']." ".$value['Pavardė'], time() + 360000);
@@ -302,6 +303,7 @@ class UsersController {
                 (new UsersController())->login();
                 die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div><br/>');
             }
+            (new UsersController())->checkLastMsg();
             setcookie('user', $_COOKIE['user'], time() + 360000);
             setcookie('nickname', $_COOKIE['nickname'], time() + 360000);
             setcookie('name', $_COOKIE['name'], time() + 360000);
@@ -316,7 +318,7 @@ class UsersController {
         if (isset($_COOKIE['user'])) {
             setcookie('user', $_COOKIE['user'], time() - 360000);
             setcookie('nickname', $_COOKIE['nickname'], time() - 360000);
-            setcookie('name', $_COOKIE['name'], time() + 360000);
+            setcookie('name', $_COOKIE['name'], time() - 360000);
 
             header('Location: ?view=users&action=login');
         }
@@ -535,6 +537,34 @@ class UsersController {
 
     public function about() {
         (new TemplateEngineController('about'))->echoOutput();
+    }
+
+    public function lastMsg () {
+        $file = "log.html";
+        $msg = (file_get_contents($file, false, null, -25, 25));
+        $mmsg = substr($msg, 0, -11);
+        $result = preg_replace("/[^a-zA-Z0-9]+/", "", $mmsg);
+        return $result;
+    }
+    
+    public function updateLastMsg () {
+               
+        $mmsg = (new UsersController())->lastMsg();
+        (new Users())->updateLastMsg($mmsg);
+    }
+    
+    public function checkLastMsg() {
+
+        $lastMsg = $this->lastMsg();
+        $model = new Users();
+        $result = $model->checkLastMsg();
+        foreach ($result as $item) {
+            if ($item['lastSeenMsg'] == $lastMsg) {
+                setcookie('lastmsg', TRUE, time() + 360000);
+            } else {
+                setcookie('lastmsg', TRUE, time() - 360000);
+            }
+        }
     }
 
 }

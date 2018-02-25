@@ -2,6 +2,9 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Padelio Teniso klubas - tai žmonių bendruomenė, kurią vienija noras žaisti padelį. Bendruomenę sudaro skirtingo lygio, amžiaus ar lyties žaidėjai. www.padelioklubas.lt puslapio tikslas - suburti įvairių lygių žaidėjus į vieną vietą, išsaugoti norimus žaidimų rezultatus, bendrauti tarpusavyje pokalbių sistemoje, planuoti ateinančius žaidimus, bei konkuruoti šio puslapio reitingavimo sistemoje.">
+        <meta name="keywords" content="padelio klubas, padelioklubas, padelioklubas.lt, padel club, padelis Kaune, padel, padelis, padelio tenisas, padel tennis, padelio žaidimas, žaidimų istorija, planuojami žaidimai, žaidėjų sąrašas, žaidėjų reitingai">
         <link rel="stylesheet" href="css\bootstrap.min.css">
         <link rel="icon" type="image/ico" href="uploads\ball.ico">
 
@@ -25,9 +28,6 @@
 </head>
 <body class="body">
 
-    <?php
-    include (__DIR__ . '/header.php');
-    ?>
     <div>
         <?php
         include_once ('include.php');

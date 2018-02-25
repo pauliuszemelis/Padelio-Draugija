@@ -16,9 +16,8 @@ class MatchHistoryController {
     }
     
     public function checkOneSet () {
-        if (!isset($_POST['team1_result1']) || empty($_POST['team1_result1']) || !isset($_POST['team2_result1']) || empty($_POST['team2_result1'])) {
+        if (!isset($_POST['team1_result1']) || strlen($_POST['team1_result1'])<1 || !isset($_POST['team2_result1']) || strlen($_POST['team2_result1'])<1) {
             die('<br/><div class="text-center" style="color:red">Būtina sužaisi bent vieną setą.</div><br/>');
-
         }
     }
 
