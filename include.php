@@ -12,7 +12,8 @@ include (__DIR__.'/app/model/CoreModel.php');
 include (__DIR__.'/app/model/MatchHistory.php');
 include (__DIR__.'/app/model/MatchPlan.php');
 include (__DIR__.'/app/model/Users.php');
-include (__DIR__ . '/header.php');
+
+include (__DIR__.'/header.php');
 define ("SALT", "Labas vakaras brangioji");
 ?>
 

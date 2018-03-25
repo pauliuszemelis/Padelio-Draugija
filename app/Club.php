@@ -9,24 +9,14 @@ class Club
     public function __construct() {
         $method = $_SERVER['REQUEST_METHOD'];
 
-        if($method == 'GET' && (!isset($_GET['view']) || !isset($_GET['action']))){
-            if(isset($_COOKIE['user'])) {
-                header('Location:?view=match_plan&action=new');
-            }
-            else {
-            (new UsersController())->login();
-            }
-        die();
-    }
-
-        $view = $_GET['view'];
-        $action = $_GET['action'];
-
-        if ($method == 'GET') {
+        if ($method == 'GET' && isset($_GET['view']) && isset($_GET['action'])) {
+            $view = $_GET['view'];
+            $action = $_GET['action'];
             switch ($view) {
                 case 'match_plan':
                     (new UsersController())->isLogged();
                     if ($action == 'new') {
+                        (new UsersController())->isLogged();
                         (new MatchPlanController())->table();
                         (new MatchPlanController())->create();
                     } elseif ($action == 'plantohistory') {
@@ -105,9 +95,9 @@ class Club
                     break;
 
             }
-        } elseif
-        ($method == 'POST') {
-
+        } else if ($method == 'POST' && $_GET['view'] && $_GET['action']) {
+            $view = $_GET['view'];
+            $action = $_GET['action'];
             switch ($view) {
                 case 'match_plan':
                     (new UsersController())->isLogged();
@@ -198,6 +188,15 @@ class Club
                     if ($action == 'again') {
                         (new UsersController())->createVerificationCode();
                     }
+            }
+        }
+        else {
+            if(isset($_COOKIE['user'])) {
+                (new UsersController())->isLogged();
+                header('Location:?view=match_plan&action=new');
+            }
+            else {
+                (new UsersController())->login();
             }
         }
     }

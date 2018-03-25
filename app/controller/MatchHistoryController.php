@@ -68,7 +68,7 @@ class MatchHistoryController {
             $data .= '<tr>';
             foreach ($item as $key => $value) {
                 if ($key == 'teammate1' || $key == 'teammate2' || $key == 'oponent1' || $key == 'oponent2') {
-                    if ($value == $_COOKIE['user']) {
+                    if ($value == $_SESSION['user']) {
                         $wantToPlay = "<button onclick=\"window.location.href='?view=match_plan&action=plantohistory&id=".$item['id']."'\">Suvesti rezultatus</button>";
                     } 
                     $value = (new Users())->findUserNick($value);
@@ -108,7 +108,7 @@ class MatchHistoryController {
     public function store() {
 
         $model = new MatchHistory();
-        $_POST['created_by'] = $_COOKIE['user'];
+        $_POST['created_by'] = $_SESSION['user'];
         $model->create($_POST);
 
         header('Location:?view=match_history&action=table');

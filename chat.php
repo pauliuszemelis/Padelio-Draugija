@@ -1,6 +1,6 @@
  
 <?php
-if(!isset($_COOKIE['nickname'])){
+if(!isset($_SESSION['nickname'])){
     (new UsersController())->login();
 }
 else{
@@ -73,7 +73,7 @@ if(isset($_GET['logout'])){
      
     //Simple exit message
     $fp = fopen("log.html", 'a');
-    fwrite($fp, "<div class='msgln'><i>". $_COOKIE['nickname'] ." paliko pokalbį.</i><br/></div>");
+    fwrite($fp, "<div class='msgln'><i>". $_SESSION['nickname'] ." paliko pokalbį.</i><br/></div>");
     fclose($fp);
      
     session_destroy();

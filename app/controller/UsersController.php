@@ -22,8 +22,8 @@ class UsersController {
         $name = $_POST['Vardas'];
         $subject="Kvietimas prisijungti prie Padelio Teniso Klubo";
         $from = 'no-reply@padelioklubas.lt';
-        $message = isset($_POST['msg']) && !empty($_POST['msg'])?' //  '.$_COOKIE['name'].' Jums parašė: '.$_POST['msg']:'';
-        $body='Sveiki '.$name.', '.$_COOKIE['name'].' Jus kviečia užsiregistruoti Padelio Teniso Klube. Ten, Jūs galėsite planuoti būsimus padelio žaidimus, išsaugoti rezultatus, matyti žaidimų istoriją, konkuruoti su kitais žaidėjais Padelio Teniso Klubo reitingavimo sistemoje. Užsiregistruoti galite čia: http://padelioklubas.lt/?view=users&action=new  '.$message;
+        $message = isset($_POST['msg']) && !empty($_POST['msg'])?' //  '.$_SESSION['name'].' Jums parašė: '.$_POST['msg']:'';
+        $body='Sveiki '.$name.', '.$_SESSION['name'].' Jus kviečia užsiregistruoti Padelio Teniso Klube. Ten, Jūs galėsite planuoti būsimus padelio žaidimus, išsaugoti rezultatus, matyti žaidimų istoriją, konkuruoti su kitais žaidėjais Padelio Teniso Klubo reitingavimo sistemoje. Užsiregistruoti galite čia: http://padelioklubas.lt/?view=users&action=new  '.$message;
         $headers = "From:".$from;
 
         mail($to,$subject,$body,$headers);
@@ -96,7 +96,7 @@ class UsersController {
     }
 
     public function checkIsVeryfied() {
-        if (isset($_POST)) {
+        if (isset($_POST['email'])) {
             $model = new Users();
             $result = $model->checkIsVeryfied($_POST['email']);
             foreach ($result as $item) {
@@ -286,28 +286,30 @@ class UsersController {
         (new UsersController())->checkIsVeryfied();
         (new UsersController())->checkLastMsg();
         foreach ($result as $value) {
-            setcookie('user', $value['id'], time() + 360000);
-            setcookie('nickname', $value['Vardas']." ".$value['Pavardė'], time() + 360000);
-            setcookie('name', $value['Vardas'], time() + 360000);
+            setcookie('user', $value['id'], time() + 60*60*24*7);
+            $_SESSION['user'] = $value['id'];
+            $_SESSION['nickname'] = $value['Vardas']." ".$value['Pavardė'];
+            $_SESSION['name'] = $value['Vardas'];
         }
         header('Location:?view=match_plan&action=new');
     }
 
     public function isLogged() {
         if (isset($_COOKIE['user'])) {
-
             $model = new Users();
             $result = $model->find($_COOKIE['user']);
 
-            if ($result->num_rows != 1) {
-                (new UsersController())->login();
-                die('<div class="text-center" style="color:red">Patikrinkite prisijungimo vardą arba slaptažodį...</div><br/>');
-            }
+                if ($result->num_rows != 1) {
+                    (new UsersController())->login();
+                }
+            foreach ($result as $value) {
+                setcookie('user', $value['id'], time() + 60*60*24*7);
+                $_SESSION['user'] = $value['id'];
+                $_SESSION['nickname'] = $value['Vardas']." ".$value['Pavardė'];
+                $_SESSION['name'] = $value['Vardas'];
+                $_SESSION['lastmsg'] = $value['lastSeenMsg'];
+            }   
             (new UsersController())->checkLastMsg();
-            setcookie('user', $_COOKIE['user'], time() + 360000);
-            setcookie('nickname', $_COOKIE['nickname'], time() + 360000);
-            setcookie('name', $_COOKIE['name'], time() + 360000);
-
         } else {
             (new UsersController())->login();
             die('<div class="text-center" style="color:red">Turite būti prisijungęs...</div><br/>');
@@ -316,11 +318,11 @@ class UsersController {
 
     public function logout() {
         if (isset($_COOKIE['user'])) {
-            setcookie('user', $_COOKIE['user'], time() - 360000);
-            setcookie('nickname', $_COOKIE['nickname'], time() - 360000);
-            setcookie('name', $_COOKIE['name'], time() - 360000);
+            setcookie('user', $_COOKIE['user'], time() - 60*60*24*7);
+            $_SESSION = array();
+            session_destroy();
 
-            header('Location: ?view=users&action=login');
+        header('Location: ?view=users&action=login');
         }
     }
 
@@ -474,7 +476,7 @@ class UsersController {
 
     public function selfedit() {
         $model = new Users();
-        $result = $model->findAll($_COOKIE['user']);
+        $result = $model->findAll($_SESSION['user']);
         $record = null;
 
         foreach ($result as $value) {
@@ -507,7 +509,7 @@ class UsersController {
 
     public function selfupdate() {
         $model = new Users();
-        $model->selfupdate($_COOKIE['user']);
+        $model->selfupdate($_SESSION['user']);
 
         header('Location: ?view=users&action=table');
     }
@@ -560,9 +562,9 @@ class UsersController {
         $result = $model->checkLastMsg();
         foreach ($result as $item) {
             if ($item['lastSeenMsg'] == $lastMsg) {
-                setcookie('lastmsg', TRUE, time() + 360000);
+                $_SESSION['lastmsg'] = $lastMsg;
             } else {
-                setcookie('lastmsg', TRUE, time() - 360000);
+                $_SESSION['lastmsg'] = '';
             }
         }
     }

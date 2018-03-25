@@ -47,7 +47,7 @@ class MatchPlanController {
                 if ($key == 'teammate1' || $key == 'teammate2' || $key == 'oponent1' || $key == 'oponent2') {
                     if (empty($value)) {
                         $wantToPlay ++;
-                    } elseif ($value == $_COOKIE['user']) {
+                    } elseif ($value == $_SESSION['user']) {
                         $iPlayed++;
                     }
                     $value = (new Users())->findUserNick($value);
@@ -104,7 +104,7 @@ class MatchPlanController {
 
         $this->checkTwoPlayers();
         $model = new MatchPlan();
-        $_POST['created_by'] = $_COOKIE['user'];
+        $_POST['created_by'] = $_SESSION['user'];
         $model->create($_POST);
 
         header('Location:?view=match_plan&action=new');
@@ -218,7 +218,7 @@ class MatchPlanController {
         foreach ($result as $players) {
             foreach ($players as $id) {
                 $nickname = (new Users())->findUserNick($id);
-                if ($id == $_COOKIE['user']) {
+                if ($id == $_SESSION['user']) {
                     $menu[] = $this->updateMatchMenu() . '<option selected hidden value="' . $id . '">' . $nickname . '</option>';
                 } else {
                     if (isset($nickname)) {

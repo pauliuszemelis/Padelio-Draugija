@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,10 +34,8 @@
     <div>
         <?php
         include_once ('include.php');
-
         use app\Club;
-
-$app = new Club();
+        $app = new Club();
         ?>
     </div>
 

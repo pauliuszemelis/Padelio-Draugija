@@ -1,6 +1,5 @@
 <?php
-
-if(isset($_COOKIE['lastmsg']) && $_COOKIE['lastmsg'] == TRUE){
+if(isset($_SESSION['lastmsg'])){
     $buttonPokalbiai = "btn-outline-primary";
 }
 else {
@@ -8,7 +7,7 @@ else {
 }
     
 if (isset($_COOKIE['user'])){
-    $user =  $_COOKIE['name'];
+    $user = $_SESSION['name'];
 echo "<div class='btn-block'>"
     . "<a class ='btn1 btn-sm btn-outline-primary' style='width:150px;'href='?view=match_plan&action=new'>Artėjantys žaidimai</a>"
     . "<a class ='btn1 btn-sm btn-outline-primary' href='?view=match_history&action=new'>Suvesti rezultatus</a>"

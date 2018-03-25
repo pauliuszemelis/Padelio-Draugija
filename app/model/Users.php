@@ -28,7 +28,7 @@ class Users extends CoreModel implements Manageable, Destroyable
     }
 
     public function getRank ($id) {
-            $query = "SELECT `Reitingas` FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id'";
+            $query = "SELECT `Reitingas` FROM `" . $this->table . "` WHERE `verified`= '1' AND `deleted_at` IS NULL AND `id`= '$id'";
             return $this->query($query);
     }
 
@@ -54,7 +54,7 @@ class Users extends CoreModel implements Manageable, Destroyable
     }
     
     public function updatePassword ($data) {
-        $query = "UPDATE `$this->table` SET `password` = '".$data['password']."', `updated_at` = '".date('Y-m-d H:i:s')."'  WHERE `$this->table`.`id` = '".$_COOKIE['user']."';";
+        $query = "UPDATE `$this->table` SET `password` = '".$data['password']."', `updated_at` = '".date('Y-m-d H:i:s')."'  WHERE `$this->table`.`id` = '".$_SESSION['user']."';";
         return $this->query($query);
     }
     
@@ -74,11 +74,11 @@ class Users extends CoreModel implements Manageable, Destroyable
     }
 
     public function findUser ($id) {
-        $query = "SELECT `Vardas`, `Pavardė` FROM `" . $this->table . "` WHERE `deleted_at` IS NULL AND `id`= '$id';";
+        $query = "SELECT `Vardas`, `Pavardė` FROM `" . $this->table . "` WHERE `verified`= '1' AND `deleted_at` IS NULL AND `id`= '$id';";
         return $this->query($query);
     }
     public function playersList () {
-        $query = "SELECT `Nr`, `Vardas`, `Pavardė`, `Reitingas`, `Paskutinis`, `win`, `lose` FROM `club_users` WHERE `deleted_at` IS NULL ORDER BY `club_users`.`Reitingas` DESC";
+        $query = "SELECT `Nr`, `Vardas`, `Pavardė`, `Reitingas`, `Paskutinis`, `win`, `lose` FROM `club_users` WHERE `verified`= '1' AND `deleted_at` IS NULL ORDER BY `club_users`.`Reitingas` DESC";
         return $this->query($query);
     }
     public function selfupdate ($id) {
@@ -100,14 +100,12 @@ class Users extends CoreModel implements Manageable, Destroyable
     }
     
     public function updateLastMsg ($msg) {
-        $query = "UPDATE `$this->table` SET `lastSeenMsg` = '".$msg."' WHERE `$this->table`.`id` = '".$_COOKIE['user']."';";
-        //$query = "UPDATE `padelioklu_padelclub`.`club_users` SET  `lastSeenMsg` =  'juozas' WHERE  `club_users`.`id` =  '5a51da7dbde45';";
+        $query = "UPDATE `$this->table` SET `lastSeenMsg` = '".$msg."' WHERE `$this->table`.`id` = '".$_SESSION['user']."';";
         return $this->query($query);  
     }
     
     public function checkLastMsg () {
-        $query = "SELECT `lastSeenMsg` FROM `" . $this->table . "` WHERE `id`= '" .$_COOKIE['user']. "'";
+        $query = "SELECT `lastSeenMsg` FROM `" . $this->table . "` WHERE `id`= '" .$_SESSION['user']. "'";
         return $this->query($query);
     }
 }
-?>

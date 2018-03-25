@@ -34,7 +34,7 @@ class MatchHistory extends CoreModel implements Manageable, Destroyable {
         return $this->query($query);
     }
     public function update ($id) {
-        $_POST['updeated_by'] = $_COOKIE['user'];
+        $_POST['updeated_by'] = $_SESSION['user'];
         $_POST['updated_at'] = date('Y-m-d H:i:s');
         $data = $_POST;
         $options = '';
